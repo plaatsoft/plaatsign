@@ -34,21 +34,6 @@ $password  = plaatsign_post("password", "");
 */
 
 /**
- * Create random password
- */
-function plaatsign_randomPassword($length) {
-	$possible = '0123456789' .
-					'abcdefghjiklmnopqrstuvwxyz'.
-					'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	$str = "";
-	while (strlen($str) < $length) {
-			$str .= substr($possible, (rand() % strlen($possible)), 1);
-	}	
-
-	return($str);
-}
-
-/**
  * Send recover email
  */
 function plaatsign_recover_mail($to, $username, $password) {
@@ -185,37 +170,27 @@ function plaatsign_login_do() {
 	global $session;
 	global $page;
 					
-	$user_id = plaatsign_db_member_id($username, $password);	
+	$uid = plaatsign_db_user_id($username, $password);	
 	
-	if ($user_id == 0) {
+	if ($uid == 0) {
 	
 		plaatsign_ui_box('warning', t('LOGIN_FAILED'));
 		plaatsign_info("Login [".$username."] failed!");
 	
 	} else { 
 		
-		$session = plaatsign_db_session_add($user_id);
+		$session = plaatsign_db_session_add($uid);
 		
-		/* user_id = member_id */
-		$member = plaatsign_db_member($user_id);
-		$member->last_login = date("Y-m-d H:i:s", time());
-		$member->last_activity = date("Y-m-d H:i:s", time());
-		plaatsign_db_member_update($member);
-		
-		$user = plaatsign_db_user($user_id);
-		$data = plaatsign_db_project_user($user->project_id, $user_id);
-		if (isset($data->role_id)) {
-			$access = plaatsign_db_role($data->role_id);
-		} else {
-			$access = plaatsign_db_role(ROLE_GUEST);
-		}
-		
+		$user = plaatsign_db_user($uid);
+		$user->last_login = date("Y-m-d H:i:s", time());
+		plaatsign_db_user_update($user);
+				
 		/* Redirect to home page. */
 		$mid = MENU_HOME;			
 		$sid = PAGE_HOME;	
 		$page = "";
 		
-		plaatsign_info('Login '.$user->name.' ['.$user->user_id.']');
+		plaatsign_info('Login '.$user->name.' ['.$user->uid.']');
 	} 
 }
 
@@ -249,44 +224,7 @@ function plaatsign_login_footer() {
 	$page  = '<br class="clear" />';
 		
 	$page .= '<div id="footer">';
-   
-	$page .= '<h1>'.t('LOGIN_SCREENSHOTS').'</h1>';
-	
-	$page .= '<div class="footbox">';
-	$page .= plaatsign_ui_image("plaatsign-home.png");
-	$page .= '<p>';
-	$page .= '<b>'.t('LOGIN_HOME_TEXT1').'</b>';
-	$page .= '</p>';
-   $page .= '</div>';
-	 
-	$page .= '<div class="footbox">';
-	$page .= plaatsign_ui_image("plaatsign-story.png");
-	$page .= '<p>';
-	$page .= '<b>'.t('LOGIN_HOME_TEXT2').'</b>';
-	$page .= '</p>';
-   $page .= '</div>';
-	 
-	$page .= '<div class="footbox">';
-	$page .= plaatsign_ui_image("plaatsign-status.png");
-	$page .= '<p>';
-	$page .= '<b>'.t('LOGIN_HOME_TEXT3').'</b>';
-	$page .= '</p>';
-   $page .= '</div>';
-	 
-	$page .= '<div class="footbox">';
-	$page .= plaatsign_ui_image("plaatsign-burndown.png");
-	$page .= '<p>';
-	$page .= '<b>'.t('LOGIN_HOME_TEXT4').'</b>';
-	$page .= '</p>';
-   $page .= '</div>';
-	 
-   $page .= '<div class="footbox last">';
-	$page .= plaatsign_ui_image("plaatsign-calendar.png");
-	$page .= '<p>';
-	$page .= '<b>'.t('LOGIN_HOME_TEXT5').'</b>';
-	$page .= '</p>';
-   $page .= '</div>';
-	 
+   	 
    $page .= '<br class="clear"/>';
 	$page .= '</div>';
 	

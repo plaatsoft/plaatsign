@@ -63,106 +63,10 @@ function plaatsign_main_menu() {
 	$menu .= '</li>';
 	
 	/* -----------------*/
-	
-	if ($mid==MENU_BACKLOG) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_BACKLOG.'&sid='.PAGE_BACKLOG_FORM, t('LINK_BACKLOG'));
-		
-		$menu .= '<ul>';
-	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_BACKLOG.'&sid='.PAGE_BACKLOG_FORM, t('LINK_PRODUCT'));
-		$menu .= '</li>';
-	
-		if ($access->story_export) {
-		
-			$menu .= '<li>';
-			$menu .= plaatsign_link('mid='.MENU_BACKLOG.'&sid='.PAGE_BACKLOG_EXPORT, t('LINK_EXPORT'));
-			$menu .= '</li>';
-		}
-		
-		if ($access->story_import) {
-		
-			$menu .= '<li>';
-			$menu .= plaatsign_link('mid='.MENU_BACKLOG.'&sid='.PAGE_BACKLOG_IMPORT, t('LINK_IMPORT'));
-			$menu .= '</li>';
-		}
-		
-		if ($access->story_add) {
-		
-			$menu .= '<li>';		
-			$menu .= '<label>';	
-			$menu .= '<hr/>';			
-			$menu .= '</label>';	
-			$menu .= '</li>';
-			
-			$menu .= '<li>';
-			$menu .= plaatsign_link('mid='.$mid.'&sid='.PAGE_STORY.'&eid='.EVENT_STORY_NEW.'&type='.TYPE_STORY.'&id=0', t('LINK_ADD_STORY'));
-			$menu .= '</li>';
-
-		}
-		
-		$menu .= '</ul>';
-			
-	$menu .= '</li>';
-	
-		
-	/* -----------------*/
-	
-	if ($mid==MENU_BOARD) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_BOARD.'&sid='.PAGE_TASKBOARD, t('LINK_BOARD'));
-	
-	$menu .= '<ul>';
-		
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_BOARD.'&sid='.PAGE_TASKBOARD, t('LINK_TASKBOARD'));
-		$menu .= '</li>';
-							
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_BOARD.'&sid='.PAGE_RESOURCEBOARD, t('LINK_RESOURCEBOARD'));
-		$menu .= '</li>';
-		
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_BOARD.'&sid='.PAGE_STATUSBOARD, t('LINK_STATUSBOARD'));
-		$menu .= '</li>';
 				
-		if ($access->role_id==ROLE_SCRUM_MASTER) {
-			$menu .= '<li>';
-			$menu .= plaatsign_link('mid='.MENU_BOARD.'&sid='.PAGE_COST, t('LINK_COST'));
-			$menu .= '</li>';
-		}
-		
-		$menu .= '</ul>';
-		
-		
 	$menu .= '</li>';
-	
-	/* -----------------*/
-	
-	if ($mid==MENU_CHART) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_CHART.'&sid='.PAGE_BURNDOWN_CHART, t('LINK_CHART'));
-	
-		$menu .= '<ul>';
-	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_CHART.'&sid='.PAGE_BURNDOWN_CHART, t('LINK_BURNDOWN'));
-		$menu .= '</li>';
-	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_CHART.'&sid='.PAGE_VELOCITY_CHART, t('LINK_VELOCITY'));
-		$menu .= '</li>';
+
 		
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_CHART.'&sid='.PAGE_STATUS_CHART, t('LINK_STATUS'));
-		$menu .= '</li>';
-		
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_CHART.'&sid='.PAGE_CALENDER, t('LINK_CALENDER'));
-		$menu .= '</li>';
-			
-		$menu .= '</ul>';
-	
-	$menu .= '</li>';	
-	
 	/* -----------------*/
 	
 	if ($mid==MENU_SETTINGS) $menu .= '<li class="active">'; else $menu .= '<li>';
@@ -174,16 +78,10 @@ function plaatsign_main_menu() {
 		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_GENERAL, t('LINK_GENERAL'));
 		$menu .= '</li>';
 	
-		if ($user->role_id==ROLE_ADMINISTRATOR) {
-			$menu .= '<li>';
-			$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_USERLIST, t('LINK_USERS'));
-			$menu .= '</li>';
-		}
-		
 		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_PROJECTLIST_FORM, t('LINK_PROJECTS'));
+		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_USERLIST, t('LINK_USERS'));
 		$menu .= '</li>';
-				
+						
 		$menu .= '</ul>';
 	
 	/* -----------------*/
@@ -192,10 +90,6 @@ function plaatsign_main_menu() {
 	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_INSTRUCTIONS, t('LINK_HELP'));
 	
 		$menu .= '<ul>';
-	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_INSTRUCTIONS, t('LINK_INSTRUCTIONS'));
-		$menu .= '</li>';
 	
 		$menu .= '<li>';
 		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_RELEASE_NOTES, t('LINK_RELEASENOTES'));

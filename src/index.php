@@ -65,7 +65,7 @@ if (strlen($token)>0) {
 	
 	foreach ($tokens as $item) {
 		$items = preg_split ("/=/", $item);				
-		$($items[0]) = $items[1];	
+		${$items[0]} = $items[1];	
 	}
 }
 
@@ -187,36 +187,25 @@ if (isset($user->user_id)) {
 		
 /*
 ** ---------------------------------------------------------------- 
-** Process cron jobs
-** ----------------------------------------------------------------
-*/
-
-plaatsign_cron();
-
-/*
-** ---------------------------------------------------------------- 
 ** Create html response
 ** ----------------------------------------------------------------
 */
 
-if ($eid!=EVENT_EXPORT) {
-
-	echo plaatsign_ui_header($title);
+echo plaatsign_ui_header($title);
 	
-	echo plaatsign_ui_banner(plaatsign_menu());
+echo plaatsign_ui_banner(plaatsign_menu());
 	
-	echo '<div id="container">'.$page.'</div>';
+echo '<div id="container">'.$page.'</div>';
 
-	$time_end = microtime(true);
-	$time = $time_end - $time_start;
+$time_end = microtime(true);
+$time = $time_end - $time_start;
 
-	$time = round($time*1000);
+$time = round($time*1000);
 
-	echo plaatsign_ui_footer($time, plaatsign_db_count() );
-	
-	plaatsign_debug('Page render time = '.$time.' ms.');
-	plaatsign_debug('Amount of queries = '.plaatsign_db_count());
-}
+echo plaatsign_ui_footer($time, plaatsign_db_count() );
+
+plaatsign_debug('Page render time = '.$time.' ms.');
+plaatsign_debug('Amount of queries = '.plaatsign_db_count());
 
 plaatsign_db_close();
 

@@ -215,7 +215,7 @@ function plaatsign_write_file($type, $text) {
 	$message .= '] '.$type.' '.$text."\r\n";
 	$message = str_replace('<br/>', " ", $message); 
 	
-	$myFile = 'log/scrumboard-'.date('Ymd').'.log';
+	$myFile = 'log/plaatsign-'.date('Ymd').'.log';
 	$fp = fopen($myFile, 'a');	
 	fwrite($fp, $message);
 	fclose($fp);		
@@ -448,326 +448,6 @@ function plaatsign_ui_textarea($name, $rows, $cols, $value, $readonly) {
 	  
    return $page;
 }
-
-function plaatsign_ui_project_user($tag, $id, $readonly=false, $empty=false) {
-
-	/* input */
-	global $user;
-	
-	$query  = 'select a.user_id, a.name from tuser a left join member b on b.user_id=a.user_id ';
-	$query .= 'left join project_user c on a.user_id=c.user_id where b.deleted=0 and ';
-	$query .= 'c.project_id='.$user->project_id.' order by a.name ';
-	$result = plaatsign_db_query($query);
-			
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	$page .= '>'; 
-	
-	if ($empty) {
-		$page.='<option value="0"></option>';
-	}
-		
-	while ($data=plaatsign_db_fetch_object($result)) {	
-	
-		$page.='<option value="'.$data->user_id.'"';
-		
-		if ($id == $data->user_id) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.$data->name.'</option>';
-	}
-		
-	$page .= '</select>';
-	
-	if ($readonly) {	
-		$page .= '<input type="hidden" name="'.$tag.'" value="'.$id.'" />';
-	}
-		  
-   return $page;
-}
-
-function plaatsign_ui_all_user($tag, $id, $readonly=false, $empty=false) {
-
-	$query  = 'select a.user_id, a.name from tuser a left join member b on b.user_id=a.user_id ';
-	$query .= 'where b.deleted=0 order by a.name';
-	$result = plaatsign_db_query($query);
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	$page .= '>'; 
-	
-	if ($empty) {
-		$page.='<option value="0"></option>';
-	}
-
-	while ($data=plaatsign_db_fetch_object($result)) {	
-	
-		$page.='<option value="'.$data->user_id.'"';
-		
-		if ($id == $data->user_id) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.$data->name.'</option>';
-	}
-		
-	$page .= '</select>';
-	
-   return $page;
-}
-
-function plaatsign_ui_project($tag, $project_id, $readonly=false) {
-
-	/* input */
-	global $mid;
-	global $sid;
-	global $sort;
-	global $user;
-
-	if ($user->role_id==ROLE_ADMINISTRATOR) {
-	
-		$query  = 'select a.project_id, a.name, a.public from project a  ';	
-		$query .= 'where a.deleted=0 ';
-	
-	} else {
-	
-		$query  = 'select a.project_id, a.name, a.public from project a  ';	
-		$query .= 'left join project_user b on b.project_id=a.project_id ';
-		$query .= 'where a.deleted=0 ';
-		$query .= 'and (b.user_id='.$user->user_id.' or a.public=1)';
-				
-	}	
-	$query .= 'order by a.name';
-	
-	$result = plaatsign_db_query($query);
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	} else {	
-		$page .= 'onchange="javascript:link(\''.plaatsign_token('mid='.$mid.'&sid='.$sid.'&eid='.EVENT_FILTER.'&sort='.$sort).'\');" ';
-	}
-	$page .= '>';
-								
-	while ($data=plaatsign_db_fetch_object($result)) {	
-		$page.='<option value="'.$data->project_id.'"';
-		
-		if ($project_id == $data->project_id) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.$data->name.'</option>';
-	}
-		
-	$page.='</select>';
-		
-   return $page;
-}
-
-function plaatsign_ui_release($tag, $release_id, $readonly=false, $empty=false) {
-
-	/* input */
-	global $user;
-	global $access;
-
-	$query  = 'select release_id, name from released where deleted=0 ';
-	$query .= 'and project_id='.$user->project_id.' order by release_id';
-	
-	$result = plaatsign_db_query($query);
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-		
-	$page .= '>'; 
-			
-	if ($empty) {
-		$page .='<option value="0"> </option>';
-	}
-	
-	while ($data=plaatsign_db_fetch_object($result)) {	
-		$page.='<option value="'.$data->release_id.'"';
-		
-		if ($release_id == $data->release_id) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.$data->name.'</option>';
-	}
-		
-	$page.='</select>';
-		
-   return $page;
-}
-
-function plaatsign_ui_sprint($tag, $id, $readonly=false, $empty=false, $locked=false) {
-	
-	/* input */
-	global $user;
-	global $mid;
-	global $sid;
-	global $sort;
-	
-	$query  = 'select sprint_id, number from sprint ';
-	$query .= 'where project_id='.$user->project_id.' and deleted=0 ';
-	
-	if ($locked) {
-		$query .= 'and locked=0 ';
-	}
-	
-	$query .= 'order by number';
-	
-	$result = plaatsign_db_query($query);
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	
-	if ($empty) {	
-		$page .= 'onchange="javascript:link(\''.plaatsign_token('mid='.$mid.'&sid='.$sid.'&eid='.EVENT_FILTER.'&sort='.$sort).'\');" ';
-	}
-	
-	$page .= '>'; 
-	
-	if ($empty) {
-		$page .='<option value="0"> </option>';
-	}
-	
-	while ($data=plaatsign_db_fetch_object($result)) {	
-	
-		$page.='<option value="'.$data->sprint_id.'"';
-	
-		if ($id == $data->sprint_id) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>';
-		if ($data->number==0) {
-			$page .= '0';
-		} else {
-			$page .= $data->number;
-		}
-		$page .= '</option>';
-	}
-			
-	$page.='</select>';
-	
-   return $page;
-}
-
-function plaatsign_ui_multi_day($tag, $id, $readonly=false, $empty=false) {
-	
-	/* input */
-	global $mid;
-	global $sid;
-	global $sort;
-			
-	$page = '<select id="'.$tag.'" name="'.$tag.'[]" size="7" multiple="multiple" ';
-	
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	} 
-	
-	$page .= '>'; 
-	
-	for ($day=0; $day<7; $day++) {
-	
-		$page.='<option value="'.$day.'"';
-		
-		if (is_numeric(strpos($id, (string) $day))) {
-			$page .= ' selected="selected"';
-		}
-		
-		$page .= '>'.t('DAY_'.$day).'</option>';
-	}
-		
-	$page .='</select>';
-		
-   return $page;
-}
-
-function plaatsign_ui_multi_status($tag, $id, $readonly=false, $empty=false) {
-	
-	/* input */
-	global $mid;
-	global $sid;
-	global $sort;
-	
-	$values = array(STATUS_TODO, STATUS_DOING, STATUS_REVIEW, STATUS_DONE, STATUS_SKIPPED, STATUS_ONHOLD);	
-
-	$page  = '<script type="text/javascript">';
-	$page .= '$(document).ready( function() { ';
-	$page .= '$("#'.$tag.'").multiSelect({ ';
-	$page .= ' selectAll: false,';
-	$page .= ' noneSelected: \'0 '.t('GENERAL_SELECTED').'\', ';
-	$page .= ' oneOrMoreSelected: \'% '.t('GENERAL_SELECTED').'\' ';
-	$page .= '});';
-	$page .= '});';
-	$page .= '</script>';
-	
-	$page .= '<select id="'.$tag.'" name="'.$tag.'[]" size="6" multiple="multiple" ';
-	
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	} 
-	
-	$page .= '>'; 
-	
-	foreach ($values as $value) {
-	
-		$page.='<option value="'.$value.'"';
-		
-		if (is_numeric(strpos($id, (string) $value))) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.t('STATUS_'.$value).'</option>';
-	}
-		
-	$page .='</select>';
-		
-   return $page;
-}
-
-function plaatsign_ui_status($tag, $id, $readonly=false, $empty=false) {
-	
-	if ($empty) {
-	
-		$values = array(0, STATUS_TODO, STATUS_DOING, STATUS_REVIEW, STATUS_DONE, STATUS_SKIPPED, STATUS_ONHOLD);
-			
-	} else {
-		
-		$values = array(STATUS_TODO, STATUS_DOING, STATUS_REVIEW, STATUS_DONE, STATUS_SKIPPED, STATUS_ONHOLD);	
-	}
-
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-	
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	$page .= '>'; 
-	
-	foreach ($values as $value) {
-	
-		$page.='<option value="'.$value.'"';
-		
-		if ($id == $value) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.t('STATUS_'.$value).'</option>';
-	}
-		
-	$page.='</select>';
-		
-   return $page;
-}
-
 
 function plaatsign_ui_language($tag, $id, $readonly=false) {
 			
@@ -1045,8 +725,8 @@ function plaatsign_ui_header( $title = "") {
  
  	if ($mid==MENU_LOGIN) {
 		
-		$page .= '<meta name="keywords" content="plaatsign,plaatsoft,scrum,taskboard,burndown,chart,velocity,calender,php,mysql" />';
-		$page .= '<link rel="canonical" href="http://scrum.plaatsoft.nl" />';
+		$page .= '<meta name="keywords" content="plaatsign,plaatsoft,sign" />';
+		$page .= '<link rel="canonical" href="http://sign.plaatsoft.nl" />';
 		
 		$page .= '<meta name="application-name" content="plaatsign" />';
 		$page .= '<meta name="description" content="plaatsign is a scrum development tool" />';
@@ -1065,15 +745,15 @@ function plaatsign_ui_header( $title = "") {
 	
 	/* Add HTML Title */
 	if ($title=="") {
-		$page .= '<title>'.$config["applName"].'</title>';
+		$page .= '<title>PlaatSign</title>';
 	} else {
-		$page .= '<title>'.$config["applName"].' - '.strtolower($title).'</title>';
+		$page .= '<title>PlaatSign - '.strtolower($title).'</title>';
 	}
 	$page .= "</head>";
 
 	$page .= '<body id="top">';
 	
-	$page .= '<form id="scrumboard" ';
+	$page .= '<form id="plaatsign" ';
 	if ($sid==PAGE_BACKLOG_IMPORT) {
 		$page .= 'enctype="multipart/form-data" ';
 	}
@@ -1103,9 +783,9 @@ function plaatsign_ui_banner($menu) {
 	
    $page .= '<h1>';
 	if ($mid==MENU_LOGIN) { 
-		$page .= plaatsign_link('mid='.MENU_LOGIN.'&sid='.PAGE_LOGIN, $config["applName"]);
+		$page .= plaatsign_link('mid='.MENU_LOGIN.'&sid='.PAGE_LOGIN, 'PlaatSign' );
 	} else {	
-		$page .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME, $config["applName"]);
+		$page .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME,'PlaatSign' );
 	}
 	$page .= '</h1>';
 	
@@ -1123,26 +803,12 @@ function plaatsign_ui_banner($menu) {
 		$page .= ']';
 		
 	} else {
-		$page .= $config['applVersion'];
+		$page .= 'version 0.1';
 	}
 	$page .= '</p>';
   
    $page .= '</div>';
-	
-	if ($mid!=MENU_LOGIN) {
-		$page .= '<div id="search">';		
-		$page .= '<fieldset>';
-		$page .= '<legend>Site Search</legend>';
-		$page .= '<input type="text" name="search" id="search" value="'.t('HELP').'" onfocus="this.value=(this.value==\''.t('HELP').'\')? \'\' : this.value ;" />'; 	
-		$page .= plaatsign_button('mid='.$mid.'&sid='.$sid.'&eid='.EVENT_SEARCH, "go", "go");		
-		$page .= '</fieldset>';		
-		$page .= '</div>';
-	}
-			
-	$page .= '<br/>';
-	$page .= '<br/>';
-	$page .= '<br/>';
-	
+		
 	$page .= '<div class="fl_right">';
 	$page .= $menu;
 	$page .= '</div>';		

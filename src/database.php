@@ -150,71 +150,31 @@ function plaatsign_db_num_rows($result) {
 
 /*
 ** -----------------
-** MEMBER
+** USER
 ** -----------------
 */
 
-function plaatscrum_db_member_id($username, $password) {
+function plaatsign_db_user_id($username, $password) {
 
-	$member_id=0;
+	$uid=0;
 
-	$query  = 'select member_id from member where username="'.$username.'" and password="'.md5($password).'" and deleted=0';	
+	//$query  = 'select uid from user where username="'.$username.'" and password="'.md5($password).'"';	
+	$query  = 'select uid from user where username="'.$username.'" and password="'.$password.'"';	
 		
-	$result = plaatscrum_db_query($query);
-	$data = plaatscrum_db_fetch_object($result);
-	if (isset ($data->member_id)) {	
-		$member_id = $data->member_id;
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
+	if (isset ($data->uid)) {	
+		$uid = $data->uid;
 	}	
 	
-	return $member_id;
+	return $uid;
 }
 
-function plaatscrum_db_member_insert($username, $password) {
-
-	$query  = 'insert into member (username, password) ';
-	$query .= 'values ("'.plaatscrum_db_escape($username).'","'.md5($password).'")';
-	plaatscrum_db_query($query);
-		
-	/* user_id = member_id */
-	$member_id = plaatscrum_db_member_id($username, $password);	
-
-	$query  = 'update member set user_id='.$member_id.' where member_id='.$member_id; 
-	plaatscrum_db_query($query);
-				
-	return $member_id;
-}
-
-function plaatscrum_db_member_update2($username, $password, $member_id) {
-		
-	$query  = 'update member set '; 
-	$query .= 'username="'.plaatscrum_db_escape($username).'" ';
+function plaatsign_db_user_username($username) {
 	
-	if (strlen($password)>0) {
-		$query .= ', password="'.md5($password).'" ';
-	}
-
-	$query .= 'where member_id='.$member_id; 
-	
-	plaatscrum_db_query($query);
-}
-	
-function plaatscrum_db_member_update($data) {
-		
-	$query  = 'update member set '; 
-	$query .= 'deleted='.$data->deleted.', ';
-	$query .= 'requests='.$data->requests.', ';	
-	$query .= 'last_activity="'.$data->last_activity.'", ';
-	$query .= 'last_login="'.$data->last_login.'" ';
-	$query .= 'where member_id='.$data->member_id; 
-	
-	plaatscrum_db_query($query);
-}
-
-function plaatscrum_db_member_username($username) {
-	
-	$query  = 'select member_id from member where username="'.$username.'"';	
-	$result = plaatscrum_db_query($query);
-	$data = plaatscrum_db_fetch_object($result);
+	$query  = 'select uid from user where username="'.$username.'"';	
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
 	
 	$member_id=0;
 	if (isset($data->member_id)) {
@@ -223,15 +183,38 @@ function plaatscrum_db_member_username($username) {
 	return $member_id;
 }
 
-function plaatscrum_db_member($member_id) {
+function plaatsign_db_user($uid) {
 	
-	$query  = 'select member_id, user_id, username, requests, last_login, last_activity, deleted ';
-	$query .= 'from member where member_id='.$member_id;	
+	$query  = 'select uid, username, name, email, language, created, last_login ';
+	$query .= 'from user where uid='.$uid;	
 		
-	$result = plaatscrum_db_query($query);
-	$data = plaatscrum_db_fetch_object($result);
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
 	
 	return $data;
+}
+
+function plaatsign_db_user_insert($username, $password) {
+
+	$query  = 'insert into user (username, password, created) ';
+	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","'.date("Y-m-d H:i:s").'")';
+	plaatsign_db_query($query);
+		
+	$uid = plaatsign_db_user_id($username, $password);	
+				
+	return $uid;
+}
+
+function plaatsign_db_user_update($data) {
+		
+	$query  = 'update user set '; 
+	$query .= 'name="'.$data->name.'", ';
+	$query .= 'email="'.$data->email.'", ';
+	$query .= 'language="'.$data->language.'", ';
+	$query .= 'last_login="'.$data->last_login.'" ';
+	$query .= 'where uid='.$data->uid; 
+	
+	plaatsign_db_query($query);
 }
 
 /*
@@ -240,81 +223,66 @@ function plaatscrum_db_member($member_id) {
 ** ---------------------
 */
 
-function plaatscrum_db_session_add($member_id) {
+function plaatsign_db_session_add($uid) {
 		
 	/* First delete all old session */
-	$query  = 'delete from session where member_id='.$member_id;	
-	plaatscrum_db_query($query);  
+	$query  = 'delete from session where uid='.$uid;	
+	plaatsign_db_query($query);  
 		
 	/* Create new session */
-	$query  = 'insert into session (date, member_id) values ("'.date("Y-m-d H:i:s").'",'.$member_id.')';	
-	plaatscrum_db_query($query);
+	$query  = 'insert into session (date, uid) values ("'.date("Y-m-d H:i:s").'",'.$uid.')';	
+	plaatsign_db_query($query);
 	
 	/* Return new session entry */
-	$query  = 'select session_id from session where member_id='.$member_id;
-	$result = plaatscrum_db_query($query);
-	$data = plaatscrum_db_fetch_object($result);
+	$query  = 'select sid from session where uid='.$uid;
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
 	
 	/* created unique session id */
-	$tmp = md5($data->session_id);
+	$tmp = md5($data->sid);
 	
 	/* Update session state */
-	$query  = 'update session set session = "'.$tmp.'" where session_id='.$data->session_id; 
-	plaatscrum_db_query($query);
+	$query  = 'update session set session = "'.$tmp.'" where sid='.$data->sid; 
+	plaatsign_db_query($query);
 	
 	return $tmp;
 }
 
-function plaatscrum_db_session_valid( $session ) {
+function plaatsign_db_session_valid( $session ) {
 	
-	/* Session expires after 351 days of inactivity */
-	$expired_days = 351;
+	/* Session expires after 1 day of inactivity */
+	$expired_days = 1;
 	
 	if (strlen($session)==0) {
 		return 0;
 	}
 	
 	$query  = 'select session_id, member_id, date from session where session="'.$session.'"';
-	$result = plaatscrum_db_query($query);
+	$result = plaatsign_db_query($query);
 	
-	if ($data=plaatscrum_db_fetch_object($result)) {
+	if ($data=plaatsign_db_fetch_object($result)) {
 		
 		$expired = mktime(date("H"), date("i"), date("s"), date("m"), date("d")-$expired_days, date("Y"));
 		if ($data->date < date("Y-m-d H:i:s",$expired)) {
 				
-			plaatscrum_db_session_delete($data->session);
+			plaatsign_db_session_delete($data->session);
 			return 0;
 		}
 	
 		/* Update session state */
 		$query  = 'update session set date = "'.date("Y-m-d H:i:s").'" where session="'.$session.'"'; 
-		plaatscrum_db_query($query);
+		plaatsign_db_query($query);
 		
 		return $data->member_id;
 	}
 	return 0;
 }
 
-function plaatscrum_db_session_delete($session) {
+function plaatsign_db_session_delete($session) {
 	
 	$query = 'delete from session where session="'.$session.'"';
 	
-	plaatscrum_db_query($query); 
-}
-
-/**
- * hack a player session for debug reasons (Admin functionality)
- */
-function plaatscrum_db_session_hack($member_id) {
-
-	$query  = 'select session from session where member_id='.$member_id;
-	$result = plaatscrum_db_query($query);
-	
-	if ($data = plaatscrum_db_fetch_object($result)) {
-		return $data->session;
-	} else {
-		return plaatscrum_db_session_add($member_id);
-	}
+	plaatsign_db_query($query); 
 }
 
 /*
@@ -323,14 +291,14 @@ function plaatscrum_db_session_hack($member_id) {
 ** -----------------
 */
 
-function plaatscrum_db_role($role_id) {
+function plaatsign_db_role($role_id) {
 	
 	$query  = 'select role_id, ';
 	$query .= 'project_edit, story_add, story_edit, story_delete, story_import, story_export ';
 	$query .= 'from role where role_id='.$role_id;	
 		
-	$result = plaatscrum_db_query($query);
-	$data = plaatscrum_db_fetch_object($result);
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
 	
 	return $data;
 }
