@@ -87,7 +87,7 @@ function plaatsign_main_menu() {
 	/* -----------------*/
 		
 	if ($mid==MENU_HELP) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_INSTRUCTIONS, t('LINK_HELP'));
+	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_HELP, t('LINK_HELP'));
 	
 		$menu .= '<ul>';
 	

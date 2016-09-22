@@ -39,8 +39,8 @@ $title = "";
 $user = "";
 $access = "";
 
-$mid = 0;
-$sid = 0;
+$mid = MENU_LOGIN;
+$sid = PAGE_LOGIN;
 $eid = 0;
 $uid = 0;
 $pid = 0;
@@ -94,14 +94,8 @@ if ( $user_id == 0 ) {
 } else {
 
 	$user = plaatsign_db_user($user_id);
-	$data = plaatsign_db_project_user($user->project_id, $user_id);
-	if (isset($data->role_id)) {
-		$access = plaatsign_db_role($data->role_id);
-	} else {
-		$access = plaatsign_db_role(ROLE_GUEST);
-	}
 	
-	if ($user->language==1) {
+	if ($user->language=="nl") {
 		include "nederlands.inc";
 	}
 }
@@ -130,59 +124,43 @@ switch ($tmp[0]) {
 			break;
 }
 				
-/* Global Event Handler */
-switch ($eid) {
-
-	case EVENT_SEARCH: 			
-			if ((strlen($search)>0) && ($search!=t('HELP')) && (isset($user->project_id))) {
-			
-				if (strstr($search,"#")) { 
-					$search = str_replace('#', '', $search); 
-					$id = plaatsign_db_story_number_check($search, $user->project_id);
-					if ($id>0) {
-						$mid = MENU_BACKLOG;	
-						$eid = EVENT_STORY_LOAD;
-						$sid = PAGE_STORY;
-					}
-					
-				} else {
-						
-					/* Clear sprint filter */
-					$user->sprint_id = 0;
-					plaatsign_db_user_update($user);
-	
-					$mid = MENU_BACKLOG;
-					$sid = PAGE_BACKLOG_FORM;
-				}
-			}
-			break;
-}
-
 /* Global Page Handler */
-switch ($mid) {
+switch ($sid) {
 	
-	case MENU_LOGIN: 	
+	case PAGE_LOGIN: 	
 				include "login.php";
 				include "home.php";
 				plaatsign_login();
 				break;
 	
-	case MENU_HOME:
+	case PAGE_HOME:
 				include "home.php";				
 				plaatsign_home();
+				break;
+				
+	case PAGE_HELP:
+				include "help.php";				
+				plaatsign_help();
+				break;
+				
+	case PAGE_ABOUT:
+				include "about.php";				
+				plaatsign_about();
+				break;
+				
+	case PAGE_DONATE:
+				include "donate.php";				
+				plaatsign_donate();
 				break;
 }
 
 /* update member statistics */
-if (isset($user->user_id)) {
+if (isset($user->uid)) {
 
-	/* member_id = user_id */
-	$member = plaatsign_db_member($user->user_id);
+	$user->requests++;
+	$user->last_activity = date("Y-m-d H:i:s", time());
 	
-	$member->requests++;
-	$member->last_activity = date("Y-m-d H:i:s", time());
-	
-	plaatsign_db_member_update($member);
+	plaatsign_db_user_update($user);
 }
 		
 /*

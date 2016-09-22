@@ -185,7 +185,7 @@ function plaatsign_db_user_username($username) {
 
 function plaatsign_db_user($uid) {
 	
-	$query  = 'select uid, username, name, email, language, created, last_login ';
+	$query  = 'select uid, username, name, email, language, created, last_activity, requests ';
 	$query .= 'from user where uid='.$uid;	
 		
 	$result = plaatsign_db_query($query);
@@ -196,8 +196,8 @@ function plaatsign_db_user($uid) {
 
 function plaatsign_db_user_insert($username, $password) {
 
-	$query  = 'insert into user (username, password, created) ';
-	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","'.date("Y-m-d H:i:s").'")';
+	$query  = 'insert into user (username, password, created, requests) ';
+	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","'.date("Y-m-d H:i:s").'",1)';
 	plaatsign_db_query($query);
 		
 	$uid = plaatsign_db_user_id($username, $password);	
@@ -211,7 +211,8 @@ function plaatsign_db_user_update($data) {
 	$query .= 'name="'.$data->name.'", ';
 	$query .= 'email="'.$data->email.'", ';
 	$query .= 'language="'.$data->language.'", ';
-	$query .= 'last_login="'.$data->last_login.'" ';
+	$query .= 'last_activity="'.$data->last_activity.'", ';
+	$query .= 'requests='.$data->requests.' ';
 	$query .= 'where uid='.$data->uid; 
 	
 	plaatsign_db_query($query);
@@ -257,7 +258,7 @@ function plaatsign_db_session_valid( $session ) {
 		return 0;
 	}
 	
-	$query  = 'select session_id, member_id, date from session where session="'.$session.'"';
+	$query  = 'select sid, uid, date from session where session="'.$session.'"';
 	$result = plaatsign_db_query($query);
 	
 	if ($data=plaatsign_db_fetch_object($result)) {
@@ -273,7 +274,7 @@ function plaatsign_db_session_valid( $session ) {
 		$query  = 'update session set date = "'.date("Y-m-d H:i:s").'" where session="'.$session.'"'; 
 		plaatsign_db_query($query);
 		
-		return $data->member_id;
+		return $data->uid;
 	}
 	return 0;
 }

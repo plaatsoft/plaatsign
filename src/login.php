@@ -180,11 +180,8 @@ function plaatsign_login_do() {
 	} else { 
 		
 		$session = plaatsign_db_session_add($uid);
-		
 		$user = plaatsign_db_user($uid);
-		$user->last_login = date("Y-m-d H:i:s", time());
-		plaatsign_db_user_update($user);
-				
+
 		/* Redirect to home page. */
 		$mid = MENU_HOME;			
 		$sid = PAGE_HOME;	
@@ -201,7 +198,7 @@ function plaatsign_logout_do() {
 	global $user;
 	global $access;
 	
-	plaatsign_info('Logout '.$user->name.' ['.$user->user_id.']');
+	plaatsign_info('Logout '.$user->name.' ['.$user->uid.']');
 	
 	plaatsign_ui_box('info', t('LOGIN_LOGOUT'));
 	
@@ -247,7 +244,7 @@ function plaatsign_recover_form() {
    $page .= '<div id="content">';
 	
 	$page .= '<h1>'.t('LOGIN_WELCOME_TITLE').'</h1>';
-	$page .= '<img class="imgl" src="images/plaatsign-taskboard.png" alt="" />';
+	$page .= '<img class="imgl" src="images/plaatsign.jpg" alt="" />';
 	$page .= t('LOGIN_WELCOME');
 	$page .= '</div>'; 
 		
@@ -289,7 +286,7 @@ function plaatsign_register_form() {
    $page .= '<div id="content">';
 	
 	$page .= '<h1>'.t('LOGIN_WELCOME_TITLE').'</h1>';
-	$page .= '<img class="imgl" src="images/plaatsign-taskboard.png" alt="" />';
+	$page .= '<img class="imgl" src="images/plaatsign.jpg" alt="" />';
 	$page .= t('LOGIN_WELCOME');
 	
 	$page .= '</div>'; 
@@ -341,7 +338,7 @@ function plaatsign_login_form() {
    $page .= '<div id="content">';
 	
 	$page .= '<h1>'.t('LOGIN_WELCOME_TITLE').'</h1>';
-	$page .= '<img class="imgl" src="images/plaatsign-taskboard.png" alt="" />';
+	$page .= '<img class="imgl" src="images/plaatsign.jpg" alt="" />';
 	$page .= t('LOGIN_WELCOME');
 	
 	$page .= '</div>'; 

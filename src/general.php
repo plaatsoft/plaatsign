@@ -22,33 +22,6 @@
 ** ----------------------------------------------------------------
 */
 
-define("ROLE_GUEST", 1);
-define("ROLE_SCRUM_MASTER", 2);
-define("ROLE_PRODUCT_OWNER", 3);
-define("ROLE_TEAM_MEMBER", 4);
-
-define("ROLE_ADMINISTRATOR", 5);
-define("ROLE_USER", 6);
-
-define("PRIO_MINOR", 1);
-define("PRIO_MAJOR", 2);
-define("PRIO_CRITICAL", 3);
-
-define("TYPE_STORY", 1);
-define("TYPE_BUG", 2);
-define("TYPE_TASK", 3);
-define("TYPE_EPIC", 4);
-
-define('STATUS_ALL', 0);
-define('STATUS_NEW', 0);
-define('STATUS_NONE', 0);
-define('STATUS_TODO', 1);
-define('STATUS_DOING', 2);
-define('STATUS_DONE', 3);
-define('STATUS_SKIPPED', 4);
-define('STATUS_ONHOLD', 5);
-define('STATUS_REVIEW', 6);
-
 define('LANGUAGE_ENGLISH',0);
 define('LANGUAGE_DUTCH',1);
 
@@ -66,66 +39,20 @@ define("PAGE_LOGIN", 200);
 define("PAGE_REGISTER", 201);
 define("PAGE_RECOVER", 202);
 define("PAGE_HOME", 203);
-define("PAGE_BACKLOG_FORM", 204);
-define("PAGE_STORY", 205);
-define("PAGE_TASKBOARD", 206);
-define("PAGE_STATUSBOARD", 207);
-define('PAGE_RESOURCEBOARD', 208);
-define('PAGE_COST', 209);
-define("PAGE_GENERAL", 210);
 define("PAGE_USERLIST", 211);
 define("PAGE_USER", 212);
-define("PAGE_PROJECTLIST_FORM", 213);
-define("PAGE_PROJECT_FORM", 214);
-define("PAGE_INSTRUCTIONS", 215);
 define("PAGE_RELEASE_NOTES", 216);
 define("PAGE_CREDITS", 217);
 define("PAGE_DONATE", 218);
 define("PAGE_ABOUT", 219);
-define("PAGE_SPRINTLIST_FORM", 220);
-define('PAGE_SPRINT_FORM', 221);
-define('PAGE_BURNDOWN_CHART', 222);
-define('PAGE_STATUS_CHART', 223);
-define("PAGE_CALENDER", 224);
-define("PAGE_RELEASELIST_FORM", 225);
-define('PAGE_RELEASE_FORM', 226);
-define('PAGE_PROJECT_USER_ASSIGN', 227);
-define('PAGE_VELOCITY_CHART', 228);
-define('PAGE_BACKLOG_EXPORT', 229);
-define('PAGE_BACKLOG_IMPORT', 230);
+define("PAGE_GENERAL", 220);
+define("PAGE_HELP", 221);
 
 define("EVENT_LOGIN", 301);
 define("EVENT_REGISTER", 302);
 define("EVENT_RECOVER", 303);
 define("EVENT_LOGOUT", 304);
-define("EVENT_FILTER", 305);
-define("EVENT_USER_SAVE", 306);
-define("EVENT_USER_DELETE", 307);
-define("EVENT_USER_ASSIGN", 308);
-define("EVENT_USER_DROP", 309);
-define("EVENT_USER_CANCEL", 310);
-define("EVENT_USER_HACK", 311);
-define("EVENT_PROJECT_DELETE", 312);
-define("EVENT_PROJECT_SAVE", 313);
-define("EVENT_PROJECT_SELECT", 314);
-define("EVENT_RELEASE_ADD", 315);
-define("EVENT_RELEASE_SAVE", 316);
-define("EVENT_RELEASE_DELETE", 317);
-define("EVENT_SPRINT_ADD", 318);
-define("EVENT_SPRINT_SAVE", 319);
-define("EVENT_SPRINT_DELETE", 320);
-define("EVENT_STORY_SAVE", 321);
-define("EVENT_STORY_DELETE", 322);
-define("EVENT_STORY_ASSIGN", 323);
-define("EVENT_STORY_DROP", 324);
-define("EVENT_STORY_NEW", 325);
-define("EVENT_STORY_LOAD", 326);
-define("EVENT_STORY_CANCEL", 327);
-define("EVENT_IMPORT", 328);
-define("EVENT_EXPORT", 329);
-define("EVENT_SEARCH", 330);
-define("EVENT_SETTING_SAVE", 331);
-define("EVENT_EMAIL_CONFIRM", 332);
+define("EVENT_EMAIL_CONFIRM", 305);
 
 /*
 ** ---------------------------------------------------------------- 
@@ -176,24 +103,6 @@ function udate($format, $utimestamp = null) {
 	$milliseconds = round(($utimestamp - $timestamp) * 1000000);
 
 	return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
-}
-
-function plaatsign_user_log($player, $text) {
-	
-	$message  = udate('d-m-Y H:i:s:u');		
-	$message .= ' [';
-	$message .= number_format2($player->money).'|';
-	$message .= number_format2($player->bank1).'|';
-	$message .= number_format2($player->bank2).'|';
-	$message .= number_format2($player->bank3);	
-	$message .= '] ';
-	$message .= $text;
-	$message .= "\r\n";
-	
-	$myFile = 'user/'.$player->pid.'.log';
-	$fp = fopen($myFile, 'a');	
-	fwrite($fp, $message);
-	fclose($fp);		
 }
 
 function plaatsign_write_file($type, $text) {
@@ -754,9 +663,9 @@ function plaatsign_ui_header( $title = "") {
 	$page .= '<body id="top">';
 	
 	$page .= '<form id="plaatsign" ';
-	if ($sid==PAGE_BACKLOG_IMPORT) {
-		$page .= 'enctype="multipart/form-data" ';
-	}
+	//if ($sid==PAGE_BACKLOG_IMPORT) {
+   //		$page .= 'enctype="multipart/form-data" ';
+	//}
 	$page .= 'method="POST">';
 	
 	/* Store session information for next request */	
