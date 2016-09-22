@@ -22,21 +22,19 @@
 ** ------------------
 */
 
-function plaatsign_help_form() {
+function plaatsign_credits_form() {
 
 	/* output */
 	global $page;
 	global $title;
 	
-	$title = t('HELP_TITLE');
+	$title = t('CREDITS_TITLE');
 	
-	$page .= '<div id="content">';	
+	$page .= '<div id="content">';
+	
  	$page .= '<h1>'.$title.'</h1>';
-
-	$page .= '<h2>'.t('HELP_SUBTITLE').'</h2>';
-	$page .= '<p>';		
-	$page .= t('HELP_CONTENT');
-	$page .= '</p>';
+			
+	$page .= t('CREDITS_CONTENT');
 	
 	$page .= '</div>';
 }
@@ -47,15 +45,15 @@ function plaatsign_help_form() {
 ** ------------------
 */
 
-function plaatsign_help() {
+function plaatsign_credits() {
 
 	/* input */
 	global $sid;
 		
 	switch ($sid) {
 
-		case PAGE_HELP: 
-					plaatsign_help_form();
+		case PAGE_CREDITS: 
+					plaatsign_credits_form();
 					break;
 	}
 }

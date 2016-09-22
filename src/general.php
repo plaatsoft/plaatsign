@@ -53,6 +53,9 @@ define("EVENT_REGISTER", 302);
 define("EVENT_RECOVER", 303);
 define("EVENT_LOGOUT", 304);
 define("EVENT_EMAIL_CONFIRM", 305);
+define("EVENT_SAVE", 306);
+define("EVENT_DELETE", 307);
+define("EVENT_CANCEL", 308);
 
 /*
 ** ---------------------------------------------------------------- 
@@ -822,7 +825,7 @@ function validate_email($address) {
  *   Welcome to the plaatsign documentation.
  *
  * @section Introduction
- *   plaatsign is a digital scrumboard
+ *   plaatsign is a digital content viewer
  *
  * @section Links
  *   Website: http://www.plaatsoft.nl\n

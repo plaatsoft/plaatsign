@@ -66,6 +66,10 @@ if (strlen($token)>0) {
 	foreach ($tokens as $item) {
 		$items = preg_split ("/=/", $item);				
 		${$items[0]} = $items[1];	
+		
+		if (DEBUG == 1) {
+			echo $items[0].'='.$items[1].'<br>';
+		}
 	}
 }
 
@@ -106,24 +110,6 @@ if ( $user_id == 0 ) {
 ** ----------------------------------------------------------------
 */
 
-/* Validated email address */
-$tmp = preg_split('/-/', $action);
-
-switch ($tmp[0]) {
-
-	case EVENT_EMAIL_CONFIRM:
-
-			$data = plaatsign_db_user($tmp[1]);
-		
-			if (isset($data->valid) && ($data->valid==0) && (md5($data->email)==$tmp[2])) {
-			
-				$data->valid=1;
-				plaatsign_db_user_update($data);
-				plaatsign_ui_box('info', t('USER_EMAIL_VALID1'));
-			}
-			break;
-}
-				
 /* Global Page Handler */
 switch ($sid) {
 	
@@ -151,6 +137,22 @@ switch ($sid) {
 	case PAGE_DONATE:
 				include "donate.php";				
 				plaatsign_donate();
+				break;
+				
+	case PAGE_RELEASE_NOTES:
+				include "releasenotes.php";				
+				plaatsign_releasenotes();
+				break;
+				
+	case PAGE_CREDITS:
+				include "credits.php";				
+				plaatsign_credits();
+				break;
+			
+   case PAGE_USERLIST:
+	case PAGE_USER:
+				include "user.php";				
+				plaatsign_user();
 				break;
 }
 

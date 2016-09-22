@@ -34,14 +34,6 @@ function plaatsign_login_menu() {
 	$menu .= plaatsign_link('mid='.$mid.'&sid='.PAGE_LOGIN, t('LINK_LOGIN'));
 	$menu .= '</li>';
 	
-	if ($sid==PAGE_REGISTER) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.$mid.'&sid='.PAGE_REGISTER, t('LINK_REGISTER'));
-	$menu .= '</li>';
-	
-	if ($sid==PAGE_RECOVER) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.$mid.'&sid='.PAGE_RECOVER, t('LINK_RECOVER'));
-	$menu .= '</li>';
-	
 	$menu .= '</ul>';
 		
 	return $menu;
@@ -92,7 +84,7 @@ function plaatsign_main_menu() {
 		$menu .= '<ul>';
 	
 		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_RELEASE_NOTES, t('LINK_RELEASENOTES'));
+		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_RELEASE_NOTES, t('LINK_RELEASE_NOTES'));
 		$menu .= '</li>';
 	
 		$menu .= '<li>';

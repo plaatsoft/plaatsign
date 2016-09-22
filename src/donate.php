@@ -34,14 +34,14 @@ function plaatsign_donate_form() {
 	
  	$page .= '<h1>'.$title.'</h1>';
 	
-	$page .= '<h2>'.t('SUBTITLE_DONATE1').'</h2>';
+	$page .= '<h2>'.t('DONATE_SUBTITLE1').'</h2>';
 	$page .= '<p>';
-	$page .= t('DONATE1');
+	$page .= t('DONATE_CONTENT1');
 	$page .= '</p>';
 	
-	$page .= '<h2>'.t('SUBTITLE_DONATE2').'</h2>';
+	$page .= '<h2>'.t('DONATE_SUBTITLE2').'</h2>';
 	$page .= '<p>';
-	$page .= t('DONATE2');
+	$page .= t('DONATE_CONTENT2');
 	$page .= '</p>';
 	
 	$page .=	'</form>';

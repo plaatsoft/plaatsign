@@ -44,10 +44,11 @@ $lang['LINK_SAVE'] = 'Save';
 $lang['LINK_DELETE'] = 'Delete'; 
 $lang['LINK_CANCEL']  = 'Cancel';
 $lang['LINK_INSTRUCTIONS']  = 'Instructions';
-$lang['LINK_RELEASENOTES'] = 'Release-Notes';
+$lang['LINK_RELEASE_NOTES'] = 'Release Notes';
 $lang['LINK_CREDITS']  = 'Credits';
 $lang['LINK_DONATE']  = 'Donate';
 $lang['LINK_ABOUT']  = 'About';
+$lang['LINK_ADD']  = 'Add';
 
 
 /*
@@ -62,11 +63,13 @@ $lang['GENERAL_USERNAME'] = 'Username';
 $lang['GENERAL_PASSWORD'] = 'Password'; 
 $lang['GENERAL_NAME'] = 'Name';
 $lang['GENERAL_EMAIL'] = 'Email';
+$lang['GENERAL_UID'] = 'UID';
+$lang['GENERAL_LAST_ACTIVITY'] = 'Last Activity';
+$lang['GENERAL_REQUESTS'] = 'Requests';
+$lang['GENERAL_ACTION' ] = 'Action';
 
 $lang['GENERAL_INFO'] = 'Info';
-$lang['GENERAL_WARN'] = 'Warn';
-
-
+$lang['GENERAL_WARNING'] = 'Warn';
 
 $lang['COPYRIGHT'] = 'All Copyright Reserved &copy; <a class="normal_link" href="http://www.plaatsoft.nl/">PlaatSoft</a> 2008 - ' . date("Y");
 
@@ -95,9 +98,6 @@ $lang['LOGIN_USERNAME_TO_SHORT'] = 'Username to short! Minimal length is 5';
 $lang['LOGIN_PASSWORD_TO_SHORT'] = 'Password to short! Minimal length is 5';
 $lang['LOGIN_NAME_TO_SHORT'] = 'Name to short! Minimal length is 3'; 
 $lang['LOGIN_EMAIL_INVALID' ] = 'Email address is not valid';
-$lang['LOGIN_REGISTER_SUCCESFULL'] = 'Account is succesfull created'; 
-$lang['LOGIN_EMAIL_NOT_FOUND'] = 'Email not found!';
-$lang['LOGIN_RECOVER_OK'] = 'An email is sent to your mail account with a new password';
 
 $lang['LOGIN_RECOVER'] = 'RECOVER';
 
@@ -131,14 +131,21 @@ $lang['SETTING_SAVED'] = 'Settings saved!';
 */
 
 $lang['USERS_TITLE'] = 'USERS';
-
 $lang['USER_TITLE'] = 'USER';
 
+$lang['USER_GENERAL'] = 'General';
 $lang['USER_TEXT'] = 'Currently the following users are active:';
-$lang['USER_SAVED'] = 'User saved!';
+$lang['USER_UPDATED'] = 'User updated!';
+$lang['USER_ADDED'] = 'User added!';
 $lang['USER_FAILED'] = 'User data failed!';
 $lang['USER_DELETED'] = 'User deleted';
 $lang['USER_DELETE_CONFIRM'] = 'Are you sure?';
+
+$lang['USER_USERNAME_EXIST'] = 'Username already exist!'; 
+$lang['USER_USERNAME_TO_SHORT'] = 'Username to short! Minimal length is 5'; 
+$lang['USER_PASSWORD_TO_SHORT'] = 'Password to short! Minimal length is 5';
+$lang['USER_NAME_TO_SHORT'] = 'Name to short! Minimal length is 3'; 
+$lang['USER_EMAIL_INVALID' ] = 'Email address is not valid';
 
 $lang['USER_EMAIL_VALID1'] = 'Your email address is validated!';
 $lang['USER_EMAIL_VALID2'] = 'This email address is validated!';
@@ -154,32 +161,26 @@ $lang['USER_HACK'] = 'Take over user %s [%s] session!';
 */
 
 $lang['HELP_TITLE'] = 'HELP';
-$lang['HELP_CONTENT'] = '';
+$lang['HELP_SUBTITLE'] = 'Introduction';
+$lang['HELP_CONTENT'] = 'More information will be added soon.';
 
 /*
 ** ------------------
-** HELP - RELEASE NOTES
+** RELEASE NOTES
 ** ------------------
 */
 
-$lang['HELP_RELEASENOTES_TITLE'] = 'RELEASE NOTES';
+$lang['RELEASENOTES_TITLE'] = 'RELEASE NOTES';
 
 /*
 ** ------------------
-** HELP - CREDITS
+** CREDITS
 ** ------------------
 */
 
-$lang['HELP_CREDITS_TITLE'] = 'CREDITS';
+$lang['CREDITS_TITLE'] = 'CREDITS';
 
-$lang['HELP_CREDITS'] = '
-
-<h2>Business Analist</h2>
-<p>
-<ul>
-<li>wplaat</li>
-</ul>
-</p>
+$lang['CREDITS_CONTENT'] = '
 
 <h2>Software Architect</h2>
 <p>
@@ -188,43 +189,21 @@ $lang['HELP_CREDITS'] = '
 </ul>
 </p>
 
-<h2>Software Developer</h2>
+<h2>Software Developers</h2>
 <p>
 <ul>
 <li>wplaat</li>
+<li>bplaat</li>
 </ul>
 </p>
 
-<h2>Graphics & Information</h2>
-<p>
-<ul>
-<li>Wikipedia</li>
-<li>Google</li>
-<li>OS Templates</li>
-<li>jQuery scene members</li>
-</ul>
-</p>
-
-<h2>Software Tester</h2>
+<h2>Software Testers</h2>
 <p>
 <ul>
 <li>wplaat</li>
-</ul>
-</p>
-
-<h2>Translator</h2>
-<p>
-<ul>
-<li>English</li>
-<ul>
-<li>wplaat</li>
-</ul>
-</ul>
-<ul>
-<li>Dutch</li>
-<ul>
-<li>wplaat</li>
-</ul>
+<li>lplaat</li>
+<li>mvdwind</li>
+<li>pvdbrink</li>
 </ul>
 </p>
 
@@ -232,27 +211,27 @@ $lang['HELP_CREDITS'] = '
 
 /*
 ** ------------------
-** HELP - DONATE
+** DONATE
 ** ------------------
 */
 
 $lang['DONATE_TITLE'] = 'DONATE';
 
-$lang['SUBTITLE_DONATE1'] = 'General';
-$lang['DONATE1'] = 'PlaatSign may be used <b>non commercial</b> free of charge, but 
+$lang['DONATE_SUBTITLE1'] = 'General';
+$lang['DONATE_CONTENT1'] = 'PlaatSign may be used <b>non commercial</b> free of charge, but 
 if you wish to express your appreciation for the time and resources the author spent developing 
 and supporting it over the years, and also help reduce the costs of running the web server, 
 we do accept and appreciate donations.';
 
-$lang['SUBTITLE_DONATE2'] = 'PayPal';
-$lang['DONATE2'] = 'To make a donation online using your credit card, or PayPal account, click 
+$lang['DONATE_SUBTITLE2'] = 'PayPal';
+$lang['DONATE_CONTENT2'] = 'To make a donation online using your credit card, or PayPal account, click 
 below and enter the amount you would like to contribute. Your credit card will be processed by PayPal, 
 a trusted name in secure online transactions. Many thanks for your support.';
 
 
 /*
 ** ------------------
-** HELP - ABOUT
+** ABOUT
 ** ------------------
 */
 
@@ -267,9 +246,9 @@ PlaatSign is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft
 <h2>Supported Browsers</h2>
 <p>
 <ul>
-<li>Microsoft Internet Explorer 11.x and higher<br/>
-<li>Mozilla Firefox 35 and higher</li>
-<li>Google Chrome 53 and higher</li>
+<li>Microsoft Internet Explorer<br/>
+<li>Mozilla Firefox</li>
+<li>Google Chrome</li>
 </ul>
 </p>
 
@@ -278,7 +257,24 @@ PlaatSign is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft
 The program is provided AS IT IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN,
 MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 </p>
-';
+
+<h2>License</h2>
+<p>
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU 
+General Public License as published by the Free Software Foundation, either version 3 of the License, 
+or (at your option) any later version.
+</p>
+
+<p>
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+General Public License for more details.
+</p>
+
+<p>
+You should have received a copy of the GNU General Public License along with this program. If not, 
+see http://www.gnu.org/licenses/.
+</p>';
 
 /*
 ** ------------------

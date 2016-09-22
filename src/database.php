@@ -158,8 +158,7 @@ function plaatsign_db_user_id($username, $password) {
 
 	$uid=0;
 
-	//$query  = 'select uid from user where username="'.$username.'" and password="'.md5($password).'"';	
-	$query  = 'select uid from user where username="'.$username.'" and password="'.$password.'"';	
+	$query  = 'select uid from user where username="'.$username.'" and password="'.md5($password).'"';	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
@@ -176,11 +175,11 @@ function plaatsign_db_user_username($username) {
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
 	
-	$member_id=0;
-	if (isset($data->member_id)) {
-		$member_id = $data->member_id;
+	$uid=0;
+	if (isset($data->uid)) {
+		$uid = $data->uid;
 	}
-	return $member_id;
+	return $uid;
 }
 
 function plaatsign_db_user($uid) {
@@ -196,8 +195,8 @@ function plaatsign_db_user($uid) {
 
 function plaatsign_db_user_insert($username, $password) {
 
-	$query  = 'insert into user (username, password, created, requests) ';
-	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","'.date("Y-m-d H:i:s").'",1)';
+	$query  = 'insert into user (username, password, language, created, requests) ';
+	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","en","'.date("Y-m-d H:i:s").'", 0)';
 	plaatsign_db_query($query);
 		
 	$uid = plaatsign_db_user_id($username, $password);	
@@ -216,6 +215,22 @@ function plaatsign_db_user_update($data) {
 	$query .= 'where uid='.$data->uid; 
 	
 	plaatsign_db_query($query);
+}
+
+function plaatsign_db_user_update2($username, $password, $uid) {
+		
+	$query  = 'update user set '; 
+	$query .= 'username="'.$username.'", ';
+	$query .= 'password="'.md5($password).'" ';
+	$query .= 'where uid='.$uid; 
+	
+	plaatsign_db_query($query);
+}
+
+function plaatsign_db_user_remove($data) {
+		
+	$query  = 'delete from user where uid='.$data->uid;	
+	plaatsign_db_query($query);  
 }
 
 /*
