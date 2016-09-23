@@ -115,13 +115,14 @@ switch ($sid) {
 	
 	case PAGE_LOGIN: 	
 				include "login.php";
-				include "home.php";
+				include "content.php";
 				plaatsign_login();
 				break;
 	
-	case PAGE_HOME:
-				include "home.php";				
-				plaatsign_home();
+	case PAGE_CONTENT:
+	case PAGE_CONTENTLIST:
+				include "content.php";				
+				plaatsign_content();
 				break;
 				
 	case PAGE_HELP:

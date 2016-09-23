@@ -50,15 +50,14 @@ function plaatsign_main_menu() {
 				
 	$menu = '<ul>';
 	
-	if ($mid==MENU_HOME) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME, t('LINK_HOME'));
+	if ($mid==MENU_CONTENT) $menu .= '<li class="active">'; else $menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST, t('LINK_CONTENT'));
 	$menu .= '</li>';
 	
 	/* -----------------*/
 				
 	$menu .= '</li>';
 
-		
 	/* -----------------*/
 	
 	if ($mid==MENU_SETTINGS) $menu .= '<li class="active">'; else $menu .= '<li>';

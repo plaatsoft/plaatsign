@@ -33,40 +33,6 @@ $user_password  = plaatsign_post("user_password", "");
 ** ------------------
 */
 
-/**
- * Send recover email
- */
-function plaatsign_email_change_email($to, $id) {
-
-	/* input */
-	global $config;
-	
-	$subject = 'Confirm email address for '.$config["applName"];
-	
-	$body  = 'Please confirm your email address for '.$config["applName"].' ';
-	$body .= 'by clicking the following link'."\r\n\r\n";
-	
-	$body .= $config["base_url"].'?action='.EVENT_EMAIL_CONFIRM.'-'.$id.'-'.md5($to);
-		
-	$header = 'From: '.$config["applName"]. '<'.$config['from_email'].">\r\n";
-
-	@mail($to, $subject, $body, $header);
-	
-	plaatsign_ui_box('info', t('USER_EMAIL_CONFIRM_SENT'));
-	
-	plaatsign_info("Send email [".$to."] email confirmation");
-}
-
-function plaatsign_user_email_confirm_do() {
-
-	/* input */
-	global $id;
-	
-	$data = plaatsign_db_user($id);
-	
-	plaatsign_email_change_email($data->email, $id);
-}
-
 function plaatsign_user_save_do() {
 	
 	/* input */
@@ -122,7 +88,7 @@ function plaatsign_user_save_do() {
 			plaatsign_db_user_update($data);	
 
 			plaatsign_ui_box('info', t('USER_UPDATED'));
-			plaatsign_info($user->name.' ['.$user->uid.'] update user ['.$data->uid.']');		
+			plaatsign_info($user->name.' ['.$user->uid.'] update user ['.$id.']');		
 		
 		} else  {
 			
@@ -138,7 +104,7 @@ function plaatsign_user_save_do() {
 			plaatsign_db_user_update($data);		
 			
 			plaatsign_ui_box('info', t('USER_ADDED'));
-			plaatsign_info($user->name.' ['.$user->uid.'] created user ['.$data->uid.']');
+			plaatsign_info($user->name.' ['.$user->uid.'] created user ['.$id.']');
 		}
 				
 		/* Data ok, goto to previous page */		
@@ -162,7 +128,7 @@ function plaatsign_user_delete_do() {
 		plaatsign_db_user_remove($data);
 
 		plaatsign_ui_box('info', t('USER_DELETED'));
-		plaatsign_info($user->name.' ['.$user->uid.'] delete user ['.$data->uid.']');
+		plaatsign_info($user->name.' ['.$user->uid.'] delete user ['.$id.']');
 		
 		$sid = PAGE_USERLIST;
 	} 
@@ -268,8 +234,6 @@ function plaatsign_userlist_form() {
 	/* input */
 	global $mid;
 	global $sid;
-	global $user;
-	global $access;
 	global $sort;
 	
 	/* output */

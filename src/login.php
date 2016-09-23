@@ -60,9 +60,9 @@ function plaatsign_login_do() {
 		$session = plaatsign_db_session_add($uid);
 		$user = plaatsign_db_user($uid);
 
-		/* Redirect to home page. */
-		$mid = MENU_HOME;			
-		$sid = PAGE_HOME;	
+		/* Redirect to content page. */
+		$mid = MENU_CONTENT;			
+		$sid = PAGE_CONTENTLIST;	
 		$page = "";
 		
 		plaatsign_info('Login '.$user->name.' ['.$user->uid.']');
@@ -179,8 +179,8 @@ function plaatsign_login() {
 					plaatsign_login_form();	
 				   break;
 								
-		case PAGE_HOME:
-					plaatsign_home();
+		case PAGE_CONTENT:
+					plaatsign_contentlist_form();	
 					break;
 			
 	}

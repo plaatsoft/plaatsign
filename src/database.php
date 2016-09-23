@@ -303,20 +303,48 @@ function plaatsign_db_session_delete($session) {
 
 /*
 ** -----------------
-** ROLE
+** CONTENT
 ** -----------------
 */
 
-function plaatsign_db_role($role_id) {
+function plaatsign_db_content($cid) {
 	
-	$query  = 'select role_id, ';
-	$query .= 'project_edit, story_add, story_edit, story_delete, story_import, story_export ';
-	$query .= 'from role where role_id='.$role_id;	
+	$query  = 'select cid, type, filename, enabled, created from content where cid='.$cid;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
 	
-	return $data;
+	return $data;	
+}
+
+function plaatsign_db_content_insert($type, $filename, $enabled) {
+
+	$query  = 'insert into content (type, filename, enabled, created) ';
+	$query .= 'values ('.$type.',"'.$filename.'",'.$enabled.',"'.date("Y-m-d H:i:s").'")';
+	plaatsign_db_query($query);
+		
+	$cid = plaatsign_db_content($type, $filename);	
+				
+	return $cid;
+}
+
+function plaatsign_db_content_update($data) {
+		
+	$query  = 'update content set '; 
+	$query .= 'type='.$data->type.', ';
+	$query .= 'filename="'.$data->filename.'", ';
+	$query .= 'enabled='.$data->enabled.', ';
+	$query .= 'created="'.$data->created.'" ';
+	$query .= 'where cid='.$data->cid; 
+	
+	plaatsign_db_query($query);
+}
+
+function plaatsign_db_content_delete($session) {
+	
+	$query = 'delete from content where cid='.$cid;
+	
+	plaatsign_db_query($query); 
 }
 
 /*

@@ -26,7 +26,7 @@ define('LANGUAGE_ENGLISH',0);
 define('LANGUAGE_DUTCH',1);
 
 define("MENU_LOGIN", 100);
-define("MENU_HOME", 101);
+define("MENU_CONTENT", 101);
 define("MENU_BACKLOG", 102);
 define("MENU_BOARD", 103);
 define("MENU_CHART", 104);
@@ -38,24 +38,26 @@ define("MENU_LOGOUT", 100);
 define("PAGE_LOGIN", 200);
 define("PAGE_REGISTER", 201);
 define("PAGE_RECOVER", 202);
-define("PAGE_HOME", 203);
-define("PAGE_USERLIST", 211);
-define("PAGE_USER", 212);
-define("PAGE_RELEASE_NOTES", 216);
-define("PAGE_CREDITS", 217);
-define("PAGE_DONATE", 218);
-define("PAGE_ABOUT", 219);
-define("PAGE_GENERAL", 220);
-define("PAGE_HELP", 221);
+define("PAGE_CONTENTLIST", 203);
+define("PAGE_CONTENT", 204);
+define("PAGE_USERLIST", 205);
+define("PAGE_USER", 206);
+define("PAGE_RELEASE_NOTES", 207);
+define("PAGE_CREDITS", 208);
+define("PAGE_DONATE", 209);
+define("PAGE_ABOUT", 210);
+define("PAGE_GENERAL", 211);
+define("PAGE_HELP", 212);
 
 define("EVENT_LOGIN", 301);
 define("EVENT_REGISTER", 302);
 define("EVENT_RECOVER", 303);
 define("EVENT_LOGOUT", 304);
-define("EVENT_EMAIL_CONFIRM", 305);
-define("EVENT_SAVE", 306);
-define("EVENT_DELETE", 307);
-define("EVENT_CANCEL", 308);
+define("EVENT_SAVE", 305);
+define("EVENT_DELETE", 306);
+define("EVENT_CANCEL", 307);
+define("EVENT_ADD", 308);
+define("EVENT_REMOVE", 309);
 
 /*
 ** ---------------------------------------------------------------- 
@@ -347,7 +349,7 @@ function plaatsign_ui_datepicker($name, $size, $maxlength, $value, $readonly=fal
 	return $page;	
 }
 
-function plaatsign_ui_textarea($name, $rows, $cols, $value, $readonly) {
+function plaatsign_ui_textarea($name, $rows, $cols, $value, $readonly=false) {
 	
 	$page ='<textarea name="'.$name.'" rows="'.$rows.'" cols="'.$cols.'" ';
 	if ($readonly) {
@@ -387,77 +389,6 @@ function plaatsign_ui_language($tag, $id, $readonly=false) {
    return $page;
 }
 
-
-function plaatsign_ui_prio($tag, $id, $readonly=false, $empty=false) {
-	
-	if ($empty) {
-	
-		$values = array(0, PRIO_MINOR, PRIO_MAJOR, PRIO_CRITICAL);
-		
-	} else {
-	
-		$values = array(PRIO_MINOR, PRIO_MAJOR, PRIO_CRITICAL);
-	
-	}
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-	
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	$page .= '>'; 
-	
-	foreach ($values as $value) {
-	
-		$page.='<option value="'.$value.'"';
-		
-		if ($id == $value) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.t('PRIO_'.$value).'</option>';
-	}
-		
-	$page.='</select>';
-		
-   return $page;
-}
-
-function plaatsign_ui_multi_type($tag, $id, $readonly=false, $empty=false) {
-				
-	$values = array(TYPE_STORY, TYPE_BUG, TYPE_TASK, TYPE_EPIC);
-
-	$page  = '<script type="text/javascript">';
-	$page .= '$(document).ready( function() { ';
-	$page .= '$("#'.$tag.'").multiSelect({ ';
-	$page .= ' selectAll: false,';
-	$page .= ' noneSelected: \'0 '.t('GENERAL_SELECTED').'\', ';
-	$page .= ' oneOrMoreSelected: \'% '.t('GENERAL_SELECTED').'\' ';
-	$page .= '});';
-	$page .= '});';
-	$page .= '</script>';
-	
-	$page .= '<select id="'.$tag.'" name="'.$tag.'[]" size="4" multiple="multiple" ';
-	
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	} 
-	$page .= '>'; 
-	
-	foreach ($values as $value) {
-	
-		$page.='<option value="'.$value.'"';
-		
-		if (is_numeric(strpos($id, (string) $value))) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.t('TYPE_'.$value).'&nbsp;&nbsp;</option>';
-	}
-		
-	$page.='</select>';
-			
-   return $page;
-}
-
 function plaatsign_ui_type($tag, $id, $readonly=false, $empty=false) {
 	
 	if ($empty) {
@@ -492,63 +423,7 @@ function plaatsign_ui_type($tag, $id, $readonly=false, $empty=false) {
    return $page;
 }
 
-function plaatsign_ui_role($tag, $id, $readonly) {
-	
-	/* input */
-	global $user;
-	
-	$values = array(ROLE_GUEST, ROLE_SCRUM_MASTER, ROLE_PRODUCT_OWNER, ROLE_TEAM_MEMBER);
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	$page .= '>'; 
-	
-	foreach ($values as $value) {
-	
-		$page.='<option value="'.$value.'"';
-		
-		if ($id == $value) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.t('ROLE_'.$value).'</option>';
-	}
-		
-	$page.='</select>';
-	
-    return $page;
-}
-
-function plaatsign_ui_member_role($tag, $id, $readonly) {
-	
-	/* input */
-	global $user;
-	
-	$values = array(ROLE_USER, ROLE_ADMINISTRATOR);
-	
-	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
-	if ($readonly) {
-		$page .= 'disabled="true" ';
-	}
-	$page .= '>'; 
-	
-	foreach ($values as $value) {
-	
-		$page.='<option value="'.$value.'"';
-		
-		if ($id == $value) {
-			$page .= ' selected="selected"';
-		}
-		$page .= '>'.t('ROLE_'.$value).'</option>';
-	}
-		
-	$page.='</select>';
-	  
-   return $page;
-}
-
-function plaatsign_ui_checkbox($name, $value, $readonly) {
+function plaatsign_ui_checkbox($name, $value, $readonly=false) {
 
 	$tmp = '<input type="checkbox" name="'.$name.'" id="'.$name.'" value="1" ';
 	
@@ -556,7 +431,7 @@ function plaatsign_ui_checkbox($name, $value, $readonly) {
 		$tmp .= ' checked="checked"';
 	} 
 	
-	if ($readonly==1) {
+	if ($readonly) {
 		$tmp .= ' disabled="true"';
 	} 
 	
@@ -565,7 +440,20 @@ function plaatsign_ui_checkbox($name, $value, $readonly) {
 	return $tmp;	
 }
 
-function plaatsign_ui_radiobox($name, $value, $readonly) {
+function plaatsign_ui_file($name, $value, $readonly=false) {
+
+	$tmp = '<input type="file" name="'.$name.'" id="'.$name.'" value="'.$value.'" ';
+	
+	if ($readonly) {
+		$tmp .= ' disabled="true"';
+	} 
+	
+	$tmp .= '/>';
+	
+	return $tmp;	
+}
+
+function plaatsign_ui_radiobox($name, $value, $readonly=false) {
 
 	$tmp = '<input type="radio" name="'.$name.'" value="1" ';
 	
@@ -573,7 +461,7 @@ function plaatsign_ui_radiobox($name, $value, $readonly) {
 		$tmp .= ' checked="checked"';
 	} 
 	
-	if ($readonly==1) {
+	if ($readonly) {
 		$tmp .= ' disabled="true"';
 	} 
 	
@@ -666,9 +554,9 @@ function plaatsign_ui_header( $title = "") {
 	$page .= '<body id="top">';
 	
 	$page .= '<form id="plaatsign" ';
-	//if ($sid==PAGE_BACKLOG_IMPORT) {
-   //		$page .= 'enctype="multipart/form-data" ';
-	//}
+	if ($sid==PAGE_CONTENT) {
+   		$page .= 'enctype="multipart/form-data" ';
+	}
 	$page .= 'method="POST">';
 	
 	/* Store session information for next request */	
@@ -697,7 +585,7 @@ function plaatsign_ui_banner($menu) {
 	if ($mid==MENU_LOGIN) { 
 		$page .= plaatsign_link('mid='.MENU_LOGIN.'&sid='.PAGE_LOGIN, 'PlaatSign' );
 	} else {	
-		$page .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME,'PlaatSign' );
+		$page .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENT,'PlaatSign' );
 	}
 	$page .= '</h1>';
 	

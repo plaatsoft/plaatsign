@@ -29,9 +29,7 @@
 */
 
 $lang['LINK_LOGIN']  = 'Login'; 
-$lang['LINK_RECOVER']  = 'Recover';
-$lang['LINK_REGISTER']  = 'Register';
-$lang['LINK_HOME']  = 'Home'; 
+$lang['LINK_CONTENT']  = 'Content'; 
 $lang['LINK_SETTINGS'] = 'Settings'; 
 $lang['LINK_HELP'] = 'Help'; 
 $lang['LINK_LOGOUT']  = 'Logout';
@@ -49,7 +47,8 @@ $lang['LINK_CREDITS']  = 'Credits';
 $lang['LINK_DONATE']  = 'Donate';
 $lang['LINK_ABOUT']  = 'About';
 $lang['LINK_ADD']  = 'Add';
-
+$lang['LINK_INSERT']  = 'Insert';
+$lang['LINK_UPLOAD']  = 'Upload';
 
 /*
 ** ------------------
@@ -67,6 +66,11 @@ $lang['GENERAL_UID'] = 'UID';
 $lang['GENERAL_LAST_ACTIVITY'] = 'Last Activity';
 $lang['GENERAL_REQUESTS'] = 'Requests';
 $lang['GENERAL_ACTION' ] = 'Action';
+$lang['GENERAL_CID'] = 'CID';
+$lang['GENERAL_TYPE'] = 'Type';
+$lang['GENERAL_FILENAME'] = 'Filename';
+$lang['GENERAL_CREATED'] = 'Created';
+$lang['GENERAL_ENABLED'] = 'Enabled';
 
 $lang['GENERAL_INFO'] = 'Info';
 $lang['GENERAL_WARNING'] = 'Warn';
@@ -103,11 +107,20 @@ $lang['LOGIN_RECOVER'] = 'RECOVER';
 
 /*
 ** ------------------
-** HOME
+** CONTENT
 ** ------------------
 */
 
-$lang['HOME_TITLE'] = 'HOME';
+$lang['CONTENT_TITLE'] = 'CONTENT';
+$lang['CONTENT_NOTE'] = 'On this moment the following content is part of the beamer slideshow:';
+
+$lang['CONTENT_ADDED'] = 'Content added';
+$lang['CONTENT_UPDATED'] = 'Content updated';
+$lang['CONTENT_DELETED'] = 'Content deleted';
+
+$lang['CONTENT_FILE_NOT_FOUND'] = 'File not found!';
+$lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';
+$lang['CONTENT_REMARK'] = '** Only JPG file format is supported and maximum file is %s';
 
 /*
 ** ------------------
