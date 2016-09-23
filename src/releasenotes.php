@@ -17,13 +17,16 @@
 */
 
 $releasenotes = ' 
-<h2>22-09-2016 Version 0.1</h2>
+
+<h2>23-09-2016 Version 0.1</h2>
 <ul>
-<li>Start building PlaatSign</li>
-<li>Added login/logout functionality</li>
-<li>Added user setting functionality</li>
-<li>Added help menu</li>
+<li>Added basic content page with CRUD actions</li>
+</ul>
+
+<h2>22-09-2016 Version 0.02</h2>
 <ul>
+<li>Added basic login/logout functionality</li>
+<li>Added basic user setting page with CRUD actions</li>
 <li>Added basic help page</li>
 <li>Added basic release notes page</li>
 <li>Added basic credits page</li>
@@ -31,6 +34,9 @@ $releasenotes = '
 <li>Added basic about page</li>
 </ul>
 
+<h2>21-09-2016 Version 0.01</h2>
+<ul>
+<li>Start building.</li>
 </ul>';
 /*
 ** ------------------
@@ -86,4 +92,5 @@ function plaatsign_releasenotes() {
 ** The End
 ** ------------------
 */
+
 

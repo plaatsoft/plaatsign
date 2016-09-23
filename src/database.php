@@ -309,7 +309,7 @@ function plaatsign_db_session_delete($session) {
 
 function plaatsign_db_content($cid) {
 	
-	$query  = 'select cid, type, filename, enabled, created from content where cid='.$cid;	
+	$query  = 'select cid, filename, filesize, enabled, created from content where cid='.$cid;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
@@ -317,22 +317,28 @@ function plaatsign_db_content($cid) {
 	return $data;	
 }
 
-function plaatsign_db_content_insert($type, $filename, $enabled) {
+function plaatsign_db_content_insert($filename, $filesize, $enabled) {
 
-	$query  = 'insert into content (type, filename, enabled, created) ';
-	$query .= 'values ('.$type.',"'.$filename.'",'.$enabled.',"'.date("Y-m-d H:i:s").'")';
+	$query  = 'insert into content (filename, filesize, enabled, created) ';
+	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.',"'.date("Y-m-d H:i:s").'")';
 	plaatsign_db_query($query);
 		
-	$cid = plaatsign_db_content($type, $filename);	
-				
+	$query  = 'select cid from content where filename="'.$filename.'" and filesize='.$filesize;	
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
+	
+	$cid=0;
+	if (isset($data->cid)) {
+		$cid = $data->cid;
+	}
 	return $cid;
 }
 
 function plaatsign_db_content_update($data) {
 		
 	$query  = 'update content set '; 
-	$query .= 'type='.$data->type.', ';
 	$query .= 'filename="'.$data->filename.'", ';
+	$query .= 'filesize='.$data->filesize.', ';
 	$query .= 'enabled='.$data->enabled.', ';
 	$query .= 'created="'.$data->created.'" ';
 	$query .= 'where cid='.$data->cid; 
@@ -340,7 +346,7 @@ function plaatsign_db_content_update($data) {
 	plaatsign_db_query($query);
 }
 
-function plaatsign_db_content_delete($session) {
+function plaatsign_db_content_delete($cid) {
 	
 	$query = 'delete from content where cid='.$cid;
 	

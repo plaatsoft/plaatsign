@@ -23,7 +23,6 @@
 */
 
 define('DEBUG', 0);
-define('MYSQL', 1);
 
 /* Database Localhost Server */
 $config['dbuser']			 		= "plaatsign";

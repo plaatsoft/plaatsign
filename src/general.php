@@ -57,7 +57,6 @@ define("EVENT_SAVE", 305);
 define("EVENT_DELETE", 306);
 define("EVENT_CANCEL", 307);
 define("EVENT_ADD", 308);
-define("EVENT_REMOVE", 309);
 
 /*
 ** ---------------------------------------------------------------- 
@@ -222,6 +221,16 @@ function plaatsign_token($token) {
 	$token = base64_encode(gzdeflate($token));
 	
 	return $token;
+}
+
+function plaatsign_post_radio($label, $default) {
+	
+	$value = $default;
+	
+	if (isset($_POST[$label])) {
+		$value =1;
+	} 	
+	return $value;
 }
 
 function plaatsign_post($label, $default) {

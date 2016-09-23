@@ -43,8 +43,6 @@ function plaatsign_login_do() {
 	global $mid;
 	global $sid;	
 	global $user;
-	global $access;
-	global $access;
 	global $session;
 	global $page;
 					
@@ -179,7 +177,7 @@ function plaatsign_login() {
 					plaatsign_login_form();	
 				   break;
 								
-		case PAGE_CONTENT:
+		case PAGE_CONTENTLIST:
 					plaatsign_contentlist_form();	
 					break;
 			

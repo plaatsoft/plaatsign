@@ -67,10 +67,11 @@ $lang['GENERAL_LAST_ACTIVITY'] = 'Last Activity';
 $lang['GENERAL_REQUESTS'] = 'Requests';
 $lang['GENERAL_ACTION' ] = 'Action';
 $lang['GENERAL_CID'] = 'CID';
-$lang['GENERAL_TYPE'] = 'Type';
 $lang['GENERAL_FILENAME'] = 'Filename';
+$lang['GENERAL_FILESIZE'] = 'Filesize';
 $lang['GENERAL_CREATED'] = 'Created';
 $lang['GENERAL_ENABLED'] = 'Enabled';
+$lang['GENERAL_IMAGE'] = 'Image';
 
 $lang['GENERAL_INFO'] = 'Info';
 $lang['GENERAL_WARNING'] = 'Warn';
@@ -120,7 +121,7 @@ $lang['CONTENT_DELETED'] = 'Content deleted';
 
 $lang['CONTENT_FILE_NOT_FOUND'] = 'File not found!';
 $lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';
-$lang['CONTENT_REMARK'] = '** Only JPG file format is supported and maximum file is %s';
+$lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
 
 /*
 ** ------------------

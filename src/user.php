@@ -217,7 +217,7 @@ function plaatsign_user_form() {
 	$page .= ' ';
 	
 	if (($id!=0) && ($id!=$user->uid)) {
-		$page .= plaatsign_link_confirm('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE, t('LINK_DELETE'), t('USER_DELETE_CONFIRM'));
+		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE, t('LINK_DELETE'));
 		$page .= ' ';
 	}
 	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_USERLIST.'&eid='.EVENT_CANCEL, t('LINK_CANCEL'));
@@ -289,11 +289,7 @@ function plaatsign_userlist_form() {
 	$page .= '<th>';
 	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=5', t('GENERAL_REQUESTS'));
 	$page .= '</th>';
-		
-	$page .= '<th>';
-	$page	.= t('GENERAL_ACTION');
-	$page .= '</th>';
-		
+				
 	$page .= '</tr>';
 	$page .= '</thead>';
 		
@@ -311,7 +307,7 @@ function plaatsign_userlist_form() {
 		$page .='>';
 
 		$page .= '<td>';
-		$page	.= $data->uid;
+		$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_USER.'&id='.$data->uid, $data->uid);
 		$page .= '</td>';
 		
 		$page .= '<td>';
@@ -324,10 +320,6 @@ function plaatsign_userlist_form() {
 				
 		$page .= '<td>';
 		$page	.= $data->requests;
-		$page .= '</td>';
-		
-		$page .= '<td>';
-		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_USER.'&id='.$data->uid, t('LINK_VIEW'));
 		$page .= '</td>';
 		
 		$page .= '</tr>';	
