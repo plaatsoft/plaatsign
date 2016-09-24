@@ -184,7 +184,7 @@ function plaatsign_db_user_username($username) {
 
 function plaatsign_db_user($uid) {
 	
-	$query  = 'select uid, username, name, email, language, created, last_activity, requests ';
+	$query  = 'select uid, username, name, email, language, created, last_activity, role, requests ';
 	$query .= 'from user where uid='.$uid;	
 		
 	$result = plaatsign_db_query($query);
@@ -195,8 +195,8 @@ function plaatsign_db_user($uid) {
 
 function plaatsign_db_user_insert($username, $password) {
 
-	$query  = 'insert into user (username, password, language, created, requests) ';
-	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","en","'.date("Y-m-d H:i:s").'", 0)';
+	$query  = 'insert into user (username, password, language, created, requests, role) ';
+	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","en","'.date("Y-m-d H:i:s").'", 0, '.ROLE_USER.')';
 	plaatsign_db_query($query);
 		
 	$uid = plaatsign_db_user_id($username, $password);	
@@ -211,6 +211,7 @@ function plaatsign_db_user_update($data) {
 	$query .= 'email="'.$data->email.'", ';
 	$query .= 'language="'.$data->language.'", ';
 	$query .= 'last_activity="'.$data->last_activity.'", ';
+	$query .= 'role='.$data->role.', ';
 	$query .= 'requests='.$data->requests.' ';
 	$query .= 'where uid='.$data->uid; 
 	

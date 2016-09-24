@@ -24,6 +24,15 @@
  
 /*
 ** ------------------
+** ROLES
+** ------------------
+*/
+
+$lang['ROLE_0'] = 'User';
+$lang['ROLE_1'] = 'Admin';
+
+/*
+** ------------------
 ** LINKS
 ** ------------------
 */
@@ -56,6 +65,9 @@ $lang['LINK_UPLOAD']  = 'Upload';
 ** ------------------
 */
 
+$lang['ROLE_USER_NAME'] = 'User';
+$lang['ROLE_ADMIN_NAME'] = 'Admin';
+
 $lang['GENERAL_REQUIRED_FIELD'] = '* Required field'; 
 
 $lang['GENERAL_USERNAME'] = 'Username'; 
@@ -71,6 +83,7 @@ $lang['GENERAL_FILENAME'] = 'Filename';
 $lang['GENERAL_FILESIZE'] = 'Filesize';
 $lang['GENERAL_CREATED'] = 'Created';
 $lang['GENERAL_ENABLED'] = 'Enabled';
+$lang['GENERAL_ROLE'] = 'Role';
 $lang['GENERAL_IMAGE'] = 'Image';
 
 $lang['GENERAL_INFO'] = 'Info';
@@ -148,7 +161,7 @@ $lang['USERS_TITLE'] = 'USERS';
 $lang['USER_TITLE'] = 'USER';
 
 $lang['USER_GENERAL'] = 'General';
-$lang['USER_TEXT'] = 'Currently the following users are active:';
+$lang['USER_TEXT'] = 'Currently the following users are available:';
 $lang['USER_UPDATED'] = 'User updated!';
 $lang['USER_ADDED'] = 'User added!';
 $lang['USER_FAILED'] = 'User data failed!';

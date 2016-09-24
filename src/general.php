@@ -22,8 +22,8 @@
 ** ----------------------------------------------------------------
 */
 
-define('LANGUAGE_ENGLISH',0);
-define('LANGUAGE_DUTCH',1);
+define('ROLE_USER', 0);
+define('ROLE_ADMIN', 1);
 
 define("MENU_LOGIN", 100);
 define("MENU_CONTENT", 101);
@@ -398,18 +398,10 @@ function plaatsign_ui_language($tag, $id, $readonly=false) {
    return $page;
 }
 
-function plaatsign_ui_type($tag, $id, $readonly=false, $empty=false) {
-	
-	if ($empty) {
-	
-		$values = array(0, TYPE_STORY, TYPE_BUG, TYPE_TASK, TYPE_EPIC);
-		
-	} else {
-	
-		$values = array(TYPE_STORY, TYPE_BUG, TYPE_TASK, TYPE_EPIC);
-		
-	}
-	
+function plaatsign_ui_role($tag, $id, $readonly=false) {
+			
+	$values = array(ROLE_USER, ROLE_ADMIN);	
+
 	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
 	
 	if ($readonly) {
@@ -424,7 +416,7 @@ function plaatsign_ui_type($tag, $id, $readonly=false, $empty=false) {
 		if ($id == $value) {
 			$page .= ' selected="selected"';
 		}
-		$page .= '>'.t('TYPE_'.$value).'</option>';
+		$page .= '>'.t('ROLE_'.$value).'</option>';
 	}
 		
 	$page.='</select>';
@@ -597,33 +589,27 @@ function plaatsign_ui_banner($menu) {
 		$page .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENT,'PlaatSign' );
 	}
 	$page .= '</h1>';
-	
-   $page .= '<p>';
-	if (isset($user->user_id)) {
-		
-		$page .= $user->name.' ';
-	
-		$page .= ' [';
-		$page .= t('ROLE_'.$access->role_id);
-					
-		if ($user->role_id==ROLE_ADMINISTRATOR) {
-			$page .= '+';
-		}
-		$page .= ']';
-		
-	} else {
-		$page .= 'version 0.1';
-	}
-	$page .= '</p>';
-  
-   $page .= '</div>';
+	$page .= 'version 0.1';
+	$page .= '</div>';
+
 		
 	$page .= '<div class="fl_right">';
 	$page .= $menu;
-	$page .= '</div>';		
-	
-   $page .= '<br class="clear" />';
+	$page .= '</div>';	
+	$page .= '<br class="clear" />';
    $page .= '</div>';
+	$page .= '<p style="float:right">';
+	if (isset($user->uid)) {
+			
+		$page .= $user->name.' ';
+	
+		$page .= ' [';
+		$page .= t('ROLE_'.$user->role);
+		$page .= ']';
+	}
+	$page .= '</p>';
+	
+   
 
 	$page .= '<div id="topbar">';
    $page .= '<div class="fl_left">';

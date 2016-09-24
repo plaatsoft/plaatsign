@@ -26,6 +26,7 @@ $user_name = plaatsign_post("user_name", "");
 $user_email = plaatsign_post("user_email", "");
 $user_username = plaatsign_post("user_username", "");
 $user_password  = plaatsign_post("user_password", "");
+$user_role = plaatsign_post("user_role", ROLE_USER);
 
 /*
 ** ------------------
@@ -83,12 +84,18 @@ function plaatsign_user_save_do() {
 
 			$data->email = $user_email;			
 			$data->name = $user_name;
+			$data->role = $user_role;
 			$data->last_activity = date("Y-m-d H:i:s", time());
 				
 			plaatsign_db_user_update($data);	
 
 			plaatsign_ui_box('info', t('USER_UPDATED'));
 			plaatsign_info($user->name.' ['.$user->uid.'] update user ['.$id.']');		
+			
+			// Overrule current user settings
+			if ($id==$user->uid) {
+				$user = $data;
+			}
 		
 		} else  {
 			
@@ -99,6 +106,7 @@ function plaatsign_user_save_do() {
 			
 			$data->email = $user_email;			
 			$data->name = $user_name;
+			$data->role = $user_role;
 			$data->last_activity = date("Y-m-d H:i:s", time());
 			
 			plaatsign_db_user_update($data);		
@@ -152,6 +160,7 @@ function plaatsign_user_form() {
 	global $user_email;
 	global $user_username;
 	global $user_password;	
+	global $user_role;	
 	
 	/* output */
 	global $page;
@@ -165,6 +174,7 @@ function plaatsign_user_form() {
 		$user_email = $data->email;
 		$user_username = $data->username;
 		$user_password = "";
+		$user_role = $data->role;
 	}
 			
 	$page .= '<div id="detail">';
@@ -202,6 +212,11 @@ function plaatsign_user_form() {
 	$page .= '<label>'.t('GENERAL_PASSWORD').': *</label>';
 	$page .= '<input type="password" name="user_password" id="user_password" size="20" maxlength="15" value="'.$user_password.'"/>';
 	$page .= '</p>';
+	
+	$page .= '<p>';
+	$page .= '<label>'.t('GENERAL_ROLE').': *</label>';	
+	$page .= plaatsign_ui_role('user_role', $data->role, $user->role==ROLE_USER);
+	$page .= '</p>';
 			
 	$page .= '<div id="note">';
 	$page .= t('GENERAL_REQUIRED_FIELD');
@@ -235,6 +250,7 @@ function plaatsign_userlist_form() {
 	global $mid;
 	global $sid;
 	global $sort;
+	global $user;
 	
 	/* output */
 	global $page;
@@ -250,7 +266,7 @@ function plaatsign_userlist_form() {
 	$page .= t('USER_TEXT');
 	$page .= '</p>';
 		
-	$query  = 'select uid, name, email, last_activity, requests from user ';
+	$query  = 'select uid, name, role, last_activity, requests from user ';
 		
 	switch ($sort) {
 
@@ -260,10 +276,13 @@ function plaatsign_userlist_form() {
 	   case 2:  $query .= 'order by name asc';
 				   break;					
 
-		case 3:  $query .= 'order by last_activity desc';
+		case 3:  $query .= 'order by role desc';
+				   break;		
+					
+		case 4:  $query .= 'order by last_activity desc';
 				   break;
 					
-		case 4:  $query .= 'order by requests desc';
+		case 5:  $query .= 'order by requests desc';
 				   break;				
 	}
 		
@@ -275,11 +294,15 @@ function plaatsign_userlist_form() {
 	$page .= '<tr>';
 		
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=1', t('GENERAL_UID'));	
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=1', t('GENERAL_UID'));		
 	$page .= '</th>';
 	
 	$page .= '<th>';
 	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=2', t('GENERAL_NAME'));	
+	$page .= '</th>';
+	
+	$page .= '<th>';
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=3', t('GENERAL_ROLE'));
 	$page .= '</th>';
 	
 	$page .= '<th>';
@@ -307,11 +330,19 @@ function plaatsign_userlist_form() {
 		$page .='>';
 
 		$page .= '<td>';
-		$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_USER.'&id='.$data->uid, $data->uid);
+		if (($user->role==ROLE_ADMIN) || ($user->uid==$data->uid)) {
+			$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_USER.'&id='.$data->uid, $data->uid);
+		} else {
+			$page	.= $data->uid;
+		}
 		$page .= '</td>';
 		
 		$page .= '<td>';
 		$page	.= $data->name;
+		$page .= '</td>';
+		
+		$page .= '<td>';
+		$page	.= t('ROLE_'.$data->role); 
 		$page .= '</td>';
 				
 		$page .= '<td>';
@@ -327,9 +358,11 @@ function plaatsign_userlist_form() {
 	$page .= '</tbody>';
 	$page .= '</table>';
 	
-	$page .= '<p>';
-	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_USER.'&id=0', t('LINK_ADD'));
-	$page .= '</p>';
+	if ($user->role==ROLE_ADMIN) {
+		$page .= '<p>';
+		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_USER.'&id=0', t('LINK_ADD'));
+		$page .= '</p>';
+	}
 }
 
 /*
