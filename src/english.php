@@ -207,13 +207,21 @@ $lang['HELP_CONTENT'] = '
 <li>Set timezone</li>
 </ul>
 
+<h2>Known issues</h2>
+<ul>
+<li>Slide show is sorted on filename</li>
+</ul>
+
 <h2>Nice to Have</h2>
 <ul>
 <li>Enable / Disable content</li>
 <li>Email validation</li>
 <li>Add feature to resort content</li>
 <li>Add feature to resize picture size</li>
-</ul>';
+</ul>
+
+
+';
 
 /*
 ** ------------------

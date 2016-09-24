@@ -60,7 +60,7 @@ function plaatsign_content_save_do() {
 			  
 	} else {
 	
-		move_uploaded_file($_FILES["filename"]["tmp_name"], "uploads\\".$filename);
+		move_uploaded_file($_FILES["filename"]["tmp_name"], "uploads/".$filename);
 		
 		if ($id>0) {
 					
@@ -176,7 +176,11 @@ function plaatsign_content_form() {
 	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_FILENAME').': *</label>';
-	$page .= plaatsign_ui_file("filename", $filename);
+	if ($id==0) {
+		$page .= plaatsign_ui_file("filename", $filename);
+	} else {
+		$page .= plaatsign_ui_input("filename", 30, 30, $filename, true);
+	}
 	$page .= '</p>';
 	
 	$page .= '<p>';
@@ -200,18 +204,19 @@ function plaatsign_content_form() {
 	
 	$page .= '</fieldset>' ;
 		
-	$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE, t('LINK_SAVE'));
-	$page .= ' ';
+	if ($id==0) {
+		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE, t('LINK_SAVE'));
+		$page .= ' ';
+	}
 	
 	if ($id!=0) {
 		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE, t('LINK_DELETE'));
 		$page .= ' ';
 	}
+	
 	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_CANCEL, t('LINK_CANCEL'));
 	$page .= ' ';
 	
-	
-		
 	$page .= '</div>';
 }
 
@@ -244,16 +249,16 @@ function plaatsign_contentlist_form() {
 		default: $query .= 'order by cid asc';
 				   break;
 					
-		case 2:  $query .= 'order by filename desc';
+		case 2:  $query .= 'order by filename asc';
 				   break;
 		   		
 	   case 3:  $query .= 'order by filesize asc';
 				   break;					
 					
-		case 4:  $query .= 'order by enabled desc';
+		case 4:  $query .= 'order by created asc';
 				   break;
 					
-		case 5:  $query .= 'order by created desc';
+		case 5:  $query .= 'order by uid asc';
 				   break;				
 	}
 		
