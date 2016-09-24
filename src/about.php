@@ -30,12 +30,13 @@ function plaatsign_about_form() {
 	
 	$title = t('ABOUT_TITLE');
 	
-	$page .= '<div id="content">';
+	$page .= '<div id="content">';	
+ 	$page .= '<h1>'.$title.'</h1>';			
+	$page .= t('ABOUT_CONTENT');	
+	$page .= '</div>';
 	
- 	$page .= '<h1>'.$title.'</h1>';
-			
-	$page .= t('ABOUT_CONTENT');
-	
+	$page .= '<div id="column">';
+   $page .= '<img class="imgr" src="images/info.svg" width="256" height="256" alt="" />';
 	$page .= '</div>';
 }
 

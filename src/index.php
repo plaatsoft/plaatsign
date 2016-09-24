@@ -135,6 +135,11 @@ switch ($sid) {
 				plaatsign_about();
 				break;
 				
+	case PAGE_SETTINGS:
+				include "settings.php";				
+				plaatsign_settings();
+				break;
+				
 	case PAGE_DONATE:
 				include "donate.php";				
 				plaatsign_donate();

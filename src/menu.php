@@ -61,12 +61,12 @@ function plaatsign_main_menu() {
 	/* -----------------*/
 	
 	if ($mid==MENU_SETTINGS) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_GENERAL, t('LINK_SETTINGS'));
+	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_SETTINGS, t('LINK_SETTINGS'));
 	
 		$menu .= '<ul>';
 		
 		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_GENERAL, t('LINK_GENERAL'));
+		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_SETTINGS, t('LINK_GENERAL'));
 		$menu .= '</li>';
 	
 		$menu .= '<li>';

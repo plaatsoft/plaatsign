@@ -58,6 +58,10 @@ function plaatsign_donate_form() {
 	$page .= '<br/>';
 				
 	$page .= '</div>';
+
+	$page .= '<div id="column">';
+   $page .= '<img class="imgr" src="images/donate.png" width="256" height="256" alt="" />';
+	$page .= '</div>';
 }
 
 /*

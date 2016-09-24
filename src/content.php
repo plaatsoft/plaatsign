@@ -68,6 +68,7 @@ function plaatsign_content_save_do() {
 			$data->filename = $filename;
 			$data->filesize = $filesize;
 			$data->enabled = $enabled;		
+			$data->uid = $user->uid;
 			$data->created = date("Y-m-d H:i:s", time());
 				
 			plaatsign_db_content_update($data);	
@@ -77,9 +78,9 @@ function plaatsign_content_save_do() {
 		} else  {
 			
 			/* Insert new content */
-			$id = plaatsign_db_content_insert($filename, $filesize, $enabled);			
+			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $user->uid);			
 		
-			plaatsign_ui_box('info', t('USER_ADDED'));
+			plaatsign_ui_box('info', t('CONTENT_ADDED'));
 			plaatsign_info($user->name.' ['.$user->uid.'] created content ['.$id.']');
 		}
 
@@ -101,6 +102,8 @@ function plaatsign_content_delete_do() {
 	
 	if (isset($data->cid)) {
 
+		unlink("uploads/".$data->filename);
+		
 		plaatsign_db_content_delete($id);
 
 		plaatsign_ui_box('info', t('CONTENT_DELETED'));
@@ -128,6 +131,7 @@ function plaatsign_content_form() {
 	global $enabled;
 	$filesize = 0;
 	$created = "";
+	$owner = "";
 	
 	/* output */
 	global $page;
@@ -141,6 +145,11 @@ function plaatsign_content_form() {
 		$filesize = $data->filesize;
 		$enabled = $data->enabled;
 		$created = $data->created;
+		
+		$tmp = plaatsign_db_user($data->uid);
+		if (isset($tmp->uid)) {	
+			$owner = $tmp->name;
+		}
 	}
 			
 	$page .= '<div id="detail">';	
@@ -181,32 +190,28 @@ function plaatsign_content_form() {
 	$page .= '</p>';
 	
 	$page .= '<p>';
-	$page .= '<label>'.t('GENERAL_ENABLED').': </label>';
-	$page .= plaatsign_ui_radiobox("enabled", $enabled);
+	$page .= '<label>'.t('GENERAL_OWNER').': </label>';
+	$page .= plaatsign_ui_input("owner", 30, 30, $owner, true);
 	$page .= '</p>';
 	
 	$page .= '<div id="note">';
 	$page .= t('CONTENT_REMARK',ini_get('upload_max_filesize').'B');
 	$page .= '</div>';
 	
-	$page .= '<br/>';
-	
 	$page .= '</fieldset>' ;
-	
-	$page .= '<p>';
-	
+		
 	$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE, t('LINK_SAVE'));
 	$page .= ' ';
 	
-	if (($id!=0) && ($id!=$user->uid)) {
+	if ($id!=0) {
 		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE, t('LINK_DELETE'));
 		$page .= ' ';
 	}
 	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_CANCEL, t('LINK_CANCEL'));
 	$page .= ' ';
 	
-	$page .= '</p>';
 	
+		
 	$page .= '</div>';
 }
 
@@ -232,7 +237,7 @@ function plaatsign_contentlist_form() {
 	$page .= t('CONTENT_NOTE');
 	$page .= '</p>';
 		
-	$query  = 'select cid, filename, filesize, enabled, created from content ';
+	$query  = 'select cid, filename, filesize, enabled, created, uid from content ';
 		
 	switch ($sort) {
 
@@ -276,11 +281,11 @@ function plaatsign_contentlist_form() {
 	$page .= '</th>';
 	
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=5', t('GENERAL_CREATED'));
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=4', t('GENERAL_CREATED'));
 	$page .= '</th>';
 	
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=4', t('GENERAL_ENABLED'));	
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=5', t('GENERAL_OWNER'));	
 	$page .= '</th>';
 			
 	$page .= '</tr>';
@@ -320,7 +325,10 @@ function plaatsign_contentlist_form() {
 		$page .= '</td>';
 				
 		$page .= '<td>';
-		$page	.= plaatsign_ui_radiobox("enabled".$data->cid, $data->enabled, false);
+		$owner = plaatsign_db_user($data->uid);
+		if (isset($owner->uid)) {
+			$page	.= $owner->name;
+		}
 		$page .= '</td>';
 		
 		$page .= '</tr>';	
@@ -331,8 +339,6 @@ function plaatsign_contentlist_form() {
 	$page .= '<p>';
 	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD, t('LINK_ADD'));
 	$page .= '</p>';
-	
-	
 }
 
 /*

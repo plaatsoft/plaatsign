@@ -31,11 +31,12 @@ function plaatsign_credits_form() {
 	$title = t('CREDITS_TITLE');
 	
 	$page .= '<div id="content">';
-	
  	$page .= '<h1>'.$title.'</h1>';
-			
-	$page .= t('CREDITS_CONTENT');
+	$page .= t('CREDITS_CONTENT');	
+	$page .= '</div>';
 	
+	$page .= '<div id="column">';
+   $page .= '<img class="imgr" src="images/info.svg" width="256" height="256" alt="" />';
 	$page .= '</div>';
 }
 

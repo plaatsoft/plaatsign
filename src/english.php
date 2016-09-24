@@ -21,6 +21,9 @@
 ** Language: English
 ** ------------------
 */
+
+$lang['LANGUAGE_0'] = 'English';
+$lang['LANGUAGE_1'] = 'Dutch';
  
 /*
 ** ------------------
@@ -65,11 +68,9 @@ $lang['LINK_UPLOAD']  = 'Upload';
 ** ------------------
 */
 
-$lang['ROLE_USER_NAME'] = 'User';
-$lang['ROLE_ADMIN_NAME'] = 'Admin';
-
 $lang['GENERAL_REQUIRED_FIELD'] = '* Required field'; 
 
+$lang['GENERAL_VERSION'] = 'Version';
 $lang['GENERAL_USERNAME'] = 'Username'; 
 $lang['GENERAL_PASSWORD'] = 'Password'; 
 $lang['GENERAL_NAME'] = 'Name';
@@ -84,7 +85,9 @@ $lang['GENERAL_FILESIZE'] = 'Filesize';
 $lang['GENERAL_CREATED'] = 'Created';
 $lang['GENERAL_ENABLED'] = 'Enabled';
 $lang['GENERAL_ROLE'] = 'Role';
+$lang['GENERAL_LANGUAGE'] = 'Language';
 $lang['GENERAL_IMAGE'] = 'Image';
+$lang['GENERAL_OWNER'] = 'Owner';
 
 $lang['GENERAL_INFO'] = 'Info';
 $lang['GENERAL_WARNING'] = 'Warn';
@@ -142,14 +145,14 @@ $lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and ma
 ** ------------------
 */
 
-$lang['SETTING_GENERAL_TITLE'] = 'GENERAL';
+$lang['SETTINGS_TITLE'] = 'SETTINGS';
 
-$lang['SETTINGS_GENERAL'] = 'GENERAL SETTINGS';
+$lang['SETTINGS_CONTENT'] = 'The page contain all settings of PlaatSign.';
 
-$lang['SETTING_ACCOUNT_TITLE'] = 'ACCOUNT SETTINGS';
-$lang['SETTING_ACCOUNT'] = 'Click %s to change you account settings';
+$lang['SLIDE_SHOW_DELAY'] = 'Slide delay:';
+$lang['SLIDE_SECONDS'] = 'seconds';
 
-$lang['SETTING_SAVED'] = 'Settings saved!';
+$lang['SETTING_UPDATED'] = 'Setting item updated!';
 
 /*
 ** ------------------
@@ -170,7 +173,7 @@ $lang['USER_DELETE_CONFIRM'] = 'Are you sure?';
 
 $lang['USER_USERNAME_EXIST'] = 'Username already exist!'; 
 $lang['USER_USERNAME_TO_SHORT'] = 'Username to short! Minimal length is 5'; 
-$lang['USER_PASSWORD_TO_SHORT'] = 'Password to short! Minimal length is 5';
+$lang['USER_PASSWORD_TO_SHORT'] = 'Password to short! Minimal length is 8';
 $lang['USER_NAME_TO_SHORT'] = 'Name to short! Minimal length is 3'; 
 $lang['USER_EMAIL_INVALID' ] = 'Email address is not valid';
 
@@ -189,7 +192,28 @@ $lang['USER_HACK'] = 'Take over user %s [%s] session!';
 
 $lang['HELP_TITLE'] = 'HELP';
 $lang['HELP_SUBTITLE'] = 'Introduction';
-$lang['HELP_CONTENT'] = 'More information will be added soon.';
+
+$lang['HELP_CONTENT'] = '
+
+<h2>To Do List</h2>
+<ul>
+<li>Automatic database creation</li>
+<li>Show log files</li>
+<li>Automatic logout after 10 minutes idle</li>
+<li>Password strength check</li>
+<li>Double filename check</li>
+<li>Create start script for photo slide show</li>
+<li>Publish project on plaatsoft.nl</li>
+<li>Set timezone</li>
+</ul>
+
+<h2>Nice to Have</h2>
+<ul>
+<li>Enable / Disable content</li>
+<li>Email validation</li>
+<li>Add feature to resort content</li>
+<li>Add feature to resize picture size</li>
+</ul>';
 
 /*
 ** ------------------
@@ -198,6 +222,22 @@ $lang['HELP_CONTENT'] = 'More information will be added soon.';
 */
 
 $lang['RELEASENOTES_TITLE'] = 'RELEASE NOTES';
+
+$lang['RELEASENOTES_CONTENT']  = '
+
+<h2>24-09-2016 Version 0.1</h2>
+<ul>
+<li>Added basic content page with CRUD actions</li>
+<li>Added role base access</li>
+<li>Added basic settings page</li>
+<li>Added basic login/logout functionality</li>
+<li>Added basic user setting page with CRUD actions</li>
+<li>Added basic help page</li>
+<li>Added basic release notes page</li>
+<li>Added basic credits page</li>
+<li>Added basic donate page</li>
+<li>Added basic about page</li>
+</ul>';
 
 /*
 ** ------------------

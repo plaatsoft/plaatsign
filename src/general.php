@@ -22,6 +22,9 @@
 ** ----------------------------------------------------------------
 */
 
+define('LANGUAGE_ENGLISH', 0);
+define('LANGUAGE_DUTCH', 1);
+
 define('ROLE_USER', 0);
 define('ROLE_ADMIN', 1);
 
@@ -46,7 +49,7 @@ define("PAGE_RELEASE_NOTES", 207);
 define("PAGE_CREDITS", 208);
 define("PAGE_DONATE", 209);
 define("PAGE_ABOUT", 210);
-define("PAGE_GENERAL", 211);
+define("PAGE_SETTINGS", 211);
 define("PAGE_HELP", 212);
 
 define("EVENT_LOGIN", 301);
@@ -586,13 +589,16 @@ function plaatsign_ui_banner($menu) {
 	if ($mid==MENU_LOGIN) { 
 		$page .= plaatsign_link('mid='.MENU_LOGIN.'&sid='.PAGE_LOGIN, 'PlaatSign' );
 	} else {	
-		$page .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENT,'PlaatSign' );
+		$page .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST,'PlaatSign' );
 	}
 	$page .= '</h1>';
-	$page .= 'version 0.1';
+	
+	$data = plaatsign_db_config("database_version");	
+	if (isset($data->id)) {
+		$page .= t('GENERAL_VERSION').' '.$data->value;
+	}
 	$page .= '</div>';
 
-		
 	$page .= '<div class="fl_right">';
 	$page .= $menu;
 	$page .= '</div>';	
@@ -609,8 +615,6 @@ function plaatsign_ui_banner($menu) {
 	}
 	$page .= '</p>';
 	
-   
-
 	$page .= '<div id="topbar">';
    $page .= '<div class="fl_left">';
 		
@@ -712,7 +716,7 @@ function validate_email($address) {
  *
  * @section Links
  *   Website: http://www.plaatsoft.nl\n
- *   Code: https://github.com/wplaat/plaatsigns\n
+ *   Code: https://github.com/wplaat/plaatsign\n
  *
  * @section Credits
  *   Documentation: wplaat\n

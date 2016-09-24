@@ -27,6 +27,7 @@ $user_email = plaatsign_post("user_email", "");
 $user_username = plaatsign_post("user_username", "");
 $user_password  = plaatsign_post("user_password", "");
 $user_role = plaatsign_post("user_role", ROLE_USER);
+$user_language = plaatsign_post("user_language", LANGUAGE_ENGLISH);
 
 /*
 ** ------------------
@@ -45,6 +46,7 @@ function plaatsign_user_save_do() {
 	global $user_username;
 	global $user_password;
 	global $user_role;
+	global $user_language;
 		
 	/* output */
 	global $sid;
@@ -71,7 +73,7 @@ function plaatsign_user_save_do() {
 	
 		plaatsign_ui_box('warning', t('USER_USERNAME_EXIST'));
 		
-	} else if (strlen($user_password)<5) {
+	} else if (strlen($user_password)<8) {
 
 		plaatsign_ui_box('warning', t('USER_PASSWORD_TO_SHORT'));
 		
@@ -85,6 +87,7 @@ function plaatsign_user_save_do() {
 			$data->email = $user_email;			
 			$data->name = $user_name;
 			$data->role = $user_role;
+			$data->language = $user_language;
 			$data->last_activity = date("Y-m-d H:i:s", time());
 				
 			plaatsign_db_user_update($data);	
@@ -107,6 +110,7 @@ function plaatsign_user_save_do() {
 			$data->email = $user_email;			
 			$data->name = $user_name;
 			$data->role = $user_role;
+			$data->language = $user_language;
 			$data->last_activity = date("Y-m-d H:i:s", time());
 			
 			plaatsign_db_user_update($data);		
@@ -161,6 +165,7 @@ function plaatsign_user_form() {
 	global $user_username;
 	global $user_password;	
 	global $user_role;	
+	global $user_language;	
 	
 	/* output */
 	global $page;
@@ -175,6 +180,7 @@ function plaatsign_user_form() {
 		$user_username = $data->username;
 		$user_password = "";
 		$user_role = $data->role;
+		$user_language = $data->language;
 	}
 			
 	$page .= '<div id="detail">';
@@ -214,8 +220,13 @@ function plaatsign_user_form() {
 	$page .= '</p>';
 	
 	$page .= '<p>';
+	$page .= '<label>'.t('GENERAL_LANGUAGE').': *</label>';	
+	$page .= plaatsign_ui_language('user_language', $user_language);
+	$page .= '</p>';
+	
+	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_ROLE').': *</label>';	
-	$page .= plaatsign_ui_role('user_role', $data->role, $user->role==ROLE_USER);
+	$page .= plaatsign_ui_role('user_role', $user_role, $user->role==ROLE_USER);
 	$page .= '</p>';
 			
 	$page .= '<div id="note">';

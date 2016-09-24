@@ -196,7 +196,7 @@ function plaatsign_db_user($uid) {
 function plaatsign_db_user_insert($username, $password) {
 
 	$query  = 'insert into user (username, password, language, created, requests, role) ';
-	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'","en","'.date("Y-m-d H:i:s").'", 0, '.ROLE_USER.')';
+	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'",0,"'.date("Y-m-d H:i:s").'", 0, '.ROLE_USER.')';
 	plaatsign_db_query($query);
 		
 	$uid = plaatsign_db_user_id($username, $password);	
@@ -209,7 +209,7 @@ function plaatsign_db_user_update($data) {
 	$query  = 'update user set '; 
 	$query .= 'name="'.$data->name.'", ';
 	$query .= 'email="'.$data->email.'", ';
-	$query .= 'language="'.$data->language.'", ';
+	$query .= 'language='.$data->language.', ';
 	$query .= 'last_activity="'.$data->last_activity.'", ';
 	$query .= 'role='.$data->role.', ';
 	$query .= 'requests='.$data->requests.' ';
@@ -310,7 +310,7 @@ function plaatsign_db_session_delete($session) {
 
 function plaatsign_db_content($cid) {
 	
-	$query  = 'select cid, filename, filesize, enabled, created from content where cid='.$cid;	
+	$query  = 'select cid, filename, filesize, enabled, created, uid from content where cid='.$cid;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
@@ -318,10 +318,10 @@ function plaatsign_db_content($cid) {
 	return $data;	
 }
 
-function plaatsign_db_content_insert($filename, $filesize, $enabled) {
+function plaatsign_db_content_insert($filename, $filesize, $enabled, $uid) {
 
-	$query  = 'insert into content (filename, filesize, enabled, created) ';
-	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.',"'.date("Y-m-d H:i:s").'")';
+	$query  = 'insert into content (filename, filesize, enabled, created, uid) ';
+	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.',"'.date("Y-m-d H:i:s").'",'.$uid.')';
 	plaatsign_db_query($query);
 		
 	$query  = 'select cid from content where filename="'.$filename.'" and filesize='.$filesize;	
@@ -342,6 +342,7 @@ function plaatsign_db_content_update($data) {
 	$query .= 'filesize='.$data->filesize.', ';
 	$query .= 'enabled='.$data->enabled.', ';
 	$query .= 'created="'.$data->created.'" ';
+	$query .= 'uid="'.$data->uid.'" ';
 	$query .= 'where cid='.$data->cid; 
 	
 	plaatsign_db_query($query);
@@ -352,6 +353,32 @@ function plaatsign_db_content_delete($cid) {
 	$query = 'delete from content where cid='.$cid;
 	
 	plaatsign_db_query($query); 
+}
+
+/*
+** -----------------
+** CONFIG
+** -----------------
+*/
+
+function plaatsign_db_config($token) {
+	
+	$query  = 'select id, token, category, value, options, last_update, readonly from config where token="'.$token.'"';	
+		
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
+	
+	return $data;	
+}
+
+function plaatsign_db_config_update($data) {
+		
+	$query  = 'update config set '; 
+	$query .= 'value="'.$data->value.'", ';
+	$query .= 'last_update="'.date("Y-m-d H:i:s").'" ';
+	$query .= 'where id='.$data->id; 
+	
+	plaatsign_db_query($query);
 }
 
 /*
