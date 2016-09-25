@@ -62,10 +62,12 @@ function plaatsign_settings_save_do() {
 
 function plaatsign_settings_form() {
 
-	/* output */
+	/* input */
 	global $mid;
 	global $sid;
+	global $user;
 	
+	/* output */
 	global $page;
 	global $title;
 		
@@ -91,7 +93,7 @@ function plaatsign_settings_form() {
 	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_TIMEZONE').'</label>';
-	$page .= plaatsign_ui_input("timezone", 25, 20, plaatsign_db_config_get("timezone"));
+	$page .= plaatsign_ui_input("timezone", 25, 20, plaatsign_db_config_get("timezone"), $user->role==ROLE_USER);
 	$page .= '</p>';
 	
 	// ------------------------

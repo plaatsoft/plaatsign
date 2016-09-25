@@ -222,8 +222,10 @@ function plaatsign_content_form() {
 	}
 	
 	if ($id!=0) {
-		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE.'&tid='.$tid, t('LINK_DELETE'));
-		$page .= ' ';
+		if (($tid==TYPE_MANUAL) || (($tid==TYPE_AUTOMATIC) && ($user->role==ROLE_ADMIN))) {
+			$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE.'&tid='.$tid, t('LINK_DELETE'));
+			$page .= ' ';
+		}
 	}
 	
 	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_CANCEL.'&tid='.$tid, t('LINK_CANCEL'));
@@ -240,6 +242,7 @@ function plaatsign_contentlist_form() {
 	global $sid;
 	global $tid;
 	global $sort;
+	global $user;
 
 	/* output */
 	global $page;
@@ -359,9 +362,11 @@ function plaatsign_contentlist_form() {
 	$page .= '</tbody>';
 	$page .= '</table>';
 	
-	$page .= '<p>';
-	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD.'&tid='.$tid, t('LINK_ADD'));
-	$page .= '</p>';
+	if (($tid==TYPE_MANUAL) || (($tid==TYPE_AUTOMATIC) && ($user->role==ROLE_ADMIN))) {
+		$page .= '<p>';
+		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD.'&tid='.$tid, t('LINK_ADD'));
+		$page .= '</p>';
+	}
 }
 
 /*
