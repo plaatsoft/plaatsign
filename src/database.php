@@ -149,6 +149,80 @@ function plaatsign_db_num_rows($result) {
 }
 
 /*
+** ------------------------
+** CREATED / PATCH DATABASE
+** ------------------------
+*/
+
+function startsWith($haystack, $needle){
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+}
+
+/**
+ * Execute SQL script
+ * @param $version Version of sql patch file
+ */
+function plaatsign_db_execute_sql_file($version) {
+
+    $filename = 'database/patch-'.$version.'.sql';
+
+    $commands = file_get_contents($filename);
+
+    //delete comments
+    $lines = explode("\n",$commands);
+    $commands = '';
+    foreach($lines as $line){
+        $line = trim($line);
+        if( $line && !startsWith($line,'--') ){
+            $commands .= $line . "\n";
+        }
+    }
+
+    //convert to array
+    $commands = explode(";\n", $commands);
+
+    //run commands
+    $total = $success = 0;
+    foreach($commands as $command){
+        if(trim($command)){
+	    if (DEBUG == 1) {
+		echo $command.'<br/>';
+	    }
+            $success += (@plaatsign_db_query($command)==false ? 0 : 1);
+            $total += 1;
+        }
+    }
+
+    //return number of successful queries and total number of queries found
+    return array(
+        "success" => $success,
+        "total" => $total
+    );
+}
+
+/**
+ * Check db version and upgrade if needed!
+ */
+function plaatsign_db_check_version() {
+
+   // Execute SQL base sql script if needed!
+   $sql = "select 1 FROM config limit 1" ;
+   $result = plaatsign_db_query($sql);
+   if (!$result)  {
+      plaatsign_db_execute_sql_file("0.1");
+   }
+
+   // Execute SQL path script v0.1 if needed
+   $sql = 'select value from config where token="database_version"';
+   $result = plaatsign_db_query($sql);
+   $row = plaatsign_db_fetch_object($result);
+   if ($row->value=="0.1")  {
+      plaatsign_db_execute_sql_file("0.2");
+   }
+}
+
+/*
 ** -----------------
 ** USER
 ** -----------------
@@ -158,12 +232,15 @@ function plaatsign_db_user_id($username, $password) {
 
 	$uid=0;
 
-	$query  = 'select uid from user where username="'.$username.'" and password="'.md5($password).'"';	
+	$query  = 'select uid, password from user where username="'.$username.'"' ;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
-	if (isset ($data->uid)) {	
-		$uid = $data->uid;
+	if (isset($data->uid)) {	
+	
+		if (plaatsign_password_verify($password, $data->password)) {
+			$uid = $data->uid;
+		}
 	}	
 	
 	return $uid;
@@ -196,7 +273,7 @@ function plaatsign_db_user($uid) {
 function plaatsign_db_user_insert($username, $password) {
 
 	$query  = 'insert into user (username, password, language, created, requests, role) ';
-	$query .= 'values ("'.plaatsign_db_escape($username).'","'.md5($password).'",0,"'.date("Y-m-d H:i:s").'", 0, '.ROLE_USER.')';
+	$query .= 'values ("'.plaatsign_db_escape($username).'","'.plaatsign_password_hash($password).'",0,"'.date("Y-m-d H:i:s").'", 0, '.ROLE_USER.')';
 	plaatsign_db_query($query);
 		
 	$uid = plaatsign_db_user_id($username, $password);	
@@ -222,7 +299,7 @@ function plaatsign_db_user_update2($username, $password, $uid) {
 		
 	$query  = 'update user set '; 
 	$query .= 'username="'.$username.'", ';
-	$query .= 'password="'.md5($password).'" ';
+	$query .= 'password="'.plaatsign_password_hash($password).'" ';
 	$query .= 'where uid='.$uid; 
 	
 	plaatsign_db_query($query);
@@ -267,30 +344,30 @@ function plaatsign_db_session_add($uid) {
 
 function plaatsign_db_session_valid( $session ) {
 	
-	/* Session expires after 1 day of inactivity */
-	$expired_days = 1;
+	/* Session expires after 10 minutes */
+	$expired = 600;
 	
 	if (strlen($session)==0) {
 		return 0;
 	}
 	
-	$query  = 'select sid, uid, date from session where session="'.$session.'"';
+	$query  = 'select sid, uid, date, session from session where session="'.$session.'"';
 	$result = plaatsign_db_query($query);
 	
 	if ($data=plaatsign_db_fetch_object($result)) {
 		
-		$expired = mktime(date("H"), date("i"), date("s"), date("m"), date("d")-$expired_days, date("Y"));
-		if ($data->date < date("Y-m-d H:i:s",$expired)) {
+		if (((time()-strtotime($data->date))>$expired)) {
 				
 			plaatsign_db_session_delete($data->session);
-			return 0;
-		}
+			
+		} else {
 	
-		/* Update session state */
-		$query  = 'update session set date = "'.date("Y-m-d H:i:s").'" where session="'.$session.'"'; 
-		plaatsign_db_query($query);
+			/* Update session state */
+			$query  = 'update session set date = "'.date("Y-m-d H:i:s").'" where session="'.$session.'"'; 
+			plaatsign_db_query($query);
 		
-		return $data->uid;
+			return $data->uid;
+		}
 	}
 	return 0;
 }
@@ -307,6 +384,19 @@ function plaatsign_db_session_delete($session) {
 ** CONTENT
 ** -----------------
 */
+
+function plaatsign_db_content_filename($filename) {
+	
+	$query  = 'select cid from content where filename="'.$filename.'"';	
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
+	
+	$cid=0;
+	if (isset($data->cid)) {
+		$cid = $data->cid;
+	}
+	return $cid;
+}
 
 function plaatsign_db_content($cid) {
 	
@@ -369,6 +459,16 @@ function plaatsign_db_config($token) {
 	$data = plaatsign_db_fetch_object($result);
 	
 	return $data;	
+}
+
+function plaatsign_db_config_get($token) {
+	
+	$query  = 'select id, token, category, value, options, last_update, readonly from config where token="'.$token.'"';	
+		
+	$result = plaatsign_db_query($query);
+	$data = plaatsign_db_fetch_object($result);
+	
+	return $data->value;	
 }
 
 function plaatsign_db_config_update($data) {

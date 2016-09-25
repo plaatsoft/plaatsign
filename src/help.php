@@ -33,7 +33,6 @@ function plaatsign_help_form() {
 	$page .= '<div id="content">';	
  	$page .= '<h1>'.$title.'</h1>';
 
-	$page .= '<h2>'.t('HELP_SUBTITLE').'</h2>';
 	$page .= '<p>';		
 	$page .= t('HELP_CONTENT');
 	$page .= '</p>';

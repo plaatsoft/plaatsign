@@ -53,7 +53,6 @@ $id = 0;
 */	
 
 $session = plaatsign_post("session", "");
-$search = plaatsign_post("search", "");
 $token = plaatsign_post("token", "");
 $action = plaatsign_get("action", "");
 
@@ -82,6 +81,12 @@ if (strlen($token)>0) {
 /* connect to database */
 plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
 
+/* create / patch database if needed */
+plaatsign_db_check_version();
+
+/* Set default timezone */
+date_default_timezone_set ( plaatsign_db_config_get("timezone" ) );
+
 /*
 ** ---------------------------------------------------------------- 
 ** Login check
@@ -93,8 +98,14 @@ $user_id = plaatsign_db_session_valid($session);
 if ( $user_id == 0 ) {
 
 	/* Redirect to login page */
+
+	if ($sid!=PAGE_LOGIN) {
+		$eid = EVENT_NONE;
+	}
+
 	$mid = MENU_LOGIN;
-				
+	$sid = PAGE_LOGIN;
+
 } else {
 
 	$user = plaatsign_db_user($user_id);

@@ -2,7 +2,7 @@
 
 /* 
 **  ==========
-**  PlaatScrum
+**  PlaatSign
 **  ==========
 **
 **  Created by wplaat
@@ -18,18 +18,14 @@
 
 /*
 ** ---------------------------------------------------------------- 
-** VARIABLE CONFIG ITEMS
+** DATABASE CONFIG SETTINGS
 ** ---------------------------------------------------------------- 
 */
 
-define('DEBUG', 0);
-
-/* Database Localhost Server */
 $config['dbuser']			 		= "plaatsign";
 $config['dbpass']			 		= "plaatsign";
 $config['dbname']			 		= "plaatsign";
 $config['dbhost']					= "127.0.0.1";
-$config['content_url']	 	 	= "";
 
 /*
 ** ---------------------------------------------------------------- 

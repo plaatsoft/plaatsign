@@ -211,12 +211,12 @@ function plaatsign_user_form() {
 	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_USERNAME').': *</label>';
-	$page .= plaatsign_ui_input("user_username", 20, 15, $user_username);
+	$page .= plaatsign_ui_input("user_username", 25, 20, $user_username);
 	$page .= '</p>';
 	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_PASSWORD').': *</label>';
-	$page .= '<input type="password" name="user_password" id="user_password" size="20" maxlength="15" value="'.$user_password.'"/>';
+	$page .= '<input type="password" name="user_password" id="user_password" size="25" maxlength="20" value="'.$user_password.'"/>';
 	$page .= '</p>';
 	
 	$page .= '<p>';

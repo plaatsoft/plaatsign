@@ -23,6 +23,7 @@
 */
 
 $timer = plaatsign_post("timer", "5");
+$timezone = plaatsign_post("timezone", "Europe/Amsterdam");
 
 /*
 ** ------------------
@@ -35,17 +36,22 @@ function plaatsign_settings_save_do() {
 	/* input */
 	global $user;
 	global $timer;
+	global $timezone;
 		
 	$data = plaatsign_db_config("slide_show_delay");
-	
-	if ($data->id>0) {
-						
+	if (isset($data->id)) {						
 		$data->value = $timer;			
-		plaatsign_db_config_update($data);	
-
-		plaatsign_ui_box('info', t('SETTING_UPDATED'));
-		plaatsign_info($user->name.' ['.$user->uid.'] update settings');		
+		plaatsign_db_config_update($data);
 	}
+	
+	$data = plaatsign_db_config("timezone");
+	if (isset($data->id)) {
+		$data->value = $timezone;			
+		plaatsign_db_config_update($data);
+	}
+	
+	plaatsign_ui_box('info', t('SETTING_UPDATED'));
+	plaatsign_info($user->name.' ['.$user->uid.'] update settings');		
 }
 
 /*
@@ -62,13 +68,10 @@ function plaatsign_settings_form() {
 	
 	global $page;
 	global $title;
-	
-	$data = plaatsign_db_config("slide_show_delay");
-	
+		
 	$title = t('SETTINGS_TITLE');
 	
 	$page .= '<div id="detail">';
-	
  	$page .= '<h1>'.$title.'</h1>';
 			
 	$page .= t('SETTINGS_CONTENT');
@@ -76,11 +79,22 @@ function plaatsign_settings_form() {
 	$page .= '<fieldset>' ;
 	$page .= '<legend>'.t('USER_GENERAL').'</legend>';
 	
+	// ------------------------
+		
 	$page .= '<p>';
 	$page .= '<label>'.t('SLIDE_SHOW_DELAY').'</label>';
-	$page .= plaatsign_ui_input("timer", 5, 5, $data->value);
+	$page .= plaatsign_ui_input("timer", 5, 5, plaatsign_db_config_get("slide_show_delay"));
 	$page .= '  '.t('SLIDE_SECONDS');
 	$page .= '</p>';
+	
+	// ------------------------
+	
+	$page .= '<p>';
+	$page .= '<label>'.t('GENERAL_TIMEZONE').'</label>';
+	$page .= plaatsign_ui_input("timezone", 25, 20, plaatsign_db_config_get("timezone"));
+	$page .= '</p>';
+	
+	// ------------------------
 	
 	$page .= '</fieldset>' ;
 	

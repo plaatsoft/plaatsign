@@ -49,19 +49,20 @@ function plaatsign_content_save_do() {
 	$filename = basename($_FILES["filename"]["name"]);
 	$filetype = pathinfo($filename, PATHINFO_EXTENSION);
 
-	if (strlen($_FILES['filename']['tmp_name'])==0) {
+	if (strlen($filesize)==0) {
 	
 		plaatsign_ui_box('warning', t('CONTENT_FILE_NOT_FOUND'));
+	
+	} else if (plaatsign_db_content_filename($filename)>0) {
+		
+		plaatsign_ui_box('warning', t('CONTENT_ALREADY_EXIST'));
 	
 	} else if ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif") {
 			  			  
 		plaatsign_ui_box('warning', t('CONTENT_TYPE_NOT_SUPPORTED'));
 		
-			  
 	} else {
 	
-		move_uploaded_file($_FILES["filename"]["tmp_name"], "uploads/".$filename);
-		
 		if ($id>0) {
 					
 			/* Update content data */					
@@ -83,6 +84,9 @@ function plaatsign_content_save_do() {
 			plaatsign_ui_box('info', t('CONTENT_ADDED'));
 			plaatsign_info($user->name.' ['.$user->uid.'] created content ['.$id.']');
 		}
+		
+		$cache_filename = $id.'.'.pathinfo($filename, PATHINFO_EXTENSION);			
+		move_uploaded_file($_FILES["filename"]["tmp_name"], "uploads/".$cache_filename);
 
 		/* Data ok, goto to previous page */		
 		$sid = PAGE_CONTENTLIST;
@@ -102,7 +106,8 @@ function plaatsign_content_delete_do() {
 	
 	if (isset($data->cid)) {
 
-		unlink("uploads/".$data->filename);
+		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
+		@unlink("uploads/".$cache_filename);
 		
 		plaatsign_db_content_delete($id);
 
@@ -140,15 +145,19 @@ function plaatsign_content_form() {
 	if ($id!=0) {
 	
 		$data = plaatsign_db_content($id);		
+		if (isset($data->cid)) {
 		
-		$filename = $data->filename;
-		$filesize = $data->filesize;
-		$enabled = $data->enabled;
-		$created = $data->created;
-		
-		$tmp = plaatsign_db_user($data->uid);
-		if (isset($tmp->uid)) {	
-			$owner = $tmp->name;
+			$filename = $data->filename;
+			$filesize = $data->filesize;
+			$enabled = $data->enabled;
+			$created = $data->created;
+			
+			$tmp = plaatsign_db_user($data->uid);
+			if (isset($tmp->uid)) {	
+				$owner = $tmp->name;
+			}
+		} else {
+			$id=0;
 		}
 	}
 			
@@ -164,7 +173,8 @@ function plaatsign_content_form() {
 	$page .= '<legend>'.t('USER_GENERAL').'</legend>';
 	
 	if ($id>0) {
-		$page	.= '<image class="imgl" src="uploads/'.$data->filename.'" width="480" height="360" />';
+		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
+		$page	.= '<image class="imgl" src="uploads/'.$cache_filename.'" width="480" height="360" />';
 	} else {
 		$page	.= '<image class="imgl" src="images/unknown.jpg" width="480" height="360" />';
 	}
@@ -314,7 +324,8 @@ function plaatsign_contentlist_form() {
 		$page .= '</td>';
 		
 		$page .= '<td>';
-		$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="uploads/'.$data->filename.'" width="128" height="80" />');
+		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
+		$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="uploads/'.$cache_filename.'" width="128" height="80" />');
 		$page .= '</td>';
 			
 		$page .= '<td>';

@@ -88,6 +88,7 @@ $lang['GENERAL_ROLE'] = 'Role';
 $lang['GENERAL_LANGUAGE'] = 'Language';
 $lang['GENERAL_IMAGE'] = 'Image';
 $lang['GENERAL_OWNER'] = 'Owner';
+$lang['GENERAL_TIMEZONE'] = 'Timezone';
 
 $lang['GENERAL_INFO'] = 'Info';
 $lang['GENERAL_WARNING'] = 'Warn';
@@ -135,8 +136,9 @@ $lang['CONTENT_ADDED'] = 'Content added';
 $lang['CONTENT_UPDATED'] = 'Content updated';
 $lang['CONTENT_DELETED'] = 'Content deleted';
 
-$lang['CONTENT_FILE_NOT_FOUND'] = 'File not found!';
-$lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed';
+$lang['CONTENT_FILE_NOT_FOUND'] = 'File not found, upload aborted!';
+$lang['CONTENT_ALREADY_EXIST'] = 'Content (filename) already exist, upload aborted!';
+$lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed, upload aborted!';
 $lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
 
 /*
@@ -147,12 +149,12 @@ $lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and ma
 
 $lang['SETTINGS_TITLE'] = 'SETTINGS';
 
-$lang['SETTINGS_CONTENT'] = 'The page contain all settings of PlaatSign.';
+$lang['SETTINGS_CONTENT'] = 'The page contain an overview of settings of PlaatSign.';
 
 $lang['SLIDE_SHOW_DELAY'] = 'Slide delay:';
 $lang['SLIDE_SECONDS'] = 'seconds';
 
-$lang['SETTING_UPDATED'] = 'Setting item updated!';
+$lang['SETTING_UPDATED'] = 'Setting items updated!';
 
 /*
 ** ------------------
@@ -186,42 +188,26 @@ $lang['USER_HACK'] = 'Take over user %s [%s] session!';
 
 /*
 ** ------------------
-** HELP - INSTRUCTIONS
+** HELP - TODO
 ** ------------------
 */
 
 $lang['HELP_TITLE'] = 'HELP';
-$lang['HELP_SUBTITLE'] = 'Introduction';
 
 $lang['HELP_CONTENT'] = '
 
 <h2>To Do List</h2>
 <ul>
-<li>Automatic database creation</li>
-<li>Show log files</li>
-<li>Automatic logout after 10 minutes idle</li>
-<li>Password strength check</li>
-<li>Double filename check</li>
-<li>Create start script for photo slide show</li>
-<li>Publish project on plaatsoft.nl</li>
-<li>Set timezone</li>
-</ul>
-
-<h2>Known issues</h2>
-<ul>
-<li>Slide show is sorted on filename</li>
+<li>Publish PlaatSign project on plaatsoft.nl</li>
 </ul>
 
 <h2>Nice to Have</h2>
 <ul>
-<li>Enable / Disable content</li>
-<li>Email validation</li>
-<li>Add feature to resort content</li>
-<li>Add feature to resize picture size</li>
-</ul>
-
-
-';
+<li>Upload multi files in one step.</li>
+<li>Enable / Disable Content.</li>
+<li>Resort content after upload</li>
+<li>Add thumbnail pictures for content list page. Works faster</li>
+</ul>';
 
 /*
 ** ------------------
@@ -232,6 +218,15 @@ $lang['HELP_CONTENT'] = '
 $lang['RELEASENOTES_TITLE'] = 'RELEASE NOTES';
 
 $lang['RELEASENOTES_CONTENT']  = '
+
+<h2>25-09-2016 Version 0.2</h2>
+<ul>
+<li>Upload twice same content is now prohibit.</li>
+<li>Timezone can now be configured on setting page. Default timezone is Europe/Amsterdam</li>
+<li>Improve password hash algoritme. PlaatSign is now using the lastest and most secure algoritm.</li>
+<li>User is automatic logout after 10 minutes idleness.</li>
+<li>Added automatic database creation and patching.</li>
+</ul>
 
 <h2>24-09-2016 Version 0.1</h2>
 <ul>
@@ -245,6 +240,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 <li>Added basic credits page</li>
 <li>Added basic donate page</li>
 <li>Added basic about page</li>
+<li>Added basic unix photo slide script for Raspberry Pi</li>
 </ul>';
 
 /*

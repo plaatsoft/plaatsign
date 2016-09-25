@@ -36,7 +36,7 @@ function plaatsign_about_form() {
 	$page .= '</div>';
 	
 	$page .= '<div id="column">';
-   $page .= '<img class="imgr" src="images/info.svg" width="256" height="256" alt="" />';
+   $page .= '<img class="imgr" src="images/help.svg" width="256" height="256" alt="" />';
 	$page .= '</div>';
 }
 

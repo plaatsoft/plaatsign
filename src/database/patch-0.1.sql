@@ -25,8 +25,7 @@ CREATE TABLE `config` (
   `options` varchar(255) NOT NULL,
   `last_update` date NOT NULL,
   `readonly` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `config` (`id`, `category`, `token`, `value`, `options`, `last_update`, `readonly`) VALUES
 (1, 0, 'database_version', '0.1', '', '2016-09-24', 1),
@@ -52,7 +51,7 @@ CREATE TABLE `session` (
 CREATE TABLE `user` (
   `uid` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(128) NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `language` int(11) NOT NULL,
@@ -64,34 +63,31 @@ CREATE TABLE `user` (
 
 
 INSERT INTO `user` (`uid`, `username`, `password`, `name`, `email`, `language`, `created`, `last_activity`, `role`, `requests`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'admin@plaatsoft.nl', 0, '2016-09-24 09:37:53', '2016-09-24 14:33:18', 1, 1);
+(1, 'admin', '$2y$12$oOuOKHZBRJaCSXex6A607Olf4qBn3QgyTCjosJ4wmFFWyzmKUtxVS', 'admin', 'admin@plaatsoft.nl', 0, '2016-09-24 09:37:53', '2016-09-24 14:33:18', 1, 1);
 
 
 ALTER TABLE `config`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `content`
-  ADD PRIMARY KEY (`cid`),
-  ADD UNIQUE KEY `cid` (`cid`);
+  ADD PRIMARY KEY (`cid`);
 
 ALTER TABLE `session`
-  ADD PRIMARY KEY (`sid`),
-  ADD UNIQUE KEY `sid` (`sid`);
+  ADD PRIMARY KEY (`sid`);
 
 ALTER TABLE `user`
   ADD PRIMARY KEY (`uid`);
-
 
 ALTER TABLE `config`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `content`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `session`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `user`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 

@@ -22,6 +22,8 @@
 ** ----------------------------------------------------------------
 */
 
+define('DEBUG', 0);
+
 define('LANGUAGE_ENGLISH', 0);
 define('LANGUAGE_DUTCH', 1);
 
@@ -30,13 +32,9 @@ define('ROLE_ADMIN', 1);
 
 define("MENU_LOGIN", 100);
 define("MENU_CONTENT", 101);
-define("MENU_BACKLOG", 102);
-define("MENU_BOARD", 103);
-define("MENU_CHART", 104);
-define("MENU_CALENDER", 105);
-define("MENU_SETTINGS", 106);
-define("MENU_HELP", 107);
-define("MENU_LOGOUT", 100);
+define("MENU_SETTINGS", 102);
+define("MENU_HELP", 103);
+define("MENU_LOGOUT", 104);
 
 define("PAGE_LOGIN", 200);
 define("PAGE_REGISTER", 201);
@@ -52,6 +50,7 @@ define("PAGE_ABOUT", 210);
 define("PAGE_SETTINGS", 211);
 define("PAGE_HELP", 212);
 
+define("EVENT_NONE", 300);
 define("EVENT_LOGIN", 301);
 define("EVENT_REGISTER", 302);
 define("EVENT_RECOVER", 303);
@@ -60,6 +59,25 @@ define("EVENT_SAVE", 305);
 define("EVENT_DELETE", 306);
 define("EVENT_CANCEL", 307);
 define("EVENT_ADD", 308);
+
+/*
+** ---------------------------------------------------------------- 
+** PASSWORD
+** ---------------------------------------------------------------- 
+*/
+
+function plaatsign_password_hash($raw) {
+
+	$options = [
+		'cost' => 12,
+	];
+	return password_hash($raw, PASSWORD_BCRYPT, $options);
+}
+
+function plaatsign_password_verify( $password, $hash) {
+
+	return password_verify ( $password, $hash );
+}
 
 /*
 ** ---------------------------------------------------------------- 
@@ -537,15 +555,15 @@ function plaatsign_ui_header( $title = "") {
 		$page .= '<meta name="application-url" content="http://scrum.plaatsoft.nl" />';		
 	}
 	
-	$page .= '<link href="'.$config["content_url"].'images/favicon.ico" rel="shortcut icon" type="image/x-icon" />'; 
-	$page .= '<link href="'.$config["content_url"].'css/general.css" rel="stylesheet" type="text/css" />';
-	$page .= '<link href="'.$config["content_url"].'css/jquery.css" rel="stylesheet" type="text/css" />';
+	$page .= '<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />'; 
+	$page .= '<link href="css/general.css" rel="stylesheet" type="text/css" />';
+	$page .= '<link href="css/jquery.css" rel="stylesheet" type="text/css" />';
 						
 	/* Add JavaScripts */
-	$page .= '<script language="JavaScript" src="'.$config["content_url"].'js/link.js" type="text/javascript"></script>';
-	$page .= '<script language="JavaScript" src="'.$config["content_url"].'js/jquery.js" type="text/javascript"></script>';
-	$page .= '<script language="JavaScript" src="'.$config["content_url"].'js/jquery-ui.js" type="text/javascript"></script>';	
-	$page .= '<script language="JavaScript" src="'.$config["content_url"].'js/jquery-multi.js" type="text/javascript"></script>';
+	$page .= '<script language="JavaScript" src="js/link.js" type="text/javascript"></script>';
+	$page .= '<script language="JavaScript" src="js/jquery.js" type="text/javascript"></script>';
+	$page .= '<script language="JavaScript" src="js/jquery-ui.js" type="text/javascript"></script>';	
+	$page .= '<script language="JavaScript" src="js/jquery-multi.js" type="text/javascript"></script>';
 	
 	/* Add HTML Title */
 	if ($title=="") {
