@@ -18,6 +18,8 @@ UPDATE config SET value="0.2" WHERE token = "database_version";
 INSERT INTO `config` (`id`, `category`, `token`, `value`, `options`, `last_update`, `readonly`) 
 VALUES (NULL, '0', 'timezone', 'Europe/Amsterdam', '', '2016-09-25', '0');
 
+ALTER TABLE `content` ADD `type` INT NOT NULL AFTER `uid`;
+
 
 
 

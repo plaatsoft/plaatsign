@@ -42,6 +42,8 @@ $lang['ROLE_1'] = 'Admin';
 
 $lang['LINK_LOGIN']  = 'Login'; 
 $lang['LINK_CONTENT']  = 'Content'; 
+$lang['LINK_MANUAL']  = 'Manual'; 
+$lang['LINK_AUTOMATIC']  = 'Automatic'; 
 $lang['LINK_SETTINGS'] = 'Settings'; 
 $lang['LINK_HELP'] = 'Help'; 
 $lang['LINK_LOGOUT']  = 'Logout';
@@ -130,6 +132,9 @@ $lang['LOGIN_RECOVER'] = 'RECOVER';
 */
 
 $lang['CONTENT_TITLE'] = 'CONTENT';
+$lang['CONTENT_SUBTITLE1'] = 'MANUAL CONTENT';
+$lang['CONTENT_SUBTITLE2'] = 'AUTOMATIC CONTENT';
+
 $lang['CONTENT_NOTE'] = 'On this moment the following content is part of the beamer slideshow.';
 
 $lang['CONTENT_ADDED'] = 'Content added';
@@ -140,6 +145,8 @@ $lang['CONTENT_FILE_NOT_FOUND'] = 'File not found, upload aborted!';
 $lang['CONTENT_ALREADY_EXIST'] = 'Content (filename) already exist, upload aborted!';
 $lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed, upload aborted!';
 $lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
+
+
 
 /*
 ** ------------------
@@ -221,6 +228,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 
 <h2>25-09-2016 Version 0.2</h2>
 <ul>
+<li>Added automatic content feature (automatic uploaded by external resource).</li>
 <li>Upload twice same content is now prohibit.</li>
 <li>Timezone can now be configured on setting page. Default timezone is Europe/Amsterdam</li>
 <li>Improve password hash algoritme. PlaatSign is now using the lastest and most secure algoritm.</li>

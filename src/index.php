@@ -37,13 +37,13 @@ plaatsign_debug('-----------------');
 $page = "";
 $title = "";
 $user = "";
-$access = "";
 
-$mid = MENU_LOGIN;
-$sid = PAGE_LOGIN;
-$eid = 0;
-$uid = 0;
-$pid = 0;
+$mid = MENU_LOGIN;    // Menu Id
+$sid = PAGE_LOGIN;    // Page Id
+$eid = 0;             // Event Id
+$uid = 0;             // User Id
+$tid = 0;             // Type Id
+
 $id = 0;
 
 /* 

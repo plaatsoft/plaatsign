@@ -24,6 +24,9 @@
 
 define('DEBUG', 0);
 
+define('TYPE_MANUAL', 0);
+define('TYPE_AUTOMATIC', 1);
+
 define('LANGUAGE_ENGLISH', 0);
 define('LANGUAGE_DUTCH', 1);
 

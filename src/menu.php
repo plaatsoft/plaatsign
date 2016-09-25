@@ -51,54 +51,61 @@ function plaatsign_main_menu() {
 	$menu = '<ul>';
 	
 	if ($mid==MENU_CONTENT) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST, t('LINK_CONTENT'));
+	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_MANUAL, t('LINK_CONTENT'));
+	
+	$menu .= '<ul>';
+	
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_MANUAL, t('LINK_MANUAL'));
 	$menu .= '</li>';
 	
-	/* -----------------*/
-				
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_AUTOMATIC, t('LINK_AUTOMATIC'));
 	$menu .= '</li>';
-
+							
+	$menu .= '</ul>';
+	
 	/* -----------------*/
 	
 	if ($mid==MENU_SETTINGS) $menu .= '<li class="active">'; else $menu .= '<li>';
 	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_SETTINGS, t('LINK_SETTINGS'));
 	
-		$menu .= '<ul>';
-		
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_SETTINGS, t('LINK_GENERAL'));
-		$menu .= '</li>';
+	$menu .= '<ul>';
 	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_USERLIST, t('LINK_USERS'));
-		$menu .= '</li>';
-						
-		$menu .= '</ul>';
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_SETTINGS, t('LINK_GENERAL'));
+	$menu .= '</li>';
+	
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_USERLIST, t('LINK_USERS'));
+	$menu .= '</li>';
+							
+	$menu .= '</ul>';
 	
 	/* -----------------*/
 		
 	if ($mid==MENU_HELP) $menu .= '<li class="active">'; else $menu .= '<li>';
 	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_HELP, t('LINK_HELP'));
 	
-		$menu .= '<ul>';
+	$menu .= '<ul>';
 	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_RELEASE_NOTES, t('LINK_RELEASE_NOTES'));
-		$menu .= '</li>';
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_RELEASE_NOTES, t('LINK_RELEASE_NOTES'));
+	$menu .= '</li>';
 	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_CREDITS, t('LINK_CREDITS'));
-		$menu .= '</li>';
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_CREDITS, t('LINK_CREDITS'));
+	$menu .= '</li>';
 	
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_DONATE, t('LINK_DONATE'));
-		$menu .= '</li>';
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_DONATE, t('LINK_DONATE'));
+	$menu .= '</li>';
 		
-		$menu .= '<li>';
-		$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_ABOUT, t('LINK_ABOUT'));
-		$menu .= '</li>';
+	$menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_HELP.'&sid='.PAGE_ABOUT, t('LINK_ABOUT'));
+	$menu .= '</li>';
 	
-		$menu .= '</ul>';
+	$menu .= '</ul>';
 
 	$menu .= '</li>';
 

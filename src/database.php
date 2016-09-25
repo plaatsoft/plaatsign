@@ -400,7 +400,7 @@ function plaatsign_db_content_filename($filename) {
 
 function plaatsign_db_content($cid) {
 	
-	$query  = 'select cid, filename, filesize, enabled, created, uid from content where cid='.$cid;	
+	$query  = 'select cid, filename, filesize, enabled, created, uid, type from content where cid='.$cid;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
@@ -408,10 +408,10 @@ function plaatsign_db_content($cid) {
 	return $data;	
 }
 
-function plaatsign_db_content_insert($filename, $filesize, $enabled, $uid) {
+function plaatsign_db_content_insert($filename, $filesize, $enabled, $uid, $type) {
 
-	$query  = 'insert into content (filename, filesize, enabled, created, uid) ';
-	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.',"'.date("Y-m-d H:i:s").'",'.$uid.')';
+	$query  = 'insert into content (filename, filesize, enabled, created, uid, type) ';
+	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.',"'.date("Y-m-d H:i:s").'",'.$uid.','.$type.')';
 	plaatsign_db_query($query);
 		
 	$query  = 'select cid from content where filename="'.$filename.'" and filesize='.$filesize;	
@@ -432,7 +432,8 @@ function plaatsign_db_content_update($data) {
 	$query .= 'filesize='.$data->filesize.', ';
 	$query .= 'enabled='.$data->enabled.', ';
 	$query .= 'created="'.$data->created.'" ';
-	$query .= 'uid="'.$data->uid.'" ';
+	$query .= 'uid="'.$data->uid.'", ';
+	$query .= 'type="'.$data->type.'" ';
 	$query .= 'where cid='.$data->cid; 
 	
 	plaatsign_db_query($query);

@@ -36,6 +36,7 @@ function plaatsign_content_save_do() {
 	/* input */
 	global $id;
 	global $user;
+	global $tid;
 	
 	global $filename;
 	global $enabled;
@@ -79,7 +80,7 @@ function plaatsign_content_save_do() {
 		} else  {
 			
 			/* Insert new content */
-			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $user->uid);			
+			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $user->uid, $tid);			
 		
 			plaatsign_ui_box('info', t('CONTENT_ADDED'));
 			plaatsign_info($user->name.' ['.$user->uid.'] created content ['.$id.']');
@@ -129,6 +130,7 @@ function plaatsign_content_form() {
 	/* input */
 	global $mid;
 	global $sid;
+	global $tid;
 	global $id;
 	global $user;
 
@@ -215,16 +217,16 @@ function plaatsign_content_form() {
 	$page .= '</fieldset>' ;
 		
 	if ($id==0) {
-		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE, t('LINK_SAVE'));
+		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_SAVE'));
 		$page .= ' ';
 	}
 	
 	if ($id!=0) {
-		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE, t('LINK_DELETE'));
+		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE.'&tid='.$tid, t('LINK_DELETE'));
 		$page .= ' ';
 	}
 	
-	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_CANCEL, t('LINK_CANCEL'));
+	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_CANCEL.'&tid='.$tid, t('LINK_CANCEL'));
 	$page .= ' ';
 	
 	$page .= '</div>';
@@ -236,14 +238,19 @@ function plaatsign_contentlist_form() {
 	/* input */
 	global $mid;
 	global $sid;
+	global $tid;
 	global $sort;
 
 	/* output */
 	global $page;
 	global $title;
 				
-	$title = t('CONTENT_TITLE');
-	
+	if ($tid==TYPE_MANUAL) {
+		$title = t('CONTENT_SUBTITLE1');
+	} else {
+		$title = t('CONTENT_SUBTITLE2');
+	}
+
 	$page .= '<h1>';	
 	$page .= $title;
 	$page .= '</h1>';
@@ -252,7 +259,7 @@ function plaatsign_contentlist_form() {
 	$page .= t('CONTENT_NOTE');
 	$page .= '</p>';
 		
-	$query  = 'select cid, filename, filesize, enabled, created, uid from content ';
+	$query  = 'select cid, filename, filesize, enabled, created, uid from content where type='.$tid.' ';
 		
 	switch ($sort) {
 
@@ -280,7 +287,7 @@ function plaatsign_contentlist_form() {
 	$page .= '<tr>';
 		
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=1', t('GENERAL_CID'));	
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=1', t('GENERAL_CID'));	
 	$page .= '</th>';
 	
 	$page .= '<th>';
@@ -288,19 +295,19 @@ function plaatsign_contentlist_form() {
 	$page .= '</th>';
 		
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=2', t('GENERAL_FILENAME'));
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=2', t('GENERAL_FILENAME'));
 	$page .= '</th>';
 	
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=3', t('GENERAL_FILESIZE'));	
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=3', t('GENERAL_FILESIZE'));	
 	$page .= '</th>';
 	
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=4', t('GENERAL_CREATED'));
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=4', t('GENERAL_CREATED'));
 	$page .= '</th>';
 	
 	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&sort=5', t('GENERAL_OWNER'));	
+	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=5', t('GENERAL_OWNER'));	
 	$page .= '</th>';
 			
 	$page .= '</tr>';
@@ -320,12 +327,12 @@ function plaatsign_contentlist_form() {
 		$page .='>';
 
 		$page .= '<td>';
-		$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&id='.$data->cid, $data->cid);
+		$page	.= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$data->cid, $data->cid);
 		$page .= '</td>';
 		
 		$page .= '<td>';
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
-		$page	.= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="uploads/'.$cache_filename.'" width="128" height="80" />');
+		$page	.= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="uploads/'.$cache_filename.'" width="128" height="80" />');
 		$page .= '</td>';
 			
 		$page .= '<td>';
@@ -353,7 +360,7 @@ function plaatsign_contentlist_form() {
 	$page .= '</table>';
 	
 	$page .= '<p>';
-	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD, t('LINK_ADD'));
+	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD.'&tid='.$tid, t('LINK_ADD'));
 	$page .= '</p>';
 }
 
