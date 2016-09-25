@@ -74,15 +74,17 @@ function plaatsign_logout_do() {
 	global $user;
 	global $access;
 	
-	plaatsign_info('Logout '.$user->name.' ['.$user->uid.']');
+	if (isset($user->uid)) {
 	
-	plaatsign_ui_box('info', t('LOGIN_LOGOUT'));
+		plaatsign_info('Logout '.$user->name.' ['.$user->uid.']');
+		plaatsign_ui_box('info', t('LOGIN_LOGOUT'));
 	
-	plaatsign_db_session_delete($session);
+		plaatsign_db_session_delete($session);
 	
-	/* Destroy user and access information */
-	$user="";
-	$access="";
+		/* Destroy user and access information */
+		$user="";
+		$access="";
+	}
 }
 
 

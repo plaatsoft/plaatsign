@@ -130,7 +130,7 @@ $lang['LOGIN_RECOVER'] = 'RECOVER';
 */
 
 $lang['CONTENT_TITLE'] = 'CONTENT';
-$lang['CONTENT_NOTE'] = 'On this moment the following content is part of the beamer slideshow:';
+$lang['CONTENT_NOTE'] = 'On this moment the following content is part of the beamer slideshow.';
 
 $lang['CONTENT_ADDED'] = 'Content added';
 $lang['CONTENT_UPDATED'] = 'Content updated';
