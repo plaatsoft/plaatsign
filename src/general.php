@@ -325,6 +325,12 @@ function plaatsign_link_store($mid, $sid) {
 ** ---------------------
 */
 
+function plaatsign_filesize($bytes, $decimals = 2) {
+  $sz = 'BKMGTP';
+  $factor = floor((strlen($bytes) - 1) / 3);
+  return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+}
+
 function plaatsign_ui_input($name, $size, $maxlength, $value, $readonly=false) {
 	
 	$page  = '<input ';

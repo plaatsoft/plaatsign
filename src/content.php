@@ -40,10 +40,7 @@ function plaatsign_content_save_do() {
 	
 	global $filename;
 	global $enabled;
-		
-	/* output */
-	global $sid;
-		
+				
 	$data = plaatsign_db_content($id);
 
 	$filesize = filesize($_FILES['filename']['tmp_name']);
@@ -61,6 +58,10 @@ function plaatsign_content_save_do() {
 	} else if ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif") {
 			  			  
 		plaatsign_ui_box('warning', t('CONTENT_TYPE_NOT_SUPPORTED'));
+		
+	} else if ($filesize>(2048000)) {
+	
+		plaatsign_ui_box('warning', t('CONTENT_TO_LARGE', '2MB'));
 		
 	} else {
 	
@@ -88,9 +89,6 @@ function plaatsign_content_save_do() {
 		
 		$cache_filename = $id.'.'.pathinfo($filename, PATHINFO_EXTENSION);			
 		move_uploaded_file($_FILES["filename"]["tmp_name"], "uploads/".$cache_filename);
-
-		/* Data ok, goto to previous page */		
-		$sid = PAGE_CONTENTLIST;
 	}
 }
 
@@ -197,9 +195,9 @@ function plaatsign_content_form() {
 	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_FILESIZE').': </label>';
-	$page .= plaatsign_ui_input("size", 10, 10, $filesize, true);
+	$page .= plaatsign_ui_input("size", 10, 10, plaatsign_filesize($filesize,1), true);
 	$page .= '</p>';
-		
+			
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_CREATED').': </label>';
 	$page .= plaatsign_ui_input("created", 20, 20, convert_datetime_php($created), true);
@@ -217,8 +215,9 @@ function plaatsign_content_form() {
 	$page .= '</fieldset>' ;
 		
 	if ($id==0) {
-		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_SAVE'));
+		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_NONE.'&tid='.$tid, t('LINK_CANCEL'));
 		$page .= ' ';
+		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_OK'));
 	}
 	
 	if ($id!=0) {
@@ -226,14 +225,11 @@ function plaatsign_content_form() {
 			$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE.'&tid='.$tid, t('LINK_DELETE'));
 			$page .= ' ';
 		}
+		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_NONE.'&tid='.$tid, t('LINK_OK'));
 	}
-	
-	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_CANCEL.'&tid='.$tid, t('LINK_CANCEL'));
-	$page .= ' ';
 	
 	$page .= '</div>';
 }
-
 
 function plaatsign_contentlist_form() {
 
@@ -343,7 +339,7 @@ function plaatsign_contentlist_form() {
 		$page .= '</td>';
 				
 		$page .= '<td>';
-		$page	.= $data->filesize;
+		$page	.= plaatsign_filesize($data->filesize,1);
 		$page .= '</td>';
 				
 		$page .= '<td>';

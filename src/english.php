@@ -60,6 +60,7 @@ $lang['LINK_RELEASE_NOTES'] = 'Release Notes';
 $lang['LINK_CREDITS']  = 'Credits';
 $lang['LINK_DONATE']  = 'Donate';
 $lang['LINK_ABOUT']  = 'About';
+$lang['LINK_OK']  = 'Ok';
 $lang['LINK_ADD']  = 'Add';
 $lang['LINK_INSERT']  = 'Insert';
 $lang['LINK_UPLOAD']  = 'Upload';
@@ -145,8 +146,7 @@ $lang['CONTENT_FILE_NOT_FOUND'] = 'File not found, upload aborted!';
 $lang['CONTENT_ALREADY_EXIST'] = 'Content (filename) already exist, upload aborted!';
 $lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed, upload aborted!';
 $lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
-
-
+$lang['CONTENT_TO_LARGE'] = 'File is to large. Maximum file is %s';
 
 /*
 ** ------------------
@@ -261,6 +261,10 @@ $lang['CREDITS_TITLE'] = 'CREDITS';
 
 $lang['CREDITS_CONTENT'] = '
 
+<p>
+This following people have work on PlaatSign. 
+</p>
+
 <h2>Software Architect</h2>
 <p>
 <ul>
@@ -319,17 +323,10 @@ $lang['ABOUT_CONTENT'] = '
 
 <h2>Background</h2>
 <p>
-PlaatSign is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft</a>. 
-</p>
-
-<h2>Supported Browsers</h2>
-<p>
-<ul>
-<li>Microsoft Internet Explorer<br/>
-<li>Mozilla Firefox</li>
-<li>Google Chrome</li>
-</ul>
-</p>
+PlaatSign is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft</a>. PlaatSoft is a small christian 
+non profit organization with as mission to created high quality software. All the created software is open source and 
+may be copied, distributed or modified under the terms of the GNU General Public License (GPL) Version 3. If you want 
+more information about us, please send an email to info@plaatsoft.nl</p>
 
 <h2>Disclaimer</h2>
 <p>
