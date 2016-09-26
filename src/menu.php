@@ -56,11 +56,11 @@ function plaatsign_main_menu() {
 	$menu .= '<ul>';
 	
 	$menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_MANUAL, t('LINK_MANUAL'));
+	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_MANUAL, t('LINK_MANUAL'));
 	$menu .= '</li>';
 	
 	$menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_SETTINGS.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_AUTOMATIC, t('LINK_AUTOMATIC'));
+	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_AUTOMATIC, t('LINK_AUTOMATIC'));
 	$menu .= '</li>';
 							
 	$menu .= '</ul>';
