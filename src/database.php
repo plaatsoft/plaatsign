@@ -186,10 +186,7 @@ function plaatsign_db_execute_sql_file($version) {
     $total = $success = 0;
     foreach($commands as $command){
         if(trim($command)){
-	    if (DEBUG == 1) {
-		echo $command.'<br/>';
-	    }
-            $success += (@plaatsign_db_query($command)==false ? 0 : 1);
+	         $success += (@plaatsign_db_query($command)==false ? 0 : 1);
             $total += 1;
         }
     }
