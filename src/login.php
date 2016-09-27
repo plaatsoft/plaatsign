@@ -118,8 +118,7 @@ function plaatsign_login_form() {
 	
 	$page .= '<h1>'.t('LOGIN_WELCOME_TITLE').'</h1>';
 	$page .= '<img class="imgl" src="images/plaatsign.jpg" alt="" />';
-	$page .= t('LOGIN_WELCOME');
-	
+	$page .= t('LOGIN_WELCOME');	
 	$page .= '</div>'; 
 		
 	$page .= '<div id="column">';
@@ -139,7 +138,6 @@ function plaatsign_login_form() {
 	$page .= plaatsign_button('mid='.$mid.'&eid='.EVENT_LOGIN, t('LINK_LOGIN'));
 			
 	$page .= '</div>';
-						
 	$page .= '</div>';	
 	
 	$page .= plaatsign_login_footer();

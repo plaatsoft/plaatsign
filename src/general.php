@@ -23,6 +23,7 @@
 */
 
 define('DEBUG', 0);
+define('MAX_FILE_SIZE', 2048000);
 
 define('TYPE_MANUAL', 0);
 define('TYPE_AUTOMATIC', 1);
@@ -304,21 +305,6 @@ function plaatsign_multi_post($label, $default) {
 	return $value;
 }
 
-function plaatsign_link_store($mid, $sid) {
-
-	/* input */
-	global $user;
-	
-	if (($user->menu_id!=$mid) || ($user->page_id!=$sid)) {
-	
-		$user->menu_id=$mid;
-		$user->page_id=$sid;
-	
-		plaatsign_db_user_update($user);
-		
-	}
-}
-
 /*
 ** ---------------------
 ** UI
@@ -356,8 +342,7 @@ function plaatsign_ui_input_hidden($name, $value) {
 	$page .= 'type="hidden" ';
 	$page .= 'id="'.$name.'" ';
 	$page .= 'name="'.$name.'" ';
-	$page .= 'value="'.$value.'" ';
-		
+	$page .= 'value="'.$value.'" ';		
 	$page .= '/>';
 
 	return $page;
@@ -471,9 +456,9 @@ function plaatsign_ui_checkbox($name, $value, $readonly=false) {
 	return $tmp;	
 }
 
-function plaatsign_ui_file($name, $value, $readonly=false) {
+function plaatsign_ui_file($name, $value, $readonly=false, $options="") {
 
-	$tmp = '<input type="file" name="'.$name.'" id="'.$name.'" value="'.$value.'" ';
+	$tmp = '<input type="file" name="'.$name.'" id="'.$name.'" value="'.$value.'" '.$options.' ';
 	
 	if ($readonly) {
 		$tmp .= ' disabled="true"';
@@ -566,13 +551,9 @@ function plaatsign_ui_header( $title = "") {
 	
 	$page .= '<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />'; 
 	$page .= '<link href="css/general.css" rel="stylesheet" type="text/css" />';
-	$page .= '<link href="css/jquery.css" rel="stylesheet" type="text/css" />';
 						
 	/* Add JavaScripts */
 	$page .= '<script language="JavaScript" src="js/link.js" type="text/javascript"></script>';
-	$page .= '<script language="JavaScript" src="js/jquery.js" type="text/javascript"></script>';
-	$page .= '<script language="JavaScript" src="js/jquery-ui.js" type="text/javascript"></script>';	
-	$page .= '<script language="JavaScript" src="js/jquery-multi.js" type="text/javascript"></script>';
 	
 	/* Add HTML Title */
 	if ($title=="") {
@@ -622,7 +603,7 @@ function plaatsign_ui_banner($menu) {
 	
 	$data = plaatsign_db_config("database_version");	
 	if (isset($data->id)) {
-		$page .= t('GENERAL_VERSION').' '.$data->value;
+		$page .= 'v'.$data->value.' '.t('BUILD_INFO');
 	}
 	$page .= '</div>';
 

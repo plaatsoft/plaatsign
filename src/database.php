@@ -203,19 +203,25 @@ function plaatsign_db_execute_sql_file($version) {
  */
 function plaatsign_db_check_version() {
 
-   // Execute SQL base sql script if needed!
+   // Create database if needed	
    $sql = "select 1 FROM config limit 1" ;
    $result = plaatsign_db_query($sql);
-   if (!$result)  {
-      plaatsign_db_execute_sql_file("0.1");
+   if (!$result) {
+		$version="0.1";
+      plaatsign_db_execute_sql_file($version);
    }
 
-   // Execute SQL path script v0.1 if needed
-   $sql = 'select value from config where token="database_version"';
-   $result = plaatsign_db_query($sql);
-   $row = plaatsign_db_fetch_object($result);
-   if ($row->value=="0.1")  {
-      plaatsign_db_execute_sql_file("0.2");
+   // Path database if needed	
+	$version = plaatsign_db_config_get("database_version");
+   if ($version=="0.1") {
+		$version="0.2";
+      plaatsign_db_execute_sql_file($version);		
+   }
+	
+	// Path database if needed	
+   if ($version=="0.2") {
+		$version="0.3";
+      plaatsign_db_execute_sql_file($version);
    }
 }
 
@@ -461,7 +467,7 @@ function plaatsign_db_config($token) {
 
 function plaatsign_db_config_get($token) {
 	
-	$query  = 'select id, token, category, value, options, last_update, readonly from config where token="'.$token.'"';	
+	$query  = 'select value from config where token="'.$token.'"';	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);

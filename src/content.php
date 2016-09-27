@@ -59,9 +59,9 @@ function plaatsign_content_save_do() {
 			  			  
 		plaatsign_ui_box('warning', t('CONTENT_TYPE_NOT_SUPPORTED'));
 		
-	} else if ($filesize>(2048000)) {
+	} else if ($filesize>MAX_FILE_SIZE) {
 	
-		plaatsign_ui_box('warning', t('CONTENT_TO_LARGE', '2MB'));
+		plaatsign_ui_box('warning', t('CONTENT_TO_LARGE', plaatsign_filesize(MAX_FILE_SIZE,0)));
 		
 	} else {
 	
@@ -187,7 +187,8 @@ function plaatsign_content_form() {
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_FILENAME').': *</label>';
 	if ($id==0) {
-		$page .= plaatsign_ui_file("filename", $filename);
+		$page .= plaatsign_ui_file("filename", $filename, false, 'onchange="'.
+		'javascript:link(\''.plaatsign_token('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid).'\''.');"');
 	} else {
 		$page .= plaatsign_ui_input("filename", 30, 30, $filename, true);
 	}
@@ -209,7 +210,7 @@ function plaatsign_content_form() {
 	$page .= '</p>';
 	
 	$page .= '<div id="note">';
-	$page .= t('CONTENT_REMARK',ini_get('upload_max_filesize').'B');
+	$page .= t('CONTENT_REMARK', plaatsign_filesize(MAX_FILE_SIZE,0));
 	$page .= '</div>';
 	
 	$page .= '</fieldset>' ;

@@ -18,7 +18,15 @@
 
 /*
 ** ------------------
-** Language: English
+** VERSION
+** ------------------
+*/
+
+$lang['BUILD_INFO'] = '(Build 27-09-2016)';
+
+/*
+** ------------------
+** LANGUAGES
 ** ------------------
 */
 
@@ -73,7 +81,6 @@ $lang['LINK_UPLOAD']  = 'Upload';
 
 $lang['GENERAL_REQUIRED_FIELD'] = '* Required field'; 
 
-$lang['GENERAL_VERSION'] = 'Version';
 $lang['GENERAL_USERNAME'] = 'Username'; 
 $lang['GENERAL_PASSWORD'] = 'Password'; 
 $lang['GENERAL_NAME'] = 'Name';
@@ -93,8 +100,9 @@ $lang['GENERAL_IMAGE'] = 'Image';
 $lang['GENERAL_OWNER'] = 'Owner';
 $lang['GENERAL_TIMEZONE'] = 'Timezone';
 
-$lang['GENERAL_INFO'] = 'Info';
-$lang['GENERAL_WARNING'] = 'Warn';
+$lang['GENERAL_INFO'] = 'INFO';
+$lang['GENERAL_WARNING'] = 'WARN';
+$lang['GENERAL_DEBUG'] = 'DEBUG';
 
 $lang['COPYRIGHT'] = 'All Copyright Reserved &copy; <a class="normal_link" href="http://www.plaatsoft.nl/">PlaatSoft</a> 2008 - ' . date("Y");
 
@@ -109,9 +117,9 @@ $lang['LOGIN_TITLE'] = 'LOGIN';
 $lang['LOGIN_WELCOME_TITLE'] = 'WELCOME';
 
 $lang['LOGIN_WELCOME'] = '
-<p><b>PlaatSign</b> is an digital content manager.</p>
+<p><b>PlaatSign</b> is an digital content viewer.</p>
 
-<p>If you are interresed or have any questions please contact us by
+<p>If you are interresed or have any questions please contact me by
 writing an email to <a href="mailto:info@plaatsoft.nl"/>info@plaatsoft.nl</a></p>';
 
 $lang['LOGIN_FAILED'] = 'Login failed!';
@@ -136,7 +144,7 @@ $lang['CONTENT_TITLE'] = 'CONTENT';
 $lang['CONTENT_SUBTITLE1'] = 'MANUAL CONTENT';
 $lang['CONTENT_SUBTITLE2'] = 'AUTOMATIC CONTENT';
 
-$lang['CONTENT_NOTE'] = 'On this moment the following content is part of the beamer slideshow.';
+$lang['CONTENT_NOTE'] = 'On this moment the following content is part of the slideshow.';
 
 $lang['CONTENT_ADDED'] = 'Content added';
 $lang['CONTENT_UPDATED'] = 'Content updated';
@@ -195,7 +203,7 @@ $lang['USER_HACK'] = 'Take over user %s [%s] session!';
 
 /*
 ** ------------------
-** HELP - TODO
+** HELP 
 ** ------------------
 */
 
@@ -203,17 +211,23 @@ $lang['HELP_TITLE'] = 'HELP';
 
 $lang['HELP_CONTENT'] = '
 
-<h2>To Do List</h2>
-<ul>
-<li>Publish PlaatSign project on plaatsoft.nl</li>
-</ul>
+<h2>Instruction</h2>
+<p>
+This website is self explaining. So no instruction is added.
+</p>
 
-<h2>Nice to Have</h2>
+<h2>Remark</h2>
+<p>
+Do not forget to change the default admin password after the installation!
+</p>
+
+
+<h2>Upcoming feature list</h2>
 <ul>
 <li>Upload multi files in one step.</li>
-<li>Enable / Disable Content.</li>
 <li>Resort content after upload</li>
-<li>Add thumbnail pictures for content list page. Works faster</li>
+<li>Use thumbnail pictures on content list page.</li>
+<li>Delete all manually content with one action.</li>
 </ul>';
 
 /*
@@ -226,10 +240,20 @@ $lang['RELEASENOTES_TITLE'] = 'RELEASE NOTES';
 
 $lang['RELEASENOTES_CONTENT']  = '
 
+<h2>26-09-2016 Version 0.3</h2>
+<ul>
+<li>The following improvements were made after the first demo to the "end user":</li>
+<li>Improve file upload. File is now directly uploaded after selection.</li>
+<li>Optimize automatic database patching algoritme.</li>
+<li>Remove jquery libraries. Speedup page loading.</li>
+<li>Bug fix: File size detection is now working correctly.</li>
+<li>Bug fix: Remove some typos in the text.</li>
+</ul>
+
 <h2>25-09-2016 Version 0.2</h2>
 <ul>
 <li>Added automatic content feature (automatic uploaded by external resource).</li>
-<li>Upload twice same content is now prohibit.</li>
+<li>Upload the same content (filename) twice is now prohibit.</li>
 <li>Timezone can now be configured on setting page. Default timezone is Europe/Amsterdam</li>
 <li>Improve password hash algoritme. PlaatSign is now using the lastest and most secure algoritm.</li>
 <li>User is automatic logout after 10 minutes idleness.</li>
@@ -262,7 +286,7 @@ $lang['CREDITS_TITLE'] = 'CREDITS';
 $lang['CREDITS_CONTENT'] = '
 
 <p>
-This following people have work on PlaatSign. 
+Many thanks to the following people who helped creating <b>PlaatSign</b>.
 </p>
 
 <h2>Software Architect</h2>
@@ -290,6 +314,13 @@ This following people have work on PlaatSign.
 </ul>
 </p>
 
+<h2>Others</h2>
+<p>
+<ul>
+<li>and of course all other users who sent great feedback to improve this application</li>
+</ul>
+</p>
+
 ';
 
 /*
@@ -301,10 +332,9 @@ This following people have work on PlaatSign.
 $lang['DONATE_TITLE'] = 'DONATE';
 
 $lang['DONATE_SUBTITLE1'] = 'General';
-$lang['DONATE_CONTENT1'] = 'PlaatSign may be used <b>non commercial</b> free of charge, but 
-if you wish to express your appreciation for the time and resources the author spent developing 
-and supporting it over the years, and also help reduce the costs of running the web server, 
-we do accept and appreciate donations.';
+$lang['DONATE_CONTENT1'] = 'PlaatSign may be used free of charge, but if you wish to express your appreciation 
+for the time and resources the author spent developing and supporting it over the years, we do accept and 
+appreciate donations.';
 
 $lang['DONATE_SUBTITLE2'] = 'PayPal';
 $lang['DONATE_CONTENT2'] = 'To make a donation online using your credit card, or PayPal account, click 
@@ -324,7 +354,7 @@ $lang['ABOUT_CONTENT'] = '
 <h2>Background</h2>
 <p>
 PlaatSign is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft</a>. PlaatSoft is a small christian 
-non profit organization with as mission to created high quality software. All the created software is open source and 
+non profit organization with as mission to created high quality software. All created software is open source and 
 may be copied, distributed or modified under the terms of the GNU General Public License (GPL) Version 3. If you want 
 more information about us, please send an email to info@plaatsoft.nl</p>
 
