@@ -244,8 +244,9 @@ $lang['RELEASENOTES_CONTENT']  = '
 <ul>
 <li>The following improvements were made after the first demo to the "end user":</li>
 <li>Improve file upload. File is now directly uploaded after selection.</li>
-<li>Optimize automatic database patching algoritme.</li>
+<li>Optimize automatic database patching algoritm.</li>
 <li>Remove jquery libraries. Speedup page loading.</li>
+<li>Added fatal warning when config.php is not found!</li>
 <li>Bug fix: File size detection is now working correctly.</li>
 <li>Bug fix: Remove some typos in the text.</li>
 </ul>

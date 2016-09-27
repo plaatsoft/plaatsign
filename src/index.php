@@ -20,6 +20,11 @@ $lang = array();
 
 $time_start = microtime(true);
 
+if (!file_exists( "config.php" )) {
+    echo "PlaatSign config.php file not found!";
+	 exit;
+}
+
 include "config.php";
 include "database.php";
 include "general.php";
