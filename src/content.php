@@ -44,7 +44,7 @@ function plaatsign_content_save_do() {
 	$data = plaatsign_db_content($id);
 
 	$filesize = filesize($_FILES['filename']['tmp_name']);
-	$filename = basename($_FILES["filename"]["name"]);
+	$filename = basename(strtolower($_FILES["filename"]["name"]));
 	$filetype = pathinfo($filename, PATHINFO_EXTENSION);
 
 	if (strlen($filesize)==0) {
