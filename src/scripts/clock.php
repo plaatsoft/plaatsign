@@ -58,7 +58,7 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 imagefilledrectangle($im, 0, 0, $width, $height, $white);
 drawLabel($im, ($height/2)-20, date("d-m-Y ", time()), 128, $black);
-drawLabel($im, ($height/2)+140, date("H:i:s", time()), 128, $black);
+drawLabel($im, ($height/2)+140, date("H:i", time()), 128, $black);
 drawLabel($im, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatSign', 12, $gray);
 
 imagepng($im);

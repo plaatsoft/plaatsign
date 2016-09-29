@@ -16,46 +16,59 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-$width = 1920/2;
-$height = 1080/2;
-$offset = 20;
+// -------------------------------------------------------
 
-$font = './../../fonts/arial.ttf';
-if (!file_exists($font)) {
-	$font = './../fonts/arial.ttf';
+define('DEBUG', 0);
+
+// Database credentials
+$dbhost = "127.0.0.1";
+$dbname = "plaatenergy";
+$dbuser = "plaatenergy";
+$dbpass = "plaatenergy";
+
+$database = "./../../database.php";
+if (!file_exists($database)) {
+	$database = "./../database.php";
 }
+include $database;
 
-$data = array(
-    array("01-09", 0, 10, 10),
-    array("02-09", 0, 12, 10),
-	 array("03-09", 10.5, 0, 2),	
-	 array("04-09", 12, 0, 8),	
-	 array("05-09", 0, 3, 2),	
-	 array("06-09", 0, 8, 3),	
-	 array("07-09", 0, 7, 4),	
-	 array("08-09", 0, 8, 5.6),	
-	 array("09-09", 0, 7, 7),	
-	 array("10-09", 12, 0, 4),	
-	 array("11-09", 14, 0, 3),	
-	 array("12-09", 0, 14, 2),	
-	 array("13-09", 0, 13, 3),
-	 array("14-09", 0, 12, 4),
-	 array("15-09", 0, 14, 5),
-	 array("16-09", 0, 11, 5),
-    array("17-09", 13, 0, 6),
-	 array("18-09", 12, 0, 7),	
-	 array("20-09", 0, 14, 7),	
-	 array("21-09", 0, 15, 8),	
-	 array("22-09", 0, 16, 9),	
-	 array("23-09", 0, 17, 4),	
-	 array("24-09", 0, 8, 1),	
-	 array("25-09", 13, 0, 2),	
-	 array("26-09", 12, 0, 3),	
-	 array("27-09", 0, 20, 4),	
-	 array("28-09", 0, 14, 5),	
-	 array("29-09", 0, 13, 6),
-	 array("30-09", 0, 12, 7)
-);
+plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
+
+$month=date('m');
+$year=date('Y');
+
+$data = array();
+
+for($d=1; $d<=31; $d++) {
+		
+	$time=mktime(12, 0, 0, $month, $d, $year);  
+        
+	if (date('m', $time)==$month) {
+		$timestamp1=date('Y-m-d 00:00:00', $time);
+		$timestamp2=date('Y-m-d 23:59:59', $time);
+		
+		$sql  = 'select sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
+		$sql .= 'sum(solar_delivered) as solar_delivered from energy_summary ';
+		$sql .= 'where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
+
+		$result = plaatsign_db_query($sql);
+		$row = plaatsign_db_fetch_object($result);
+		
+		$low_delivered = 0;
+		$normal_delivered = 0;
+		$solar_delivered = 0;
+		
+		if (isset($row->low_delivered)) {
+			$low_delivered = $row->low_delivered;
+			$normal_delivered = $row->normal_delivered;
+			$solar_delivered = $row->solar_delivered;
+		}
+		
+		$locale_delivered = $solar_delivered- $low_delivered - $normal_delivered;
+		$data[] = array(date('d-m', $time), $low_delivered, $normal_delivered, $locale_delivered);
+	}
+}
+				
 
 // -------------------------------------------------------
 
@@ -278,7 +291,11 @@ function drawLogo($im) {
 
 	global $width;
 
-	$src= imagecreatefrompng('./../../images/plaatenergy.png');
+	$logo = './../../images/plaatenergy.png';
+	if (!file_exists($logo)) {
+		$logo = './../images/plaatenergy.png';
+	}
+	$src= imagecreatefrompng($logo);
 
 	// Copy and merge
 	imagecopymerge($im, $src, 150, 12, 0, 0, 32, 32, 100);
@@ -286,6 +303,15 @@ function drawLogo($im) {
 }
 
 // -------------------------------------------------------
+
+$width = 1920/2;
+$height = 1080/2;
+$offset = 20;
+
+$font = './../../fonts/arial.ttf';
+if (!file_exists($font)) {
+	$font = './../fonts/arial.ttf';
+}
 
 header('Content-Type: image/png');
 
@@ -301,16 +327,18 @@ $red = imagecolorallocate($im, 0xff, 0x00, 0x00);
 
 imagefilledrectangle($im, 0, 0, $width, $height, $white);
 
-drawLabel($im, 38, 'Geleverde Electriciteit September 2016', 24, $black);
+drawLabel($im, 38, 'Geleverde Electriciteit '.$month.'-'.$year, 24, $black);
 drawLogo($im);
-drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Voorspelling (kWh)');
+drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)');
 drawAxes($im, $data, $gray);
-drawForcast($im, $data, 12.55, $red);
+drawForcast($im, $data, getAverage($data), $red);
 drawBars($im, $data);
 drawLabel($im, $height-38, 'Gemiddeld per dag '.getAverage($data).' kWh [Totaal = '.getTotal($data).' kWh]', 18, $black);
 drawLabel($im, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
 
 imagepng($im);
 imagedestroy($im);
+
+// -------------------------------------------------------
 
 ?>
