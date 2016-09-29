@@ -63,7 +63,7 @@ CREATE TABLE `user` (
 
 
 INSERT INTO `user` (`uid`, `username`, `password`, `name`, `email`, `language`, `created`, `last_activity`, `role`, `requests`) VALUES
-(1, 'admin', '$2y$12$oOuOKHZBRJaCSXex6A607Olf4qBn3QgyTCjosJ4wmFFWyzmKUtxVS', 'admin', 'admin@plaatsoft.nl', 0, '2016-09-24 09:37:53', '2016-09-24 14:33:18', 1, 1);
+(1, 'admin', '$2y$12$oOuOKHZBRJaCSXex6A607Olf4qBn3QgyTCjosJ4wmFFWyzmKUtxVS', 'Administrator', 'admin@plaatsoft.nl', 0, '2016-09-24 09:37:53', '2016-09-24 14:33:18', 1, 1);
 
 
 ALTER TABLE `config`
