@@ -24,13 +24,13 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>28-09-2016 Version 0.3</h2>
+<h2>29-09-2016 Version 0.3</h2>
 <ul>
 <li>The following improvements were made after the first demo to the "end user":</li>
-<li>Added script content for dynamic generation content.</li>
-<li>Added movie content for stream video/audio content.</li>
+<li>Added script content for dynamic content support.</li>
+<li>Added movie content for stream video/audio support.</li>
 <li>Improve file upload. File is now directly uploaded after selection.</li>
-<li>Optimize automatic database patching algoritm.</li>
+<li>Improve automatic database patching algoritm.</li>
 <li>Remove jquery libraries. Speedup page loading.</li>
 <li>Added fatal warning when config.php is not found!</li>
 <li>Bug fix: File size detection is now working correctly.</li>

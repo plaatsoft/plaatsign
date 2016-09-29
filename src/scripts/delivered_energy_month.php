@@ -1,14 +1,29 @@
 <?php
-// Set the content-type
-header('Content-Type: image/png');
+
+/* 
+**  ==========
+**  plaatsign
+**  ==========
+**
+**  Created by wplaat
+**
+**  For more information visit the following website.
+**  Website : www.plaatsoft.nl 
+**
+**  Or send an email to the following address.
+**  Email   : info@plaatsoft.nl
+**
+**  All copyrights reserved (c) 2008-2016 PlaatSoft
+*/
 
 $width = 1920/2;
 $height = 1080/2;
-
 $offset = 20;
 
-// Replace path by your own font path
 $font = './../../fonts/arial.ttf';
+if (!file_exists($font)) {
+	$font = './../fonts/arial.ttf';
+}
 
 $data = array(
     array("01-09", 0, 10, 10),
@@ -272,7 +287,8 @@ function drawLogo($im) {
 
 // -------------------------------------------------------
 
-// Create the image
+header('Content-Type: image/png');
+
 $im = imagecreatetruecolor($width, $height);
 
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
