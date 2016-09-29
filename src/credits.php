@@ -28,7 +28,7 @@ function plaatsign_credits_form() {
 	global $page;
 	global $title;
 	
-	$title = t('CREDITS_TITLE');
+	$title = strtoupper(t('LINK_HELP')).' - '.t('CREDITS_TITLE');
 	
 	$page .= '<div id="content">';
  	$page .= '<h1>'.$title.'</h1>';

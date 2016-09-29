@@ -28,7 +28,7 @@ function plaatsign_donate_form() {
 	global $page;
 	global $title;
 	
-	$title = t('DONATE_TITLE');
+	$title = strtoupper(t('LINK_HELP')).' - '.t('DONATE_TITLE');
 	
 	$page .= '<div id="content">';
 	

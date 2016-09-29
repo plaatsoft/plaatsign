@@ -185,7 +185,7 @@ function plaatsign_user_form() {
 			
 	$page .= '<div id="detail">';
 				
-	$title = t('USER_TITLE');
+	$title = t('SETTINGS_TITLE').' - '.t('USER_TITLE');
 				
 	$page .= '<h1>';
 	$page .= $title;
@@ -267,7 +267,7 @@ function plaatsign_userlist_form() {
 	global $page;
 	global $title;
 	
-	$title = t('USERS_TITLE');
+	$title = t('SETTINGS_TITLE').' - '.t('USERS_TITLE');
 	
 	$page .= '<h1>';
 	$page .= $title;

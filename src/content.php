@@ -55,9 +55,15 @@ function plaatsign_content_save_do() {
 		
 		plaatsign_ui_box('warning', t('CONTENT_ALREADY_EXIST'));
 	
-	} else if ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif") {
+	} else if (
+				 (($tid==TYPE_IMAGE) && ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif")) 
+				 ||
+				 (($tid==TYPE_MOVIE) && ($filetype!="mp4"))
+				 ||
+				 (($tid==TYPE_SCRIPT) && ($filetype!="php")) 
+				 )	{
 			  			  
-		plaatsign_ui_box('warning', t('CONTENT_TYPE_NOT_SUPPORTED'));
+		plaatsign_ui_box('warning', t('CONTENT_TYPE_NOT_SUPPORTED_'.$tid));
 		
 	} else if ($filesize>MAX_FILE_SIZE) {
 	
@@ -73,6 +79,7 @@ function plaatsign_content_save_do() {
 			$data->enabled = $enabled;		
 			$data->uid = $user->uid;
 			$data->created = date("Y-m-d H:i:s", time());
+			$data->tid = $tid;
 				
 			plaatsign_db_content_update($data);	
 			plaatsign_ui_box('info', t('CONTENT_UPDATED'));
@@ -88,7 +95,7 @@ function plaatsign_content_save_do() {
 		}
 		
 		$cache_filename = $id.'.'.pathinfo($filename, PATHINFO_EXTENSION);			
-		move_uploaded_file($_FILES["filename"]["tmp_name"], "uploads/".$cache_filename);
+		move_uploaded_file($_FILES["filename"]["tmp_name"], plaatsign_content_path($tid).$cache_filename);
 	}
 }
 
@@ -106,8 +113,8 @@ function plaatsign_content_delete_do() {
 	if (isset($data->cid)) {
 
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
-		@unlink("uploads/".$cache_filename);
-		
+		@unlink(plaatsign_content_path($data->tid).$cache_filename);
+				
 		plaatsign_db_content_delete($id);
 
 		plaatsign_ui_box('info', t('CONTENT_DELETED'));
@@ -151,6 +158,7 @@ function plaatsign_content_form() {
 			$filesize = $data->filesize;
 			$enabled = $data->enabled;
 			$created = $data->created;
+			$tid = $data->tid;
 			
 			$tmp = plaatsign_db_user($data->uid);
 			if (isset($tmp->uid)) {	
@@ -163,7 +171,7 @@ function plaatsign_content_form() {
 			
 	$page .= '<div id="detail">';	
 				
-	$title = t('CONTENT_TITLE');
+	$title = t('CONTENT_TITLE').' - '.strtoupper(t('TYPE_'.$tid));
 				
 	$page .= '<h1>';
 	$page .= $title;
@@ -174,7 +182,7 @@ function plaatsign_content_form() {
 	
 	if ($id>0) {
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
-		$page	.= '<image class="imgl" src="uploads/'.$cache_filename.'" width="480" height="360" />';
+		$page	.= '<image class="imgl" src="'.plaatsign_content_path($tid).$cache_filename.'" width="480" height="360" />';
 	} else {
 		$page	.= '<image class="imgl" src="images/unknown.jpg" width="480" height="360" />';
 	}
@@ -205,12 +213,17 @@ function plaatsign_content_form() {
 	$page .= '</p>';
 	
 	$page .= '<p>';
+	$page .= '<label>'.t('GENERAL_TYPE').': </label>';
+	$page .= plaatsign_ui_type("type", $tid, true);
+	$page .= '</p>';
+	
+	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_OWNER').': </label>';
 	$page .= plaatsign_ui_input("owner", 30, 30, $owner, true);
 	$page .= '</p>';
 	
 	$page .= '<div id="note">';
-	$page .= t('CONTENT_REMARK', plaatsign_filesize(MAX_FILE_SIZE,0));
+	$page .= t('CONTENT_REMARK_'.$tid, plaatsign_filesize(MAX_FILE_SIZE,0));
 	$page .= '</div>';
 	
 	$page .= '</fieldset>' ;
@@ -222,7 +235,7 @@ function plaatsign_content_form() {
 	}
 	
 	if ($id!=0) {
-		if (($tid==TYPE_MANUAL) || (($tid==TYPE_AUTOMATIC) && ($user->role==ROLE_ADMIN))) {
+		if (($tid==TYPE_IMAGE) || ($tid==TYPE_MOVIE) || (($tid==TYPE_SCRIPT) && ($user->role==ROLE_ADMIN))) {
 			$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE.'&tid='.$tid, t('LINK_DELETE'));
 			$page .= ' ';
 		}
@@ -244,13 +257,9 @@ function plaatsign_contentlist_form() {
 	/* output */
 	global $page;
 	global $title;
-				
-	if ($tid==TYPE_MANUAL) {
-		$title = t('CONTENT_SUBTITLE1');
-	} else {
-		$title = t('CONTENT_SUBTITLE2');
-	}
-
+		
+	$title = t('CONTENT_TITLE').' - '.strtoupper(t('TYPE_'.$tid));
+	
 	$page .= '<h1>';	
 	$page .= $title;
 	$page .= '</h1>';
@@ -259,7 +268,7 @@ function plaatsign_contentlist_form() {
 	$page .= t('CONTENT_NOTE');
 	$page .= '</p>';
 		
-	$query  = 'select cid, filename, filesize, enabled, created, uid from content where type='.$tid.' ';
+	$query  = 'select cid, filename, filesize, enabled, created, uid from content where tid='.$tid.' ';
 		
 	switch ($sort) {
 
@@ -332,7 +341,7 @@ function plaatsign_contentlist_form() {
 		
 		$page .= '<td>';
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
-		$page	.= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="uploads/'.$cache_filename.'" width="128" height="80" />');
+		$page	.= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="'.plaatsign_content_path($tid).$cache_filename.'" width="128" height="80" />');
 		$page .= '</td>';
 			
 		$page .= '<td>';
@@ -359,7 +368,7 @@ function plaatsign_contentlist_form() {
 	$page .= '</tbody>';
 	$page .= '</table>';
 	
-	if (($tid==TYPE_MANUAL) || (($tid==TYPE_AUTOMATIC) && ($user->role==ROLE_ADMIN))) {
+	if (($tid==TYPE_IMAGE) || ($tid==TYPE_MOVIE) || (($tid==TYPE_SCRIPT) && ($user->role==ROLE_ADMIN))) {
 		$page .= '<p>';
 		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD.'&tid='.$tid, t('LINK_ADD'));
 		$page .= '</p>';

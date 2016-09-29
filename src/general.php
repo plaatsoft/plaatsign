@@ -25,8 +25,9 @@
 define('DEBUG', 0);
 define('MAX_FILE_SIZE', 2048000);
 
-define('TYPE_MANUAL', 0);
-define('TYPE_AUTOMATIC', 1);
+define('TYPE_IMAGE', 0);
+define('TYPE_MOVIE', 1);
+define('TYPE_SCRIPT', 2);
 
 define('LANGUAGE_ENGLISH', 0);
 define('LANGUAGE_DUTCH', 1);
@@ -52,7 +53,7 @@ define("PAGE_CREDITS", 208);
 define("PAGE_DONATE", 209);
 define("PAGE_ABOUT", 210);
 define("PAGE_SETTINGS", 211);
-define("PAGE_HELP", 212);
+define("PAGE_MANUAL", 212);
 
 define("EVENT_NONE", 300);
 define("EVENT_LOGIN", 301);
@@ -311,6 +312,27 @@ function plaatsign_multi_post($label, $default) {
 ** ---------------------
 */
 
+function plaatsign_content_path($tid) {
+	
+	$path = "";
+	
+	switch ($tid) {
+	
+		case TYPE_IMAGE: 
+				$path = 'uploads/images/';
+				break;
+				
+		case TYPE_MOVIE: 
+				$path = 'uploads/movies/';
+				break;
+				
+		case TYPE_SCRIPT: 
+				$path = 'uploads/scripts/';
+				break;
+	}
+	return $path;
+}
+
 function plaatsign_filesize($bytes, $decimals = 2) {
   $sz = 'BKMGTP';
   $factor = floor((strlen($bytes) - 1) / 3);
@@ -384,6 +406,32 @@ function plaatsign_ui_textarea($name, $rows, $cols, $value, $readonly=false) {
 	$page.= $value;		
 	$page.='</textarea>';
 	  
+   return $page;
+}
+
+function plaatsign_ui_type($tag, $id, $readonly=false) {
+			
+	$values = array(TYPE_IMAGE, TYPE_MOVIE, TYPE_SCRIPT);	
+
+	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
+	
+	if ($readonly) {
+		$page .= 'disabled="true" ';
+	}
+	$page .= '>'; 
+	
+	foreach ($values as $value) {
+	
+		$page.='<option value="'.$value.'"';
+		
+		if ($id == $value) {
+			$page .= ' selected="selected"';
+		}
+		$page .= '>'.t('TYPE_'.$value).'</option>';
+	}
+		
+	$page.='</select>';
+		
    return $page;
 }
 

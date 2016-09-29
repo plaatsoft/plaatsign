@@ -71,7 +71,7 @@ function plaatsign_settings_form() {
 	global $page;
 	global $title;
 		
-	$title = t('SETTINGS_TITLE');
+	$title = t('SETTINGS_TITLE').' - '.strtoupper(t('LINK_GENERAL'));
 	
 	$page .= '<div id="detail">';
  	$page .= '<h1>'.$title.'</h1>';

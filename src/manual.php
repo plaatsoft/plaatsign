@@ -22,19 +22,19 @@
 ** ------------------
 */
 
-function plaatsign_help_form() {
+function plaatsign_manual_form() {
 
 	/* output */
 	global $page;
 	global $title;
 	
-	$title = t('HELP_TITLE');
+	$title = strtoupper(t('LINK_HELP')).' - '.t('MANUAL_TITLE');
 	
 	$page .= '<div id="content">';	
  	$page .= '<h1>'.$title.'</h1>';
 
 	$page .= '<p>';		
-	$page .= t('HELP_CONTENT');
+	$page .= t('MANUAL_CONTENT');
 	$page .= '</p>';
 	$page .= '</div>';
 	
@@ -49,15 +49,15 @@ function plaatsign_help_form() {
 ** ------------------
 */
 
-function plaatsign_help() {
+function plaatsign_manual() {
 
 	/* input */
 	global $sid;
 		
 	switch ($sid) {
 
-		case PAGE_HELP: 
-					plaatsign_help_form();
+		case PAGE_MANUAL: 
+					plaatsign_manual_form();
 					break;
 	}
 }

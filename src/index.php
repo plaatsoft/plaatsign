@@ -141,9 +141,9 @@ switch ($sid) {
 				plaatsign_content();
 				break;
 				
-	case PAGE_HELP:
-				include "help.php";				
-				plaatsign_help();
+	case PAGE_MANUAL:
+				include "manual.php";				
+				plaatsign_manual();
 				break;
 				
 	case PAGE_ABOUT:

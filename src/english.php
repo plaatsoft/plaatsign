@@ -22,7 +22,7 @@
 ** ------------------
 */
 
-$lang['BUILD_INFO'] = '(Build 27-09-2016)';
+$lang['BUILD_INFO'] = '(Build 29-09-2016)';
 
 /*
 ** ------------------
@@ -33,6 +33,16 @@ $lang['BUILD_INFO'] = '(Build 27-09-2016)';
 $lang['LANGUAGE_0'] = 'English';
 $lang['LANGUAGE_1'] = 'Dutch';
  
+/*
+** ------------------
+** TYPE
+** ------------------
+*/
+
+$lang['TYPE_0'] = 'Images';
+$lang['TYPE_1'] = 'Movies';
+$lang['TYPE_2'] = 'Scripts';
+
 /*
 ** ------------------
 ** ROLES
@@ -51,7 +61,9 @@ $lang['ROLE_1'] = 'Admin';
 $lang['LINK_LOGIN']  = 'Login'; 
 $lang['LINK_CONTENT']  = 'Content'; 
 $lang['LINK_MANUAL']  = 'Manual'; 
-$lang['LINK_AUTOMATIC']  = 'Automatic'; 
+$lang['LINK_SCRIPTS']  = 'Scripts';
+$lang['LINK_IMAGES']  = 'Images'; 
+$lang['LINK_MOVIES']  = 'Movies'; 
 $lang['LINK_SETTINGS'] = 'Settings'; 
 $lang['LINK_HELP'] = 'Help'; 
 $lang['LINK_LOGOUT']  = 'Logout';
@@ -99,6 +111,7 @@ $lang['GENERAL_LANGUAGE'] = 'Language';
 $lang['GENERAL_IMAGE'] = 'Image';
 $lang['GENERAL_OWNER'] = 'Owner';
 $lang['GENERAL_TIMEZONE'] = 'Timezone';
+$lang['GENERAL_TYPE'] = 'Type';
 
 $lang['GENERAL_INFO'] = 'INFO';
 $lang['GENERAL_WARNING'] = 'WARN';
@@ -141,8 +154,6 @@ $lang['LOGIN_RECOVER'] = 'RECOVER';
 */
 
 $lang['CONTENT_TITLE'] = 'CONTENT';
-$lang['CONTENT_SUBTITLE1'] = 'MANUAL CONTENT';
-$lang['CONTENT_SUBTITLE2'] = 'AUTOMATIC CONTENT';
 
 $lang['CONTENT_NOTE'] = 'On this moment the following content is part of the slideshow.';
 
@@ -152,9 +163,14 @@ $lang['CONTENT_DELETED'] = 'Content deleted';
 
 $lang['CONTENT_FILE_NOT_FOUND'] = 'File not found, upload aborted!';
 $lang['CONTENT_ALREADY_EXIST'] = 'Content (filename) already exist, upload aborted!';
-$lang['CONTENT_TYPE_NOT_SUPPORTED'] = 'Sorry, only JPG, JPEG, PNG & GIF files are allowed, upload aborted!';
-$lang['CONTENT_REMARK'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
 $lang['CONTENT_TO_LARGE'] = 'File is to large. Maximum file is %s';
+
+$lang['CONTENT_TYPE_NOT_SUPPORTED_0'] = 'Sorry, only JPG, JPEG, PNG or GIF file format is allowed, upload aborted!';
+$lang['CONTENT_REMARK_0'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
+$lang['CONTENT_TYPE_NOT_SUPPORTED_1'] = 'Sorry, only MP4 file format is allowed, upload aborted!';
+$lang['CONTENT_REMARK_1'] = '* Only MP4 file format is supported and maximum filesize is %s';
+$lang['CONTENT_TYPE_NOT_SUPPORTED_2'] = 'Sorry, only PHP file format is allowed, upload aborted!';
+$lang['CONTENT_REMARK_2'] = '* Only PHP file format is supported and maximum filesize is %s';
 
 /*
 ** ------------------
@@ -203,13 +219,13 @@ $lang['USER_HACK'] = 'Take over user %s [%s] session!';
 
 /*
 ** ------------------
-** HELP 
+** HELP - MANUAL
 ** ------------------
 */
 
-$lang['HELP_TITLE'] = 'HELP';
+$lang['MANUAL_TITLE'] = 'MANUAL';
 
-$lang['HELP_CONTENT'] = '
+$lang['MANUAL_CONTENT'] = '
 
 <h2>Instruction</h2>
 <p>
@@ -219,67 +235,19 @@ This website is self explaining. So no instruction is added.
 <h2>Remark</h2>
 <p>
 Do not forget to change the default admin password after the installation!
-</p>
-
-
-<h2>Upcoming feature list</h2>
-<ul>
-<li>Upload multi files in one step.</li>
-<li>Resort content after upload</li>
-<li>Use thumbnail pictures on content list page.</li>
-<li>Delete all manually content with one action.</li>
-</ul>';
+</p>';
 
 /*
 ** ------------------
-** RELEASE NOTES
+** HELP - RELEASE NOTES
 ** ------------------
 */
 
 $lang['RELEASENOTES_TITLE'] = 'RELEASE NOTES';
 
-$lang['RELEASENOTES_CONTENT']  = '
-
-<h2>28-09-2016 Version 0.3</h2>
-<ul>
-<li>The following improvements were made after the first demo to the "end user":</li>
-<li>Improve file upload. File is now directly uploaded after selection.</li>
-<li>Optimize automatic database patching algoritm.</li>
-<li>Remove jquery libraries. Speedup page loading.</li>
-<li>Added fatal warning when config.php is not found!</li>
-<li>Bug fix: File size detection is now working correctly.</li>
-<li>Bug fix: Remove some typos in the text.</li>
-<li>Bug fix: Filename with uppercase extention is now correctly processed.</li>
-</ul>
-
-<h2>25-09-2016 Version 0.2</h2>
-<ul>
-<li>Added automatic content feature (automatic uploaded by external resource).</li>
-<li>Upload the same content (filename) twice is now prohibit.</li>
-<li>Timezone can now be configured on setting page. Default timezone is Europe/Amsterdam</li>
-<li>Improve password hash algoritme. PlaatSign is now using the lastest and most secure algoritm.</li>
-<li>User is automatic logout after 10 minutes idleness.</li>
-<li>Added automatic database creation and patching.</li>
-</ul>
-
-<h2>24-09-2016 Version 0.1</h2>
-<ul>
-<li>Added basic content page with CRUD actions</li>
-<li>Added role base access</li>
-<li>Added basic settings page</li>
-<li>Added basic login/logout functionality</li>
-<li>Added basic user setting page with CRUD actions</li>
-<li>Added basic help page</li>
-<li>Added basic release notes page</li>
-<li>Added basic credits page</li>
-<li>Added basic donate page</li>
-<li>Added basic about page</li>
-<li>Added basic unix photo slide script for Raspberry Pi</li>
-</ul>';
-
 /*
 ** ------------------
-** CREDITS
+** HELP - CREDITS
 ** ------------------
 */
 

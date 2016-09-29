@@ -15,3 +15,5 @@
 --
 
 UPDATE config SET value="0.3" WHERE token = "database_version";
+
+ALTER TABLE `content` CHANGE `type` `tid` INT(11) NOT NULL;
