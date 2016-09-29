@@ -40,27 +40,26 @@ $lang['RELEASENOTES_CONTENT']  = '
 
 <h2>25-09-2016 Version 0.2</h2>
 <ul>
-<li>Added automatic content feature (automatic uploaded by external resource).</li>
 <li>Upload the same content (filename) twice is now prohibit.</li>
 <li>Timezone can now be configured on setting page. Default timezone is Europe/Amsterdam</li>
-<li>Improve password hash algoritme. PlaatSign is now using the lastest and most secure algoritm.</li>
+<li>Improve password hash algoritm. PlaatSign is now using the lastest and most secure algoritm.</li>
 <li>User is automatic logout after 10 minutes idleness.</li>
 <li>Added automatic database creation and patching.</li>
 </ul>
 
 <h2>24-09-2016 Version 0.1</h2>
 <ul>
-<li>Added basic content page with CRUD actions</li>
+<li>Added ontent page with CRUD actions</li>
 <li>Added role base access</li>
-<li>Added basic settings page</li>
-<li>Added basic login/logout functionality</li>
-<li>Added basic user setting page with CRUD actions</li>
-<li>Added basic help page</li>
-<li>Added basic release notes page</li>
-<li>Added basic credits page</li>
-<li>Added basic donate page</li>
-<li>Added basic about page</li>
-<li>Added basic unix photo slide script for Raspberry Pi</li>
+<li>Added settings page</li>
+<li>Added login/logout functionality</li>
+<li>Added user setting page with CRUD actions</li>
+<li>Added help page</li>
+<li>Added release notes page</li>
+<li>Added credits page</li>
+<li>Added donate page</li>
+<li>Added about page</li>
+<li>Added unix photo slide script for Raspberry Pi</li>
 </ul>';
 
 function plaatsign_releasenotes_form() {
