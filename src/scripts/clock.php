@@ -16,13 +16,7 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-$width = 1920/2;
-$height = 1080/2;
-
-$font = './../../fonts/arial.ttf';
-if (!file_exists($font)) {
-	$font = './../fonts/arial.ttf';
-}
+// -------------------------------------------------------
 
 /* Set default timezone */
 date_default_timezone_set ( "Europe/Amsterdam" );
@@ -48,6 +42,14 @@ function drawLabel($im, $y, $text, $font_size=28, $color) {
 
 // -------------------------------------------------------
 
+$width = 1920/2;
+$height = 1080/2;
+
+$font = './../../fonts/arial.ttf';
+if (!file_exists($font)) {
+	$font = './../fonts/arial.ttf';
+}
+
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
@@ -63,5 +65,7 @@ drawLabel($im, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - Plaat
 
 imagepng($im);
 imagedestroy($im);
+
+// -------------------------------------------------------- 
 
 ?>
