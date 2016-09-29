@@ -290,12 +290,21 @@ function drawBars($im, $data)  {
 function drawLogo($im) {
 
 	global $width;
-
-	$logo = './../../images/plaatenergy.png';
-	if (!file_exists($logo)) {
-		$logo = './../images/plaatenergy.png';
-	}
-	$src= imagecreatefrompng($logo);
+	
+	$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
+	AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
+	goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
+	veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
+	/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
+	kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
+	to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
+	ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
+	afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
+	iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
+	TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
+	d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
+	
+	$src = imagecreatefromstring($logo);
 
 	// Copy and merge
 	imagecopymerge($im, $src, 150, 12, 0, 0, 32, 32, 100);
