@@ -35,7 +35,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 <li>Added fatal warning when config.php is not found!</li>
 <li>Bug fix: File size detection is now working correctly.</li>
 <li>Bug fix: Remove some typos in the text.</li>
-<li>Bug fix: Filename with uppercase extention is now correctly processed.</li>
+<li>Bug fix: Filename with uppercase extension is now correctly processed.</li>
 </ul>
 
 <h2>25-09-2016 Version 0.2</h2>
