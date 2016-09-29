@@ -114,7 +114,7 @@ $lang['GENERAL_TIMEZONE'] = 'Timezone';
 $lang['GENERAL_TYPE'] = 'Type';
 
 $lang['GENERAL_INFO'] = 'INFO';
-$lang['GENERAL_WARNING'] = 'WARN';
+$lang['GENERAL_WARNING'] = 'WARNING';
 $lang['GENERAL_DEBUG'] = 'DEBUG';
 
 $lang['COPYRIGHT'] = 'All Copyright Reserved &copy; <a class="normal_link" href="http://www.plaatsoft.nl/">PlaatSoft</a> 2008 - ' . date("Y");
@@ -124,6 +124,11 @@ $lang['COPYRIGHT'] = 'All Copyright Reserved &copy; <a class="normal_link" href=
 **  LOGIN
 ** ------------------
 */
+
+$lang ['CONGIG_BAD' ] = 'The following file "config.php" is missing in installation directory.<br/><br/>
+Rename config.php.sample to config.php, update the database settings en press F5 in your browser!';
+
+$lang['DATABASE_CONNECTION_FAILED' ] = 'The connection to the database failed. Please check if config.php settings!';
 
 $lang['LOGIN_TITLE'] = 'LOGIN';
 

@@ -369,9 +369,8 @@ function plaatsign_contentlist_form() {
 	$page .= '</table>';
 	
 	if (($tid==TYPE_IMAGE) || ($tid==TYPE_MOVIE) || (($tid==TYPE_SCRIPT) && ($user->role==ROLE_ADMIN))) {
-		$page .= '<p>';
+		$page .= '<br/>';
 		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENT.'&eid='.EVENT_ADD.'&tid='.$tid, t('LINK_ADD'));
-		$page .= '</p>';
 	}
 }
 

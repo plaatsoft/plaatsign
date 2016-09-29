@@ -20,16 +20,71 @@ $lang = array();
 
 $time_start = microtime(true);
 
-if (!file_exists( "config.php" )) {
-    echo "PlaatSign config.php file not found!";
-	 exit;
-}
-
-include "config.php";
 include "database.php";
 include "general.php";
 include "menu.php";
 include "english.php";
+
+/*
+** ---------------------------------------------------------------- 
+** Config file
+** ---------------------------------------------------------------- 
+*/
+
+if (!file_exists( "config.php" )) {
+
+	echo plaatsign_ui_header();	
+	echo plaatsign_ui_banner("");
+
+	$page  = '<h1>'.t('GENERAL_WARNING').'</h1>';
+	$page .= '<br/>';
+   $page .= t('CONGIG_BAD');
+	$page .= '<br/>';
+	
+	echo '<div id="container">'.$page.'</div>';
+	
+	$time_end = microtime(true);
+	$time = $time_end - $time_start;
+	
+	echo plaatsign_ui_footer($time, 0 );
+	
+   exit;
+}
+
+include "config.php";
+
+/*
+** ---------------------------------------------------------------- 
+** Database
+** ---------------------------------------------------------------- 
+*/
+
+/* connect to database */
+if (@plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]) == false) {
+
+	echo plaatsign_ui_header();	
+	echo plaatsign_ui_banner("");
+
+	$page  = '<h1>'.t('GENERAL_WARNING').'</h1>';
+	$page .= '<br/>';
+   $page .= t('DATABASE_CONNECTION_FAILED');
+	$page .= '<br/>';
+	
+	echo '<div id="container">'.$page.'</div>';
+	
+	$time_end = microtime(true);
+	$time = $time_end - $time_start;
+	
+	echo plaatsign_ui_footer($time, 0 );
+
+	exit;
+}
+
+/* create / patch database if needed */
+plaatsign_db_check_version();
+
+/* Set default timezone */
+date_default_timezone_set ( plaatsign_db_config_get("timezone" ) );
 
 /*
 ** ---------------------------------------------------------------- 
@@ -76,21 +131,6 @@ if (strlen($token)>0) {
 		}
 	}
 }
-
-/*
-** ---------------------------------------------------------------- 
-** Database
-** ---------------------------------------------------------------- 
-*/
-
-/* connect to database */
-plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
-
-/* create / patch database if needed */
-plaatsign_db_check_version();
-
-/* Set default timezone */
-date_default_timezone_set ( plaatsign_db_config_get("timezone" ) );
 
 /*
 ** ---------------------------------------------------------------- 
@@ -193,8 +233,7 @@ if (isset($user->uid)) {
 ** ----------------------------------------------------------------
 */
 
-echo plaatsign_ui_header($title);
-	
+echo plaatsign_ui_header($title);	
 echo plaatsign_ui_banner(plaatsign_menu());
 	
 echo '<div id="container">'.$page.'</div>';

@@ -22,23 +22,6 @@
 ** ------------------
 */
 
-function plaatsign_login_menu() {
-	
-	/* input */
-	global $mid;
-	global $sid;
-					
-	$menu = '<ul>';
-	
-	if (($sid==PAGE_LOGIN) || ($sid==0)) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.$mid.'&sid='.PAGE_LOGIN, t('LINK_LOGIN'));
-	$menu .= '</li>';
-	
-	$menu .= '</ul>';
-		
-	return $menu;
-}
-
 function plaatsign_main_menu() {
 	
 	/* input */
@@ -135,15 +118,8 @@ function plaatsign_menu() {
 	
 	$menu = '<div id="topnav">';
 	
-	switch ($mid) {
-	
-		case MENU_LOGIN:
-			$menu .= plaatsign_login_menu();
-			break;
-					
-		default: 
-			$menu .= plaatsign_main_menu();
-			break;
+	if ($mid!=MENU_LOGIN) {
+		$menu .= plaatsign_main_menu();
 	}
 	
 	$menu .= '</div>';	

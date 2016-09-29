@@ -593,8 +593,8 @@ function plaatsign_ui_header( $title = "") {
 		$page .= '<link rel="canonical" href="http://sign.plaatsoft.nl" />';
 		
 		$page .= '<meta name="application-name" content="plaatsign" />';
-		$page .= '<meta name="description" content="plaatsign is a scrum development tool" />';
-		$page .= '<meta name="application-url" content="http://scrum.plaatsoft.nl" />';		
+		$page .= '<meta name="description" content="plaatsign is a digital content viewer" />';
+		$page .= '<meta name="application-url" content="http://sign.plaatsoft.nl" />';		
 	}
 	
 	$page .= '<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />'; 
@@ -639,8 +639,7 @@ function plaatsign_ui_banner($menu) {
 	
 	$page .= '<div id="header">';
    
-	$page .= '<div class="fl_left">';
-	
+	$page .= '<div class="fl_left">';	
    $page .= '<h1>';
 	if ($mid==MENU_LOGIN) { 
 		$page .= plaatsign_link('mid='.MENU_LOGIN.'&sid='.PAGE_LOGIN, 'PlaatSign' );
@@ -648,33 +647,32 @@ function plaatsign_ui_banner($menu) {
 		$page .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST,'PlaatSign' );
 	}
 	$page .= '</h1>';
-	
 	$data = plaatsign_db_config("database_version");	
 	if (isset($data->id)) {
-		$page .= 'v'.$data->value.' '.t('BUILD_INFO');
+		$page .= '<div class="version">';	
+   	$page .= 'v'.$data->value.' '.t('BUILD_INFO');
+		$page .= '</div>';
 	}
 	$page .= '</div>';
-
+	
 	$page .= '<div class="fl_right">';
 	$page .= $menu;
-	$page .= '</div>';	
+	$page .= '</div>';
+	
+	if (isset($user->uid)) {	
+
+		$page .= '<div class="user">';
+		$page .= $user->name.' ['.t('ROLE_'.$user->role).']';
+		$page .= '</div>';	
+	}	
+		
 	$page .= '<br class="clear" />';
    $page .= '</div>';
+		
 	$page .= '<p style="float:right">';
-	if (isset($user->uid)) {
-			
-		$page .= $user->name.' ';
-	
-		$page .= ' [';
-		$page .= t('ROLE_'.$user->role);
-		$page .= ']';
-	}
-	$page .= '</p>';
 	
 	$page .= '<div id="topbar">';
-   $page .= '<div class="fl_left">';
-		
-	$page .= '</div>';
+	
 	$page .= '</div>';
 	
 	return $page;
@@ -695,7 +693,7 @@ function plaatsign_ui_footer($renderTime, $queryCount) {
 	$page .= '</p>';
 	
 	$page .= '<p class="fl_right">';
-	$page .= 'Render time '.$renderTime.'ms - '.$queryCount.' Queries - '.memory_format(memory_get_peak_usage(true)).'';
+	$page .= 'Render time '.round($renderTime,2).'ms - '.$queryCount.' Queries - '.memory_format(memory_get_peak_usage(true)).'';
 	$page .= '</p>';
 	$page .= '</div>';
 	
@@ -764,11 +762,11 @@ function validate_email($address) {
 }
 
 /** 
- * @mainpage plaatsign Documentation
- *   Welcome to the plaatsign documentation.
+ * @mainpage PlaatSign Documentation
+ *   Welcome to the PlaatSign documentation.
  *
  * @section Introduction
- *   plaatsign is a digital content viewer
+ *   PlaatSign is a digital content viewer for a Raspberry Pi
  *
  * @section Links
  *   Website: http://www.plaatsoft.nl\n

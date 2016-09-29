@@ -108,7 +108,7 @@ function plaatsign_db_query($query) {
 		echo $query."<br/>\r\n";
 	}
 
-	$result = mysqli_query($db, $query);
+	@$result = mysqli_query($db, $query);
 
 	if (!$result) {
 		plaatsign_db_error();		
@@ -135,7 +135,11 @@ function plaatsign_db_escape($data) {
  */
 function plaatsign_db_fetch_object($result) {
 	
-	$row = $result->fetch_object();
+	$row="";
+	
+	if (isset($result)) {
+		$row = $result->fetch_object();
+	}
 	return $row;
 }
 
