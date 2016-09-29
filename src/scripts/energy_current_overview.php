@@ -127,11 +127,13 @@ function drawSolarPanel($im, $x, $y) {
 	AARqxzTYK/HOvYUQewgwAYsaSlLBPWYxlD6gB2EACAiUEAACYGAQCYGAQAYGIQAICJYSOQEcvXfWkdm7XsOlTZz63u67rwtWFGJACQz+JkEkwsoOnagA2mAAATgwAATAwCADAxCAD
 	AxCAAABPDMmABPf4gBjwHV7ZDBlAAa/vx4JqUgQAUwJdVxELXgu9dKAMBKEQOZ3lWHXzQNSD4S3l5+R9Ivxx1MlvJagAAAABJRU5ErkJggg==");
 
-	//$src = imagecreatefrompng("solar.png");
-	$src = imagecreatefromstring($solarpanel);
+	$newWidth = 200;	
+	$src = imagecreatefromstring($solarpanel);	
+	$dst = imagecreatetruecolor($newWidth, $newWidth);
+   imagecopyresampled($dst, $src, 0, 0, 0, 0, $newWidth, $newWidth, 256, 256);
 
 	// Copy and merge
-	imagecopymerge($im, $src, $x, $y, 0, 0, 256, 256, 100);
+	imagecopymerge($im, $dst, $x, $y, 0, 0, $newWidth, $newWidth, 100);
 }
 
 function drawStats($im, $id, $x, $y) {
@@ -170,12 +172,22 @@ function drawStats($im, $id, $x, $y) {
 	}
 	
 	if (isset($data->pac)) {
-		imagettftext($im, 14, 0, $x, $y, $black, $font, "Vermogen = ". $data->pac.' Watt');
+		imagettftext($im, 14, 0, $x, $y, $black, $font, "Power = ". $data->pac.' Watt');
+		$y+=20;
+	}
+
+	if (isset($data->etoday)) {
+		imagettftext($im, 14, 0, $x, $y, $black, $font, "EToday = ". $data->etoday.' kWh');
 		$y+=20;
 	}
 	
 	if (isset($data->temp)) {
 		imagettftext($im, 14, 0, $x, $y, $black, $font, "Temp = ". $data->temp.' Celcius');
+		$y+=20;
+	}
+	
+	if (isset($data->etotal)) {
+		imagettftext($im, 14, 0, $x, $y, $black, $font, "ETotal = ". $data->etotal.' kWh');
 		$y+=20;
 	}
 }
@@ -201,16 +213,16 @@ $green = imagecolorallocate($im, 0x00, 0xff, 0x00);
 $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 imagefilledrectangle($im, 0, 0, $width, $height, $white);
-drawLabel($im, 38, 'Oostpoort Solar Systeemoverzicht', 24, $black);
+drawLabel($im, 38, 'Systeemoverzicht', 24, $black);
 
-drawSolarPanel($im, ($width/2)-450, 50);
-drawStats($im, 1, 60, 335);
+drawSolarPanel($im, ($width/2)-420, 50);
+drawStats($im, 1, 60, 290);
 
-drawSolarPanel($im, ($width/2)-128, 50);
-drawStats($im, 2, ($width/2)-110, 335 );
+drawSolarPanel($im, ($width/2)-100, 50);
+drawStats($im, 2, ($width/2)-110, 290 );
 
-drawSolarPanel($im, ($width/2)+190, 50);
-drawStats($im, 3, ($width/2)+210, 335 );
+drawSolarPanel($im, ($width/2)+220, 50);
+drawStats($im, 3, ($width/2)+210, 290 );
 
 drawLabel($im, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
 
