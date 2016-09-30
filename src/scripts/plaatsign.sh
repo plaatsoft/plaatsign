@@ -4,7 +4,7 @@
 # Provides:             plaatsign
 # Required-Start:       $remote_fs $syslog
 # Required-Stop:        $remote_fs $syslog
-# Default-Start:        3 
+# Default-Start:        2 3 4 5
 # Default-Stop:
 # Short-Description:    PlaatSign Digital Content Viewer
 ### END INIT INFO
@@ -13,7 +13,9 @@ do_start() {
  while [ 1 ]   
  do
     clear
-	 fbi -t 10 -d /dev/fb0 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1 >> /dev/null  
+	 fbi -d /dev/fb0 -T 2 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1
+	 
+	 #pqiv -f -s -i -t -d 10 -n --watch-directories /var/www/html/plaatsign/uploads/images
   done
 }
 

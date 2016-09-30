@@ -43,7 +43,8 @@ foreach ($dir as $key => $value) {
 			if ($extension=="php")  { 
 			
 				$filename_des = $name.'.png';
-			
+				
+				unlink($base_des.$filename_des);			
 				$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des.$filename_des;			
 				
 				if (DEBUG==1) {
