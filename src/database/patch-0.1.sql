@@ -29,7 +29,7 @@ CREATE TABLE `config` (
 
 INSERT INTO `config` (`id`, `category`, `token`, `value`, `options`, `last_update`, `readonly`) VALUES
 (1, 0, 'database_version', '0.1', '', '2016-09-24', 1),
-(2, 0, 'slide_show_delay', '5', '', '2016-09-24', 0);
+(2, 0, 'slide_show_delay', '20', '', '2016-09-24', 0);
 
 CREATE TABLE `content` (
   `cid` int(11) NOT NULL,

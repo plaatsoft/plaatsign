@@ -127,5 +127,4 @@ function plaatsign_menu() {
 	return $menu;
 }
 
-
 ?>
