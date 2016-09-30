@@ -182,9 +182,9 @@ function plaatsign_content_form() {
 	
 	if ($id>0) {
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
-		$page	.= '<image class="imgl" src="'.plaatsign_content_path($tid).$cache_filename.'" width="480" height="360" />';
+		$page	.= '<image class="imgl" src="'.plaatsign_content_path($tid).$cache_filename.'" width="540" height="420" />';
 	} else {
-		$page	.= '<image class="imgl" src="images/unknown.jpg" width="480" height="360" />';
+		$page	.= '<image class="imgl" src="images/unknown.jpg" width="540" height="420" />';
 	}
 	
 	$page .= '<p>';
