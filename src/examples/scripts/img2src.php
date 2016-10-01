@@ -16,7 +16,7 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-/* Embed image data in php source code */
+/* Generate embedbed image data in php source code */
 $filename = 'image.png';
 
 $imagedata = file_get_contents($filename);
