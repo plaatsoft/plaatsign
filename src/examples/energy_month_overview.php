@@ -210,7 +210,10 @@ function drawForcast($im, $data, $value, $color)  {
 	$max = getMax($data);	
 	$step = ceil($max / $lines);
 	
-	$y = $height-120 - ($value / $step) * $pixel;
+	$y = $height-120;
+	if ($step>0) {
+		$y = $height-120 - ($value / $step) * $pixel;
+	}
 		
 	imagefilledrectangle( $im, $offset+10, $y , $width-5, $y+1, $color );
 }
@@ -246,7 +249,11 @@ function drawBars($im, $data)  {
 	
 	for ($row=0; $row<sizeof($data); $row++) {
 			
-		$bar_height1 = ($data[$row][1] / $step) * $pixel;		
+		$bar_height1=0;
+		if ($step>0) {
+			$bar_height1 = ($data[$row][1] / $step) * $pixel;		
+		}
+		
 		$bar_start1 = $starty;
 		$bar_end1 = $bar_start1 - $bar_height1;
 		if ($data[$row][1]>0) {
@@ -256,7 +263,10 @@ function drawBars($im, $data)  {
 			}
 		}
 				
-		$bar_height2 = ($data[$row][2] / $step) * $pixel;
+		$bar_height2 = 0;
+		if ($step>0) {
+			$bar_height2 = ($data[$row][2] / $step) * $pixel;
+		}
 		$bar_start2 = $bar_end1;
 		$bar_end2 = $bar_start2 - $bar_height2;
 			
@@ -267,7 +277,10 @@ function drawBars($im, $data)  {
 			}
 		}
 		
-		$bar_height3 = ($data[$row][3] / $step) * $pixel;
+		$bar_height3 = 0;
+		if ($step>0) {
+			$bar_height3 = ($data[$row][3] / $step) * $pixel;
+		}
 		$bar_start3 = $bar_end2;
 		$bar_end3 = $bar_start3 - $bar_height3;
 			

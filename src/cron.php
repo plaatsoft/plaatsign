@@ -27,7 +27,8 @@ $time_start = microtime(true);
 */
 
 $base_src = getcwd().'/uploads/scripts/';
-$base_des = getcwd().'/uploads/images/';
+$base_des1 = getcwd().'/uploads/images/';
+$base_des2 = getcwd().'/uploads/';
 
 $dir = scandir($base_src); 
 
@@ -44,14 +45,15 @@ foreach ($dir as $key => $value) {
 			
 				$filename_des = $name.'.png';
 				
-				unlink($base_des.$filename_des);			
-				$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des.$filename_des;			
+				$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des2.$filename_des;			
 				
 				if (DEBUG==1) {
 					echo $command."\n\r";
 				}
 				
 				exec($command);
+				//@unlink($base_des1.$filename_des);
+				rename($base_des2.$filename_des, $base_des1.$filename_des);
 			}
       } 
    } 

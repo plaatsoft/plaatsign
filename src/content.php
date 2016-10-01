@@ -114,6 +114,11 @@ function plaatsign_content_delete_do() {
 
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
 		@unlink(plaatsign_content_path($data->tid).$cache_filename);
+		
+		/* Remove generate content of cron job */
+		if ($data->tid==TYPE_SCRIPT) {		
+			@unlink(plaatsign_content_path(TYPE_IMAGES).$data->cid.'.png');			
+		}
 				
 		plaatsign_db_content_delete($id);
 
