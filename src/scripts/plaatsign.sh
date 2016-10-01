@@ -12,11 +12,16 @@
 do_start() {
  while [ 1 ]   
  do
+    setterm -cursor off;
     clear
-	 fbi -d /dev/fb0 -T 2 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1
+	 #fbi -d /dev/fb0 -T 2 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1
+	 fbi -d /dev/fb0 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1;
 	 
-	 #pqiv -f -s -i -t -d 10 -n --watch-directories /var/www/html/plaatsign/uploads/images
+	 #pqiv -f -s -i -t -d 10 -n --watch-directories /var/www/html/plaatsign/uploads/images	 
+	 
+	 omxplayer /var/www/html/plaatsign/uploads/videos.*.mp4; | echo "";
   done
+  setterm -cursor on;
 }
 
 case "$1" in
