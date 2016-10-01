@@ -186,8 +186,8 @@ function plaatsign_content_form() {
 	$page .= '<legend>'.t('USER_GENERAL').'</legend>';
 	
 	if ($id>0) {
-		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);		
-		$page	.= '<image class="imgl" src="'.plaatsign_content_path($tid).$cache_filename.'" width="540" height="420" />';
+		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
+	   $page .= plaatsign_ui_content2($tid, $data->cid, $cache_filename);
 	} else {
 		$page	.= '<image class="imgl" src="images/unknown.jpg" width="540" height="420" />';
 	}
@@ -305,7 +305,7 @@ function plaatsign_contentlist_form() {
 	$page .= '</th>';
 	
 	$page .= '<th>';
-	$page	.= t('GENERAL_IMAGE');	
+	$page	.= t('GENERAL_CONTENT');	
 	$page .= '</th>';
 		
 	$page .= '<th>';
@@ -346,8 +346,8 @@ function plaatsign_contentlist_form() {
 		
 		$page .= '<td>';
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
-		$page	.= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$data->cid,'<image src="'.plaatsign_content_path($tid).$cache_filename.'" width="128" height="80" />');
-		$page .= '</td>';
+		$page .= plaatsign_ui_content1($tid, $data->cid, $cache_filename);
+    	$page .= '</td>';
 			
 		$page .= '<td>';
 		$page	.= $data->filename;

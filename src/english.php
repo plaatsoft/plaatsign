@@ -16,7 +16,6 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-
 /*
 ** ------------------
 ** VERSION
@@ -41,7 +40,7 @@ $lang['LANGUAGE_1'] = 'Dutch';
 */
 
 $lang['TYPE_0'] = 'Images';
-$lang['TYPE_1'] = 'Movies';
+$lang['TYPE_1'] = 'Videos';
 $lang['TYPE_2'] = 'Scripts';
 
 /*
@@ -64,7 +63,7 @@ $lang['LINK_CONTENT']  = 'Content';
 $lang['LINK_MANUAL']  = 'Manual'; 
 $lang['LINK_SCRIPTS']  = 'Scripts';
 $lang['LINK_IMAGES']  = 'Images'; 
-$lang['LINK_MOVIES']  = 'Movies'; 
+$lang['LINK_MOVIES']  = 'Videos'; 
 $lang['LINK_SETTINGS'] = 'Settings'; 
 $lang['LINK_HELP'] = 'Help'; 
 $lang['LINK_LOGOUT']  = 'Logout';
@@ -110,6 +109,7 @@ $lang['GENERAL_ENABLED'] = 'Enabled';
 $lang['GENERAL_ROLE'] = 'Role';
 $lang['GENERAL_LANGUAGE'] = 'Language';
 $lang['GENERAL_IMAGE'] = 'Image';
+$lang['GENERAL_CONTENT'] = 'Content';
 $lang['GENERAL_OWNER'] = 'Owner';
 $lang['GENERAL_TIMEZONE'] = 'Timezone';
 $lang['GENERAL_TYPE'] = 'Type';

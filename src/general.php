@@ -23,7 +23,7 @@
 */
 
 define('DEBUG', 0);
-define('MAX_FILE_SIZE', 2048000);
+define('MAX_FILE_SIZE', 8096000);
 
 define('TYPE_IMAGE', 0);
 define('TYPE_MOVIE', 1);
@@ -323,7 +323,7 @@ function plaatsign_content_path($tid) {
 				break;
 				
 		case TYPE_MOVIE: 
-				$path = 'uploads/movies/';
+				$path = 'uploads/videos/';
 				break;
 				
 		case TYPE_SCRIPT: 
@@ -337,6 +337,45 @@ function plaatsign_filesize($bytes, $decimals = 2) {
   $sz = 'BKMGTP';
   $factor = floor((strlen($bytes) - 1) / 3);
   return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+}
+
+function plaatsign_ui_content2($tid, $cid, $filename) {
+
+	global $mid;
+	
+	if ($tid==TYPE_MOVIE) {
+		
+		$page  = '<div class="imgl">';
+		$page .= '<video width="540" height="420" autoplay>';
+		$page .= '<source src="'.plaatsign_content_path($tid).$filename.'" type="video/mp4">';
+		$page .= 'Your browser does not support the video tag.';
+		$page .= '</video>';
+		$page .= '</div>';
+		
+	} else {
+	
+		$page	= '<image class="imgl" src="'.plaatsign_content_path($tid).$filename.'" width="540" height="420" />';
+	}
+	return $page;
+}
+
+
+function plaatsign_ui_content1($tid, $cid, $filename) {
+
+	global $mid;
+	
+	if ($tid==TYPE_MOVIE) {
+		
+		$page  = '<video width="128" height="80" autoplay>';
+		$page .= '<source src="'.plaatsign_content_path($tid).$filename.'" type="video/mp4">';
+		$page .= 'Your browser does not support the video tag.';
+		$page .= '</video>';
+		
+	} else {
+	
+		$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.plaatsign_content_path($tid).$filename.'" width="128" height="80" />');
+	}
+	return $page;
 }
 
 function plaatsign_ui_input($name, $size, $maxlength, $value, $readonly=false) {

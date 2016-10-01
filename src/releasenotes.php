@@ -24,11 +24,11 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>30-09-2016 Version 0.3</h2>
+<h2>01-10-2016 Version 0.3</h2>
 <ul>
 <li>The following improvements were made after the first demo to the "end user":</li>
 <li>Added script content for dynamic content support.</li>
-<li>Added movie content for stream video/audio support.</li>
+<li>Added video content support.</li>
 <li>Improve file upload. File is now directly uploaded after selection.</li>
 <li>Improve automatic database patching algoritm.</li>
 <li>Remove jquery libraries. Speedup page loading.</li>
