@@ -17,9 +17,7 @@
 */
 
 /* Generate embedbed image data in php source code */
-$filename = 'image.png';
-
-$imagedata = file_get_contents($filename);
+$imagedata = file_get_contents($_GET["filename"]);
 $code = base64_encode($imagedata);
 
 echo "<pre>";
