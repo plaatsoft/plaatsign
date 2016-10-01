@@ -18,12 +18,16 @@
 
 /* Generate embedbed image data in php source code */
 $imagedata = file_get_contents($_GET["filename"]);
-$code = base64_encode($imagedata);
+$code = base64_encode(gzdeflate($imagedata));
+
+echo "size= ".strlen($code)."\r\n";
 
 echo "<pre>";
-echo '$image = base64_decode("'."\r\n";
+echo '$image = gzinflate(base64_decode("'."\r\n";
 echo wordwrap($code, 120, "\r\n", true);
-echo '");'."\r\n";
+echo '"));'."\r\n";
 echo "</pre>";
+
+
 
 ?>
