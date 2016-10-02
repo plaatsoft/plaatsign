@@ -16,10 +16,7 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-// -------------------------------------------------------
-
-/* Set default timezone */
-date_default_timezone_set ( "Europe/Amsterdam" );
+include "./../../draw.php";
 
 $background= gzinflate(base64_decode("
 7f1XWJNb9wWOWjaiUYNsaUIABQtNioJ0kN6kJBCQEkCRLp0QehQElI40BQEhhE4Q6aFERIiCgKFK7zVCgNBL+ONOvnPOxbk9N+f5XfCEN8l6VxtzzDHnWu/K
@@ -341,59 +338,14 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
-function drawBackgound($im) {
-
-	global $background;
-	global $width;
-	global $height;
-	
-	$src = imagecreatefromstring($background);	
-	$dst = imagecreatetruecolor($width, $height);
-   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, 838, 629);
-	
-	// Copy and merge
-	imagecopymerge($im, $dst, 0, 0, 0, 0, $width, $height, 100);
-}
-
-function drawLabel($im, $y, $text, $font_size=28, $color) {
-	
-	global $font;
-	global $width;
-	global $height;
-	
-	// Get Bounding Box Size
-	$text_box = imagettfbbox($font_size, 0, $font, $text);
-
-	// Get your Text Width and Height
-	$text_width = $text_box[2]-$text_box[0];
-	
-	// Calculate coordinates of the text
-	$x = ($width/2) - ($text_width/2);
-
-	// Add some shadow to the text
-	imagettftext($im, $font_size, 0, $x, $y, $color, $font, $text);
-}
-
-// -------------------------------------------------------
-
-$width = 1920/2;
-$height = 1080/2;
-$height = 720;
-
-$font = './../../fonts/arial.ttf';
-if (!file_exists($font)) {
-	$font = './../fonts/arial.ttf';
-}
-
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
 
-$white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
 $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
-drawBackgound($im);
+drawBackgound($im, $background);
 
 drawLabel($im, ($height/2)-20, date("d-m-Y ", time()), 100, $black);
 drawLabel($im, ($height/2)+140, date("H:i", time()), 100, $black);
@@ -401,9 +353,5 @@ drawLabel($im, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - Plaat
 
 imagepng($im);
 imagedestroy($im);
-
-// -------------------------------------------------------- 
-
-
 
 ?>
