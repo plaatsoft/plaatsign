@@ -26,11 +26,7 @@ $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";
 
-$database = "./../../database.php";
-if (!file_exists($database)) {
-	$database = "./../database.php";
-}
-include $database;
+include "./../../database.php";
 
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
 

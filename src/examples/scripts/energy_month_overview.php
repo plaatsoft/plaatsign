@@ -86,14 +86,20 @@ function getTotal($data) {
 function getAverage($data) {
 
 	$total=0;
+	$count=0;
 	
 	for ($row=0; $row<sizeof($data); $row++) {
-		$total += $data[$row][1] + $data[$row][2] + $data[$row][3];
+	
+		$value = $data[$row][1] + $data[$row][2] + $data[$row][3];
+		if ($value>0) {
+			$count++;
+		}
+		$total += $value;
 	}
 	
-	$average =0;
-	if (sizeof($data)>0) {
-		$average = $total / sizeof($data);
+	$average=0;
+	if (($count>0) && (sizeof($data)>0)) {
+		$average = $total / $count;
 	}
 	
 	return number_format($average,2);
@@ -200,8 +206,6 @@ function drawForcast($im, $data, $value, $color)  {
 	global $offset;
 	global $arial;
 	global $font;
-	
-	global $gray;
 
 	$lines = 5;
 	$font_size = 10;
