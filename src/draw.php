@@ -91,10 +91,12 @@ function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 	$text = str_replace(  '&nbsp;', '', $text);
 	$text = str_replace(  '<em>', '"', $text);
 	$text = str_replace(  '</em>', '"', $text);
-	$text = str_replace(  '<b>', '"', $text);
-	$text = str_replace(  '</b>', '"', $text);
-	$text = str_replace(  '<i>', '"', $text);
-	$text = str_replace(  '</i>', '"', $text);
+	$text = str_replace(  '<b>', '', $text);
+	$text = str_replace(  '</b>', '', $text);
+	$text = str_replace(  '<i>', '', $text);
+	$text = str_replace(  '</i>', '', $text);
+	$text = str_replace(  '<br>', ' ', $text);
+	$text = str_replace(  '<p>', ' ', $text);
 	
 	$buffer = wordwrap($text, 52, "<br/>", false);		
 	$buffer = explode("<br/>", $buffer);
