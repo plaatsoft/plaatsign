@@ -31,6 +31,21 @@ $font = './../../fonts/arial.ttf';
 
 // -------------------------------------------------------
 
+function drawUrlImage($im, $x, $y, $url, $width1=128, $height1=128) {
+
+	global $width;
+	global $height;
+		
+	$data = file_get_contents($url);
+	$src = imagecreatefromstring($data);	
+			
+	$dst = imagecreatetruecolor($width, $height);
+   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width1, $height1, imagesx($src), imagesy($src));
+	
+	// Copy and merge
+	imagecopymerge($im, $dst, $x, $y, 0, 0, $width1, $height1, 100);
+}
+
 function drawBackgound($im, $background) {
 
 	global $width;
@@ -44,7 +59,7 @@ function drawBackgound($im, $background) {
 	imagecopymerge($im, $dst, 0, 0, 0, 0, $width, $height, 100);
 }
 
-function drawLabel($im, $y, $text, $font_size=28, $color) {
+function drawLabel($im, $x, $y, $text, $font_size=28, $color) {
 	
 	global $font;
 	global $width;
@@ -57,7 +72,9 @@ function drawLabel($im, $y, $text, $font_size=28, $color) {
 	$text_width = $text_box[2]-$text_box[0];
 	
 	// Calculate coordinates of the text
-	$x = ($width/2) - ($text_width/2);
+	if ($x==0) {
+		$x = ($width/2) - ($text_width/2);
+	}
 
 	// Add some shadow to the text
 	imagettftext($im, $font_size, 0, $x, $y, $color, $font, $text);
@@ -65,7 +82,7 @@ function drawLabel($im, $y, $text, $font_size=28, $color) {
 	return $y + $font_size + 5;
 }
 
-function drawTextBox($im, $y, $text, $font_size=28, $color) {
+function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 
 	global $font;
 	global $width;
@@ -74,23 +91,30 @@ function drawTextBox($im, $y, $text, $font_size=28, $color) {
 	$text = str_replace(  '&nbsp;', '', $text);
 	$text = str_replace(  '<em>', '"', $text);
 	$text = str_replace(  '</em>', '"', $text);
+	$text = str_replace(  '<b>', '"', $text);
+	$text = str_replace(  '</b>', '"', $text);
+	$text = str_replace(  '<i>', '"', $text);
+	$text = str_replace(  '</i>', '"', $text);
 	
-	$buffer = wordwrap($text, 60, "<br/>", false);		
+	$buffer = wordwrap($text, 52, "<br/>", false);		
 	$buffer = explode("<br/>", $buffer);
 	
-	foreach ($buffer as $line) {
+	$center = false;	
+	if ($x==0) {
+		$center = true;
+	}
 	
-		//echo $line.'+';
+	foreach ($buffer as $line) {
 		
-		// First we create our bounding box
 		$bbox = imageftbbox($font_size, 0, $font, $line);
 
-		// This is our cordinates for X and Y
-		$x = $bbox[0] + (imagesx($im) / 2) - ($bbox[4] / 2) - 5;
+		if ($center) {
+			$x = $bbox[0] + (imagesx($im) / 2) - ($bbox[4] / 2) - 5;
+		}
 		
 		imagefttext($im, $font_size, 0, $x, $y, $color, $font, $line);
 		
-		$y+=$font_size+5;
+		$y+=$font_size+6;
 	}
 	return $y;
 }
