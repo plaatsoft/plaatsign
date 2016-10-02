@@ -2,26 +2,29 @@
 
 ### BEGIN INIT INFO
 # Provides:             plaatsign
-# Required-Start:       $remote_fs $syslog
-# Required-Stop:        $remote_fs $syslog
+# Required-Start:       
+# Required-Stop:        
 # Default-Start:        2 3 4 5
 # Default-Stop:
 # Short-Description:    PlaatSign Digital Content Viewer
+# Description:          PlaatSign Digital Content Viewer
 ### END INIT INFO
 
 do_start() {
- while [ 1 ]   
- do
-    setterm -cursor off;
-    clear
-	 #fbi -d /dev/fb0 -T 2 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1
-	 fbi -d /dev/fb0 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1;
+	while [ 1 ]   
+	do
+		setterm -cursor off;
+		clear
 	 
-	 #pqiv -f -s -i -t -d 10 -n --watch-directories /var/www/html/plaatsign/uploads/images	 
-	 
-	 omxplayer /var/www/html/plaatsign/uploads/videos.*.mp4; | echo "";
-  done
-  setterm -cursor on;
+		# Video player
+		omxplayer /var/www/html/plaatsign/uploads/videos.*.mp4; | echo "";
+		
+		# Image player
+		fbi -d /dev/fb0 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1;	 	 
+		#fbi -d /dev/fb0 -T 2 -t 10 -noverbose -a /var/www/html/plaatsign/uploads/images/* -1
+		
+	done
+	setterm -cursor on;
 }
 
 case "$1" in

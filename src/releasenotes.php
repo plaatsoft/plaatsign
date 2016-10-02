@@ -24,7 +24,7 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>01-10-2016 Version 0.3</h2>
+<h2>02-10-2016 Version 0.3</h2>
 <ul>
 <li>The following improvements were made after the first demo to the "end user":</li>
 <li>Added script content for dynamic content support.</li>
@@ -32,7 +32,9 @@ $lang['RELEASENOTES_CONTENT']  = '
 <li>Improve file upload. File is now directly uploaded after selection.</li>
 <li>Improve automatic database patching algoritm.</li>
 <li>Remove jquery libraries. Speedup page loading.</li>
-<li>Added fatal warning when config.php is not found!</li>
+<li>Added fatal warning when config.php is not found.</li>
+<li>Added fatal warning when database connection fails.</li>
+<li>Added example content scripts: Clock, News, Weather, etc..</li>
 <li>Bug fix: Improve php cron job now no output is generated anymore.</li>
 <li>Bug fix: File size detection is now working correctly.</li>
 <li>Bug fix: Remove some typos in the text.</li>
