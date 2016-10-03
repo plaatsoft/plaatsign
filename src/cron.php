@@ -34,7 +34,7 @@ $base_des2 = getcwd().'/uploads/';
 
 plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
 
-$query = 'select cid, filename, refresh, enabled from content where tid='.TYPE_SCRIPT.' order by cid';
+$query = 'select cid, filename, refresh from content where tid='.TYPE_SCRIPT.' order by cid';
 $result = plaatsign_db_query($query);
 
 while ($data=plaatsign_db_fetch_object($result)) {			
@@ -44,9 +44,16 @@ while ($data=plaatsign_db_fetch_object($result)) {
 	$filename_des =  $data->cid.'.png';
 	
 	if (is_file($base_src.$filename_src))  { 
-	
-		$time_diff = strtotime(date("d-m-Y H:i:s")) - filemtime($base_des1.$filename_des);
-		
+
+		$time_diff = 0;
+		if (is_file($base_des1.$filename_des)) {
+			$time_diff = strtotime(date("d-m-Y H:i:s")) - filemtime($base_des1.$filename_des);
+		}
+
+		if (DEBUG==1) {
+			echo $base_src.$filename_src." ".$time_diff."\n\r";
+		}
+				
 		if ($time_diff>($data->refresh*60)) {
 			
 			$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des2.$filename_des;			
