@@ -66,6 +66,25 @@ define("EVENT_CANCEL", 307);
 define("EVENT_ADD", 308);
 
 /*
+** -----------
+** LOCK
+** -----------
+*/
+
+function plaatsign_islocked() { 
+    if( file_exists( LOCK_FILE ) ) { 
+
+        $lockingPID = trim( file_get_contents( LOCK_FILE ) ); 
+        $pids = explode( "\n", trim( `ps -e | awk '{print $1}'` ) ); 
+        if( in_array( $lockingPID, $pids ) )  return true; 
+        unlink( LOCK_FILE ); 
+    } 
+    
+    file_put_contents( LOCK_FILE, getmypid() . "\n" ); 
+    return false; 
+} 
+
+/*
 ** ---------------------------------------------------------------- 
 ** PASSWORD
 ** ---------------------------------------------------------------- 

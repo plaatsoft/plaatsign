@@ -26,7 +26,9 @@ $lang['RELEASENOTES_CONTENT']  = '
 
 <h2>03-10-2016 Version 0.4</h2>
 <ul>
-<li>Added refresh (in minute) setting for script content. </li>
+<li>Added refresh setting (in minute) for script content.</li>
+<li>Cron job is now only starting script when refresh timer is expired.</li>
+<li>Bugfix: Start script is now working after reboot.</li>
 </ul>
 
 <h2>02-10-2016 Version 0.3</h2>

@@ -45,7 +45,7 @@ while ($data=plaatsign_db_fetch_object($result)) {
 	
 	if (is_file($base_src.$filename_src))  { 
 
-		$time_diff = 0;
+		$time_diff = $data->refresh*60;
 		if (is_file($base_des1.$filename_des)) {
 			$time_diff = strtotime(date("d-m-Y H:i:s")) - filemtime($base_des1.$filename_des);
 		}
@@ -54,7 +54,7 @@ while ($data=plaatsign_db_fetch_object($result)) {
 			echo $base_src.$filename_src." ".$time_diff."\n\r";
 		}
 				
-		if ($time_diff>($data->refresh*60)) {
+		if ($time_diff>=($data->refresh*60)) {
 			
 			$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des2.$filename_des;			
 				
