@@ -228,6 +228,12 @@ function plaatsign_db_check_version() {
 		$version="0.3";
       plaatsign_db_execute_sql_file($version);
    }
+	
+	// Path database if needed	
+   if ($version=="0.3") {
+		$version="0.4";
+      plaatsign_db_execute_sql_file($version);
+   }
 }
 
 /*
@@ -408,7 +414,7 @@ function plaatsign_db_content_filename($filename) {
 
 function plaatsign_db_content($cid) {
 	
-	$query  = 'select cid, filename, filesize, enabled, created, uid, tid from content where cid='.$cid;	
+	$query  = 'select cid, filename, filesize, enabled, refresh, created, uid, tid from content where cid='.$cid;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
@@ -416,10 +422,10 @@ function plaatsign_db_content($cid) {
 	return $data;	
 }
 
-function plaatsign_db_content_insert($filename, $filesize, $enabled, $uid, $tid) {
+function plaatsign_db_content_insert($filename, $filesize, $enabled, $refresh, $uid, $tid) {
 
-	$query  = 'insert into content (filename, filesize, enabled, created, uid, tid) ';
-	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.',"'.date("Y-m-d H:i:s").'",'.$uid.','.$tid.')';
+	$query  = 'insert into content (filename, filesize, enabled, refresh, created, uid, tid) ';
+	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.','.$refresh.',"'.date("Y-m-d H:i:s").'",'.$uid.','.$tid.')';
 	plaatsign_db_query($query);
 		
 	$query  = 'select cid from content where filename="'.$filename.'" and filesize='.$filesize;	
@@ -439,7 +445,8 @@ function plaatsign_db_content_update($data) {
 	$query .= 'filename="'.$data->filename.'", ';
 	$query .= 'filesize='.$data->filesize.', ';
 	$query .= 'enabled='.$data->enabled.', ';
-	$query .= 'created="'.$data->created.'" ';
+	$query .= 'refresh='.$data->refresh.', ';
+	$query .= 'created="'.$data->created.'", ';
 	$query .= 'uid="'.$data->uid.'", ';
 	$query .= 'tid="'.$data->tid.'" ';
 	$query .= 'where cid='.$data->cid; 

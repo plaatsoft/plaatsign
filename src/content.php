@@ -23,7 +23,8 @@
 */
 
 $filename = plaatsign_post("filename", "");
-$enabled = plaatsign_post_radio("enabled", 1);
+$enabled = plaatsign_post("enabled", 1);
+$refresh = plaatsign_post("refresh", 1);
 
 /*
 ** ------------------
@@ -40,32 +41,36 @@ function plaatsign_content_save_do() {
 	
 	global $filename;
 	global $enabled;
-				
+	global $refresh;
+	
 	$data = plaatsign_db_content($id);
-
-	$filesize = filesize($_FILES['filename']['tmp_name']);
-	$filename = basename(strtolower($_FILES["filename"]["name"]));
+	
+	if (isset($_FILES["filename"]["name"])) {
+		$filename = basename(strtolower($_FILES["filename"]["name"]));		
+		$filesize = filesize($_FILES['filename']['tmp_name']);				
+	}
+	
 	$filetype = pathinfo($filename, PATHINFO_EXTENSION);
-
-	if (strlen($filesize)==0) {
+	
+	if (($id==0) && (strlen($filesize)==0)) {
 	
 		plaatsign_ui_box('warning', t('CONTENT_FILE_NOT_FOUND'));
 	
-	} else if (plaatsign_db_content_filename($filename)>0) {
+	} else if (($id==0) && (plaatsign_db_content_filename($filename)>0)) {
 		
 		plaatsign_ui_box('warning', t('CONTENT_ALREADY_EXIST'));
 	
 	} else if (
-				 (($tid==TYPE_IMAGE) && ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif")) 
+				 (($id==0) && ($tid==TYPE_IMAGE) && ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif")) 
 				 ||
-				 (($tid==TYPE_MOVIE) && ($filetype!="mp4"))
+				 (($id==0) && ($tid==TYPE_MOVIE) && ($filetype!="mp4"))
 				 ||
-				 (($tid==TYPE_SCRIPT) && ($filetype!="php")) 
+				 (($id==0) && ($tid==TYPE_SCRIPT) && ($filetype!="php")) 
 				 )	{
 			  			  
 		plaatsign_ui_box('warning', t('CONTENT_TYPE_NOT_SUPPORTED_'.$tid));
 		
-	} else if ($filesize>MAX_FILE_SIZE) {
+	} else if (($id==0) && ($filesize>MAX_FILE_SIZE)) {
 	
 		plaatsign_ui_box('warning', t('CONTENT_TO_LARGE', plaatsign_filesize(MAX_FILE_SIZE,0)));
 		
@@ -73,13 +78,9 @@ function plaatsign_content_save_do() {
 	
 		if ($id>0) {
 					
-			/* Update content data */					
-			$data->filename = $filename;
-			$data->filesize = $filesize;
+			/* Update content data */								
+			$data->refresh = $refresh;		
 			$data->enabled = $enabled;		
-			$data->uid = $user->uid;
-			$data->created = date("Y-m-d H:i:s", time());
-			$data->tid = $tid;
 				
 			plaatsign_db_content_update($data);	
 			plaatsign_ui_box('info', t('CONTENT_UPDATED'));
@@ -88,14 +89,14 @@ function plaatsign_content_save_do() {
 		} else  {
 			
 			/* Insert new content */
-			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $user->uid, $tid);			
+			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $refresh, $user->uid, $tid);			
 		
 			plaatsign_ui_box('info', t('CONTENT_ADDED'));
 			plaatsign_info($user->name.' ['.$user->uid.'] created content ['.$id.']');
+			
+			$cache_filename = $id.'.'.pathinfo($filename, PATHINFO_EXTENSION);			
+			move_uploaded_file($_FILES["filename"]["tmp_name"], plaatsign_content_path($tid).$cache_filename);			
 		}
-		
-		$cache_filename = $id.'.'.pathinfo($filename, PATHINFO_EXTENSION);			
-		move_uploaded_file($_FILES["filename"]["tmp_name"], plaatsign_content_path($tid).$cache_filename);
 	}
 }
 
@@ -146,9 +147,11 @@ function plaatsign_content_form() {
 
 	global $filename;
 	global $enabled;
+	global $refresh;
+	
 	$filesize = 0;
-	$created = "";
-	$owner = "";
+	$created = date("Y-m-d H:i:s");
+	$owner = $user->name;
 	
 	/* output */
 	global $page;
@@ -162,6 +165,7 @@ function plaatsign_content_form() {
 			$filename = $data->filename;
 			$filesize = $data->filesize;
 			$enabled = $data->enabled;
+			$refresh = $data->refresh;
 			$created = $data->created;
 			$tid = $data->tid;
 			
@@ -198,16 +202,6 @@ function plaatsign_content_form() {
 	$page .= '</p>';
 	
 	$page .= '<p>';
-	$page .= '<label>'.t('GENERAL_FILENAME').': *</label>';
-	if ($id==0) {
-		$page .= plaatsign_ui_file("filename", $filename, false, 'onchange="'.
-		'javascript:link(\''.plaatsign_token('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid).'\''.');"');
-	} else {
-		$page .= plaatsign_ui_input("filename", 30, 30, $filename, true);
-	}
-	$page .= '</p>';
-	
-	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_FILESIZE').': </label>';
 	$page .= plaatsign_ui_input("size", 10, 10, plaatsign_filesize($filesize,1), true);
 	$page .= '</p>';
@@ -221,10 +215,31 @@ function plaatsign_content_form() {
 	$page .= '<label>'.t('GENERAL_TYPE').': </label>';
 	$page .= plaatsign_ui_type("type", $tid, true);
 	$page .= '</p>';
-	
+		
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_OWNER').': </label>';
 	$page .= plaatsign_ui_input("owner", 30, 30, $owner, true);
+	$page .= '</p>';
+	
+	$page .= '<p>';
+	$page .= '<hr>';
+	$page .= '</p>';	
+		
+	if ($tid==TYPE_SCRIPT) {
+		$page .= '<p>';
+		$page .= '<label>'.t('GENERAL_REFRESH').': </label>';
+		$page .= plaatsign_ui_refresh("refresh", $refresh, $user->role==ROLE_USER);
+		$page .= '</p>';
+	}
+
+	$page .= '<p>';
+	$page .= '<label>'.t('GENERAL_FILENAME').': *</label>';
+	if ($id==0) {
+		$page .= plaatsign_ui_file("filename", $filename, false, 'onchange="'.
+		'javascript:link(\''.plaatsign_token('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid).'\''.');"');
+	} else {
+		$page .= plaatsign_ui_input("filename", 30, 30, $filename, true);
+	}
 	$page .= '</p>';
 	
 	$page .= '<div id="note">';
@@ -233,19 +248,16 @@ function plaatsign_content_form() {
 	
 	$page .= '</fieldset>' ;
 		
-	if ($id==0) {
-		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_NONE.'&tid='.$tid, t('LINK_CANCEL'));
-		$page .= ' ';
-		$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_OK'));
-	}
-	
 	if ($id!=0) {
 		if (($tid==TYPE_IMAGE) || ($tid==TYPE_MOVIE) || (($tid==TYPE_SCRIPT) && ($user->role==ROLE_ADMIN))) {
 			$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&id='.$id.'&eid='.EVENT_DELETE.'&tid='.$tid, t('LINK_DELETE'));
 			$page .= ' ';
 		}
-		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_NONE.'&tid='.$tid, t('LINK_OK'));
 	}
+	
+	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_NONE.'&tid='.$tid, t('LINK_CANCEL'));
+	$page .= ' ';
+	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_SAVE'));
 	
 	$page .= '</div>';
 }

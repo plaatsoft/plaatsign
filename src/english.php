@@ -22,7 +22,7 @@
 ** ------------------
 */
 
-$lang['BUILD_INFO'] = '(Build 02-10-2016)';
+$lang['BUILD_INFO'] = '(Build 03-10-2016)';
 
 /*
 ** ------------------
@@ -113,6 +113,7 @@ $lang['GENERAL_CONTENT'] = 'Content';
 $lang['GENERAL_OWNER'] = 'Owner';
 $lang['GENERAL_TIMEZONE'] = 'Timezone';
 $lang['GENERAL_TYPE'] = 'Type';
+$lang['GENERAL_REFRESH'] = 'Refresh every';
 
 $lang['GENERAL_INFO'] = 'INFO';
 $lang['GENERAL_WARNING'] = 'WARNING';
@@ -160,6 +161,7 @@ $lang['LOGIN_RECOVER'] = 'RECOVER';
 */
 
 $lang['CONTENT_TITLE'] = 'CONTENT';
+$lang['CONTENT_MINUTES'] = 'minutes';
 
 $lang['CONTENT_NOTE'] = 'On this moment the following content is part of the slideshow.';
 

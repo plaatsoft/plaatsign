@@ -500,6 +500,32 @@ function plaatsign_ui_language($tag, $id, $readonly=false) {
    return $page;
 }
 
+function plaatsign_ui_refresh($tag, $id, $readonly=false) {
+			
+	$values = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30);	
+
+	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
+	
+	if ($readonly) {
+		$page .= 'disabled="true" ';
+	}
+	$page .= '>'; 
+	
+	foreach ($values as $value) {
+	
+		$page.='<option value="'.$value.'"';
+		
+		if ($id == $value) {
+			$page .= ' selected="selected"';
+		}
+		$page .= '>'.$value.'</option>';
+	}
+		
+	$page.='</select> '.t('CONTENT_MINUTES');
+		
+   return $page;
+}
+
 function plaatsign_ui_role($tag, $id, $readonly=false) {
 			
 	$values = array(ROLE_USER, ROLE_ADMIN);	

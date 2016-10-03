@@ -24,6 +24,11 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
+<h2>03-10-2016 Version 0.4</h2>
+<ul>
+<li>Added refresh (in minute) setting for script content. </li>
+</ul>
+
 <h2>02-10-2016 Version 0.3</h2>
 <ul>
 <li>The following improvements were made after the first demo to the "end user":</li>
