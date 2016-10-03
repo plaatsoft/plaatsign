@@ -17,6 +17,8 @@
 */
 
 include "general.php";
+include "config.php";
+include "database.php";
 
 $time_start = microtime(true);
 
@@ -30,34 +32,36 @@ $base_src = getcwd().'/uploads/scripts/';
 $base_des1 = getcwd().'/uploads/images/';
 $base_des2 = getcwd().'/uploads/';
 
-$dir = scandir($base_src); 
+plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
 
-foreach ($dir as $key => $value) { 
+$query = 'select cid, filename, refresh, enabled from content where tid='.TYPE_SCRIPT.' order by cid';
+$result = plaatsign_db_query($query);
 
-   if (!in_array($value, array(".","..","index.php"))) { 
- 
-		if (is_file($base_src.$value))  { 
+while ($data=plaatsign_db_fetch_object($result)) {			
+
+	list($name, $extension) = explode(".", $data->filename);	
+	$filename_src =  $data->cid.'.php';
+	$filename_des =  $data->cid.'.png';
+	
+	if (is_file($base_src.$filename_src))  { 
+	
+		$time_diff = strtotime(date("d-m-Y H:i:s")) - filemtime($base_des1.$filename_des);
 		
-         $filename_src = $value; 
-			list($name, $extension) = explode(".", $filename_src);			
+		if ($time_diff>($data->refresh*60)) {
 			
-			if ($extension=="php")  { 
-			
-				$filename_des = $name.'.png';
+			$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des2.$filename_des;			
 				
-				$command = 'cd '.$base_src.' && php '.$filename_src.' > '.$base_des2.$filename_des;			
-				
-				if (DEBUG==1) {
-					echo $command."\n\r";
-				}
-				
-				exec($command);
-				//@unlink($base_des1.$filename_des);
-				rename($base_des2.$filename_des, $base_des1.$filename_des);
+			if (DEBUG==1) {
+				echo $command."\n\r";
 			}
-      } 
-   } 
+			
+			exec($command);
+			rename($base_des2.$filename_des, $base_des1.$filename_des);
+		}
+	}
 }
+
+plaatsign_db_close();
 
 // Calculate to page render time
 $time_end = microtime(true);
