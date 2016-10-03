@@ -502,7 +502,8 @@ function plaatsign_ui_language($tag, $id, $readonly=false) {
 
 function plaatsign_ui_refresh($tag, $id, $readonly=false) {
 			
-	$values = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30);	
+	$values = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+	35,40,45,50,55,60,90,120,180,240,300,360);	
 
 	$page ='<select id="'.$tag.'" name="'.$tag.'" ';
 	
