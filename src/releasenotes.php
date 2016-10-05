@@ -27,7 +27,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 <h2>05-10-2016 Version 0.4</h2>
 <ul>
 <li>Image format is now based on HD dimensions.</li>
-<li>Improve solar, new and weather script examples.</li>
+<li>Improve solar, news and weather script examples.</li>
 <li>Added icons for apple, android and window devices.</li>
 <li>Added refresh setting (in minute) for script content.</li>
 <li>Cron job is now only starting script when refresh timer is expired.</li>
