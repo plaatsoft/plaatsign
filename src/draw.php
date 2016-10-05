@@ -121,13 +121,49 @@ function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 	return $y;
 }
 
-function drawDashedLine($im, $offset, $y, $dist, $col) {
-    $width = imagesx($im);
+function drawDashedLine($im, $x, $y, $width, $color) {
+    
+	 $dist = 3;
+	 	
     $nextX = $dist * 2;
 
-    for ($x = $offset; $x <= $width; $x += $nextX) {
-        imageline($im, $x, $y, $x + $dist - 1, $y, $col);
+    for ($x1 = $x; $x1 <= $width; $x1 += $nextX) {
+        imageline($im, $x1, $y, $x1 + $dist - 1, $y, $color);
     }
+}
+
+function getMax($data) {
+
+	$max=0;
+	
+	for ($row=0; $row<sizeof($data); $row++) {
+		$value = $data[$row][1] + $data[$row][2] + $data[$row][3];
+		if ($value>$max) {
+			$max = $value;
+		}
+	}
+	return $max;
+}
+
+function drawAxes($im, $x, $y, $data, $color)  {
+	
+	global $width;
+	global $height;
+	global $font;
+	
+	$lines = 5;
+	$font_size = 10;
+	
+	$max = getMax($data);	
+	$step = ceil($max / $lines);
+	$pixel = ($height-180) / $lines;
+	
+	$starty = $y+$height-120;
+	
+	for ($y1=0; $y1<=$lines; $y1++) {
+		drawDashedLine($im, $x+50, $starty-($y1*$pixel), $width-150, $color);
+		imagettftext($im, $font_size, 0, 10, $starty-($y1*$pixel)+$lines, $color, $font, $step*$y1);
+	}
 }
 
 // -------------------------------------------------------

@@ -353,7 +353,7 @@ $red = imagecolorallocate($im, 0xff, 0x00, 0x00);
 
 imagefilledrectangle($im, 0, 0, $width, $height, $white);
 
-drawLabel($im, 38, 'Geleverde Electriciteit '.$month.'-'.$year, 24, $black);
+drawLabel($im, 38, 'Solar Maand Productie '.$month.'-'.$year, 24, $black);
 drawLogo($im);
 drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)');
 drawAxes($im, $data, $gray);
