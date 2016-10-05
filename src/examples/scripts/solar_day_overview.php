@@ -387,6 +387,30 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
+function drawLegend($im, $text1, $text2, $text3)  {
+
+	global $width;
+	global $height;
+	global $font;
+	
+	global $black;
+	global $blue1;
+	global $blue2;
+	global $blue3;
+	
+	$size = 10;
+	$font_size = 13;
+	
+	imagefilledrectangle( $im, 200, $height-80 , 200+$size , $height-80+$size, $blue1 );
+	imagettftext($im, $font_size, 0, 220, $height-70, $black, $font, $text1);
+	
+	imagefilledrectangle( $im, 400, $height-80 , 400+$size , $height-80+$size, $blue2 );
+	imagettftext($im, $font_size, 0, 420, $height-70, $black, $font, $text2);
+	
+	imagefilledrectangle( $im, 600, $height-80 , 600+$size , $height-80+$size, $blue3 );
+	imagettftext($im, $font_size, 0, 620, $height-70, $black, $font, $text3);
+}
+
 function drawBars($im, $x, $y, $data, $color)  {
 
 	global $width;
@@ -405,17 +429,22 @@ function drawBars($im, $x, $y, $data, $color)  {
 	$pixel = ($height-180) / $lines;
 	
 	$amount = sizeof($data);
+	
 	$bar_width = 1;
 	if ($amount>0) {
-		$bar_width= ($width-$x-180) / ($amount/2);
+		$bar_width= ($width-$x-180) / $amount;
 	}
+	if ($bar_width>0.8) {
+		$bar_width=0.8;
+	}
+	$x=$x+(($width-180-$x)/2)-(($bar_width*$amount)/2);
 	
 	$starty = $height - 120 + $y;	
-	$startx = $x + 18;
+	$startx = $x;
 		
 	$count=0;
 	
-	for ($row=0; $row<sizeof($data); $row+=2) {
+	for ($row=0; $row<sizeof($data); $row++) {
 			
 		$bar_height1=0;
 		if ($step>0) {
@@ -450,7 +479,7 @@ function drawBars($im, $x, $y, $data, $color)  {
 			imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $blue3 );
 		}
 		
-		if ($count%50==0) {
+		if ($count%75==0) {
 			imagettftext($im, $font_size, 0, $startx-5, $starty+20, $color, $font, $data[$row][0] );
 		}
 
@@ -502,9 +531,10 @@ drawBackgound($im, $background);
 drawLabel($im, 0, 38, 'Solar Dag Productie '.$day.'-'.$month.'-'.$year, 24, $black);
 drawLogo($im);
 
-drawAxes($im, 10, 20, $data, $gray);
-drawBars($im, 50, 20, $data, $gray);
+drawAxes($im, 60, 0, $data, $gray);
+drawBars($im, 70, 0, $data, $gray);
 
+drawLegend($im, "Converter 1 (Watt)", "Converter 2 (Watt)", "Converter 3 (Watt)");
 drawLabel($im, 0, $height-38, 'Piek vermogen = '.getMax($data).' Watt', 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
 
