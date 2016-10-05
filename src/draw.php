@@ -161,8 +161,8 @@ function drawAxes($im, $x, $y, $data, $color)  {
 	$starty = $y+$height-120;
 	
 	for ($y1=0; $y1<=$lines; $y1++) {
-		drawDashedLine($im, $x+50, $starty-($y1*$pixel), $width-150, $color);
-		imagettftext($im, $font_size, 0, 10, $starty-($y1*$pixel)+$lines, $color, $font, $step*$y1);
+		drawDashedLine($im, $x, $starty-($y1*$pixel), $width-150, $color);
+		imagettftext($im, $font_size, 0, $x-50, $starty-($y1*$pixel)+$lines, $color, $font, $step*$y1);
 	}
 }
 
