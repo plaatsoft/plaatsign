@@ -38,33 +38,6 @@ $year=date('Y');
 
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
 	
-function plaatsign_get_data($day, $month, $year) {
-	
-	$i=0;
-	$data = array();
-
-	$time= mktime(0, 0, 0, $month, $day, $year); 
-		
-	$timestamp1 = date("Y-m-d 00:00:00", $time);
-	$timestamp2 = date("Y-m-d 23:59:59", $time);
-		
-	$sql  = 'select ifnull(p1.timestamp, p2.timestamp) as timestamp, ifnull(p1.pac,0) as pac1, ';
-	$sql .= 'ifnull(p2.pac,0) as pac2, ifnull(p3.pac,0) as pac3 ';
-	$sql .= 'from solar1 p1 left join solar2 p2 on p1.timestamp=p2.timestamp left join solar3 p3 on ';
-	$sql .= 'p1.timestamp=p3.timestamp ';
-	$sql .= 'where p1.timestamp>="'.$timestamp1.'" and p1.timestamp<="'.$timestamp2.'" order by p1.timestamp';
-		
-	$result = plaatsign_db_query($sql);
-		
-	while ($row = plaatsign_db_fetch_object($result)) {
-
-		if ( isset($row->pac1)) {
-			$data[] = array(substr($row->timestamp,11,5), $row->pac1, $row->pac2, $row->pac3 );
-		}
-	}		
-	return $data;
-}
-
 // -------------------------------------------------------
 
 $background= gzinflate(base64_decode("
@@ -386,6 +359,33 @@ VRgWAWKU0O4e+I6WyMrDa1Spvvv8cvMifkI+9rjzeEMfX4M7qvf4hLjlanGsHDjXWNZm0uR5v2m/imN9
 HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJEcgo6vAEMSfGKf5wsUS6OtSty+lRVok4caJfXZkdu
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
+
+function plaatsign_get_data($day, $month, $year) {
+	
+	$i=0;
+	$data = array();
+
+	$time= mktime(0, 0, 0, $month, $day, $year); 
+		
+	$timestamp1 = date("Y-m-d 00:00:00", $time);
+	$timestamp2 = date("Y-m-d 23:59:59", $time);
+		
+	$sql  = 'select ifnull(p1.timestamp, p2.timestamp) as timestamp, ifnull(p1.pac,0) as pac1, ';
+	$sql .= 'ifnull(p2.pac,0) as pac2, ifnull(p3.pac,0) as pac3 ';
+	$sql .= 'from solar1 p1 left join solar2 p2 on p1.timestamp=p2.timestamp left join solar3 p3 on ';
+	$sql .= 'p1.timestamp=p3.timestamp ';
+	$sql .= 'where p1.timestamp>="'.$timestamp1.'" and p1.timestamp<="'.$timestamp2.'" order by p1.timestamp';
+		
+	$result = plaatsign_db_query($sql);
+		
+	while ($row = plaatsign_db_fetch_object($result)) {
+
+		if ( isset($row->pac1)) {
+			$data[] = array(substr($row->timestamp,11,5), $row->pac1, $row->pac2, $row->pac3 );
+		}
+	}		
+	return $data;
+}
 
 function drawLegend($im, $text1, $text2, $text3)  {
 
