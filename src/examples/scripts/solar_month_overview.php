@@ -557,7 +557,7 @@ header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
 
-$white = imagecolorallocate($im, 0xff, 0xff, 0x0f);
+$white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $blue1 = imagecolorallocate($im, 0x00, 0x66, 0xcc);
 $blue2 = imagecolorallocate($im, 0x48, 0x82, 0xbc);
 $blue3 = imagecolorallocate($im, 0xaa, 0xcc, 0xee);
