@@ -37,7 +37,7 @@ plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 function solarPanelData($id) {
 
-	$sql = 'select vdc1, idc1, vdc2, idc2, vac, iac, pac, fac, etoday, etotal, temp from solar'.$id.' order by id desc limit 0,1 ';
+	$sql = 'select timestamp, vdc1, idc1, vdc2, idc2, vac, iac, pac, fac, etoday, etotal, temp from solar'.$id.' order by id desc limit 0,1 ';
 	$result = plaatsign_db_query($sql);
 	$row = plaatsign_db_fetch_object($result);
 
@@ -1323,27 +1323,57 @@ function drawStats($im, $id, $x, $y) {
 	global $font;
 		
 	$data = solarPanelData($id);
-
-	//vdc1, idc1, vdc2, idc2, vac, iac, pac, fac, etoday, etotal, temp
-
-	if (isset($data->vdc1)) {
 	
-		$x+=20;
-		imagettftext($im, 14, 0, $x, $y, $black, $font, $data->vdc1.'V');
-		imagettftext($im, 14, 0, $x+70, $y, $black, $font, $data->idc1.'A');
-		$y+=75;
-
-		imagettftext($im, 14, 0, $x, $y, $black, $font, $data->vdc2.'V');
-		imagettftext($im, 14, 0, $x+70, $y, $black, $font, $data->idc2.'A');
-		$y-=33;
+	$vdc1=0;
+	$idc1=0;
+	$vdc2=0;
+	$idc2=0;
+	$vac=0;
+	$iac=0;
+	$pac=0;
+	$fac=0;
+	$etoday=0;
+	$etotal=0;
+	$temp=0;
 	
-		imagettftext($im, 14, 0, $x+350, $y, $black, $font, $data->vac.'V');
-		imagettftext($im, 14, 0, $x+420, $y, $black, $font, $data->iac.'A');
-		imagettftext($im, 14, 0, $x+260, $y, $black, $font, $data->temp.'C');
-		imagettftext($im, 14, 0, $x+380, $y+20, $black, $font, $data->pac.'W');
-		$y+=30;
-		
-		imagettftext($im, 14, 0, $x+370, $y+20, $black, $font, $data->etoday.' kWh');
+	if (isset($data->vdc1) && ((time()-$data->timestamp)<=900)) {
+	
+		$vdc1 = $data->vdc1;
+		$idc1 = $data->idc1;
+		$vdc2 = $data->vdc2;
+		$idc2 = $data->idc2;
+		$vac = $data->vac;
+		$iac = $data->iac;
+		$pac = $data->pac;
+		$fac = $data->fac;
+		$etoday = $data->etoday;
+		$etotal = $data->etotal;
+		$temp = $data->temp;
+	}
+	
+	$x+=20;
+	imagettftext($im, 14, 0, $x, $y, $black, $font, number_format($vdc1,1).'V');
+	imagettftext($im, 14, 0, $x+70, $y, $black, $font, number_format($idc1,1).'A');
+	$y+=75;
+
+	imagettftext($im, 14, 0, $x, $y, $black, $font, number_format($vdc2,1).'V');
+	imagettftext($im, 14, 0, $x+70, $y, $black, $font, number_format($idc2,1).'A');
+	$y-=33;
+	
+	imagettftext($im, 14, 0, $x+350, $y, $black, $font, number_format($vac,1).'V');
+	imagettftext($im, 14, 0, $x+420, $y, $black, $font, number_format($iac,1).'A');
+	
+	if ($temp>0) {	
+		imagettftext($im, 14, 0, $x+260, $y, $black, $font, number_format($temp,1).'C');
+	}
+	
+	if ($pac>0) {	
+		imagettftext($im, 14, 0, $x+380, $y+20, $black, $font, $pac.'W');
+	}
+	$y+=30;
+	
+	if ($etoday>0) {	
+		imagettftext($im, 14, 0, $x+380, $y+20, $black, $font, number_format($etoday,1).' kWh');
 	}
 }
 	
