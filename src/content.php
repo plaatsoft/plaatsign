@@ -254,10 +254,12 @@ function plaatsign_content_form() {
 			$page .= ' ';
 		}
 	}
-	
+		
 	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&eid='.EVENT_NONE.'&tid='.$tid, t('LINK_CANCEL'));
 	$page .= ' ';
-	$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_SAVE'));
+	if (($tid==TYPE_IMAGE) || ($tid==TYPE_MOVIE) || (($tid==TYPE_SCRIPT) && ($user->role==ROLE_ADMIN))) {
+		$page .= plaatsign_link('mid='.$mid.'&sid='.PAGE_CONTENTLIST.'&id='.$id.'&eid='.EVENT_SAVE.'&tid='.$tid, t('LINK_SAVE'));
+	}
 	
 	$page .= '</div>';
 }

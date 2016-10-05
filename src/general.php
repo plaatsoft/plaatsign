@@ -669,6 +669,34 @@ function plaatsign_ui_image($filename, $options="") {
 	return $image;
 }
 
+/**
+ * Add title icon 
+ */
+function plaatsign_icons() {
+	
+	// Normal icons
+	$page  = '<link rel="shortcut icon" type="image/png" sizes="16x16" href="images/plaatsign16.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="24x24" href="images/plaatsign24.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="32x32" href="images/plaatsign32.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="48x48" href="images/plaatsign48.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="64x64" href="images/plaatsign64.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="128x128" href="images/plaatsign128.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="256x256" href="images/plaatsign256.png">';
+	$page .= '<link rel="shortcut icon" type="image/png" sizes="512x512" href="images/plaatsign512.png">';
+	
+	// Apple icons
+	$page .= '<link rel="apple-touch-icon" type="image/png" href="images/plaatsign60.png">';
+	$page .= '<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="images/plaatsign76.png">';
+	$page .= '<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="images/plaatsign120.png">';
+	$page .= '<link rel="apple-touch-icon" type="image/png" sizes="152x152" href="images/plaatsign152.png">';
+	
+	// Web app cable (runs the website as app)
+	$page .= '<meta name="apple-mobile-web-app-capable" content="yes">';
+	$page .= '<meta name="mobile-web-app-capable" content="yes">';
+	   
+	return $page;
+}
+
 function plaatsign_ui_header( $title = "") {
    
 	/* input */
@@ -683,7 +711,9 @@ function plaatsign_ui_header( $title = "") {
 	$page .= '<head profile="http://gmpg.org/xfn/11">';
 
 	$page .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
- 
+	
+	$page .= plaatsign_icons();
+	 
  	if ($mid==MENU_LOGIN) {
 		
 		$page .= '<meta name="keywords" content="plaatsign,plaatsoft,sign" />';

@@ -137,10 +137,13 @@ $lang['LOGIN_TITLE'] = 'LOGIN';
 $lang['LOGIN_WELCOME_TITLE'] = 'WELCOME';
 
 $lang['LOGIN_WELCOME'] = '
-<p><b>PlaatSign</b> is an digital content viewer.</p>
-
-<p>If you are interresed or have any questions please contact me by
-writing an email to <a href="mailto:info@plaatsoft.nl"/>info@plaatsoft.nl</a></p>';
+<p><b>PlaatSign</b> is an digital content viewer for the Raspberry Pi.</p></p>With this product you can managed digital content 
+(images, videos and dynamic content scripts) remotely. The content is realtime displayed on an attached monitor.</p>
+<p><b>PlaatSign</b> is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft</a>. PlaatSoft is a 
+small christian non profit organization with as mission to created high quality software. This 
+software is open source and may be copied, distributed or modified under the terms of the GNU General Public License (GPL) 
+Version 3.</p><p>If you are interresed or have any questions please writing an email to 
+<a href="mailto:info@plaatsoft.nl"/>info@plaatsoft.nl</a></p>';
 
 $lang['LOGIN_FAILED'] = 'Login failed!';
 $lang['LOGIN_LOGOUT'] = 'You have logout!';
@@ -334,7 +337,8 @@ $lang['ABOUT_CONTENT'] = '
 PlaatSign is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft</a>. PlaatSoft is a small christian 
 non profit organization with as mission to created high quality software. All created software is open source and 
 may be copied, distributed or modified under the terms of the GNU General Public License (GPL) Version 3. If you want 
-more information about us, please send an email to info@plaatsoft.nl</p>
+more information about us, please send an email to info@plaatsoft.nl
+</p>
 
 <h2>Disclaimer</h2>
 <p>

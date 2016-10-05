@@ -121,6 +121,15 @@ function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 	return $y;
 }
 
+function drawDashedLine($im, $offset, $y, $dist, $col) {
+    $width = imagesx($im);
+    $nextX = $dist * 2;
+
+    for ($x = $offset; $x <= $width; $x += $nextX) {
+        imageline($im, $x, $y, $x + $dist - 1, $y, $col);
+    }
+}
+
 // -------------------------------------------------------
 
 ?>
