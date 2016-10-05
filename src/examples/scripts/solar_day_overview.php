@@ -505,7 +505,7 @@ drawLogo($im);
 drawAxes($im, 10, 20, $data, $gray);
 drawBars($im, 50, 20, $data, $gray);
 
-drawLabel($im, 0, $height-38, 'Maximale vermogen vandaag '.getMax($data).' Watt', 18, $black);
+drawLabel($im, 0, $height-38, 'Piek vermogen = '.getMax($data).' Watt', 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
 
 imagepng($im);
