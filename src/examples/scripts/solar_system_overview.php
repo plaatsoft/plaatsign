@@ -29,6 +29,10 @@ $dbpass = "plaatenergy";
 include "./../../database.php";
 include "./../../draw.php";
 
+$width = 1920/2;
+$height = 1080/2;
+$font = './../../fonts/arial.ttf';
+
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 function solarPanelData($id) {
@@ -1345,10 +1349,6 @@ function drawStats($im, $id, $x, $y) {
 	
 // -------------------------------------------------------
 	
-$width = 1920/2;
-$height = 1080/2;
-$font = './../../fonts/arial.ttf';
-
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
