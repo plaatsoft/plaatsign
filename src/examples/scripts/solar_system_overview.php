@@ -1335,8 +1335,8 @@ function drawStats($im, $id, $x, $y) {
 	$etoday=0;
 	$etotal=0;
 	$temp=0;
-	
-	if (isset($data->vdc1) && ((time()-$data->timestamp)<=900)) {
+		
+	if (isset($data->vdc1) && ((time()-strtotime($data->timestamp))<=900)) {
 	
 		$vdc1 = $data->vdc1;
 		$idc1 = $data->idc1;
