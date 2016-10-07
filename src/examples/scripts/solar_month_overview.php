@@ -29,9 +29,6 @@ $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";
 
-$width = 1920/2;
-$height = 1080/2;
-
 $month=date('m');
 $year=date('Y');
 

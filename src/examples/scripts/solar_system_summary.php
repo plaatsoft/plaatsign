@@ -16,11 +16,6 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-include "./../../database.php";
-include "./../../draw.php";
-
-// -------------------------------------------------------
-
 define('DEBUG', 0);
 
 // Database credentials
@@ -29,12 +24,58 @@ $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";
 
-$day=date('d');
-$month=date('m');
-$year=date('Y');
+// Energy co2 emission = Generate 1kWh electricity generate 0.526 kg co2
+$kwh_to_co2_factor = 0.526;
+
+include "./../../database.php";
+include "./../../draw.php";
 
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
+
+function firstDay() {
+
+	$sql = 'select date from energy_summary order by id asc limit 0,1';
+
+	$result = plaatsign_db_query($sql);
+	$data = plaatsign_db_fetch_object($result);
 	
+	$date = "";
+	if (isset($data->date)) {
+		$date = $data->date;
+	}
+
+	return $date;
+}
+
+function solarTotal() {
+
+	$sql = 'select sum(solar_delivered) as solar_delivered from energy_summary';
+
+	$result = plaatsign_db_query($sql);
+	$data = plaatsign_db_fetch_object($result);
+	
+	$total = 0;
+	if (isset($data->solar_delivered)) {
+		$total = $data->solar_delivered;
+	}
+
+	return $total;
+}
+
+function getSetting($token) {
+
+	$sql = 'select value from config where token="'.$token.'"';
+
+	$result = plaatsign_db_query($sql);
+	$data = plaatsign_db_fetch_object($result);
+	
+	$value = 0;
+	if (isset($data->value)) {
+		$value = $data->value;
+	}
+	return $value;
+}
+
 // -------------------------------------------------------
 
 $background= gzinflate(base64_decode("
@@ -356,183 +397,71 @@ VRgWAWKU0O4e+I6WyMrDa1Spvvv8cvMifkI+9rjzeEMfX4M7qvf4hLjlanGsHDjXWNZm0uR5v2m/imN9
 HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJEcgo6vAEMSfGKf5wsUS6OtSty+lRVok4caJfXZkdu
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
-
-function plaatsign_get_data($day, $month, $year) {
 	
-	$i=0;
-	$data = array();
-
-	$time= mktime(0, 0, 0, $month, $day, $year); 
-		
-	$timestamp1 = date("Y-m-d 00:00:00", $time);
-	$timestamp2 = date("Y-m-d 23:59:59", $time);
-		
-	$sql  = 'select ifnull(p1.timestamp, p2.timestamp) as timestamp, ifnull(p1.pac,0) as pac1, ';
-	$sql .= 'ifnull(p2.pac,0) as pac2, ifnull(p3.pac,0) as pac3 ';
-	$sql .= 'from solar1 p1 left join solar2 p2 on p1.timestamp=p2.timestamp left join solar3 p3 on ';
-	$sql .= 'p1.timestamp=p3.timestamp ';
-	$sql .= 'where p1.timestamp>="'.$timestamp1.'" and p1.timestamp<="'.$timestamp2.'" order by p1.timestamp';
-		
-	$result = plaatsign_db_query($sql);
-		
-	while ($row = plaatsign_db_fetch_object($result)) {
-
-		if ( isset($row->pac1)) {
-			$data[] = array(substr($row->timestamp,11,5), $row->pac1, $row->pac2, $row->pac3 );
-		}
-	}		
-	return $data;
-}
-
-function drawLegend($im, $text1, $text2, $text3)  {
-
-	global $width;
-	global $height;
-	global $font;
-	
-	global $black;
-	global $blue1;
-	global $blue2;
-	global $blue3;
-	
-	$size = 10;
-	$font_size = 13;
-	
-	imagefilledrectangle( $im, 200, $height-80 , 200+$size , $height-80+$size, $blue1 );
-	imagettftext($im, $font_size, 0, 220, $height-70, $black, $font, $text1);
-	
-	imagefilledrectangle( $im, 400, $height-80 , 400+$size , $height-80+$size, $blue2 );
-	imagettftext($im, $font_size, 0, 420, $height-70, $black, $font, $text2);
-	
-	imagefilledrectangle( $im, 600, $height-80 , 600+$size , $height-80+$size, $blue3 );
-	imagettftext($im, $font_size, 0, 620, $height-70, $black, $font, $text3);
-}
-
-function drawBars($im, $x, $y, $data, $color)  {
-
-	global $width;
-	global $height;
-	global $font;
-	
-	global $blue1;
-	global $blue2;
-	global $blue3;
-	
-	$lines = 5;
-	$font_size = 9;
-	
-	$max = getMax($data);
-	$step = ceil($max / $lines);
-	$pixel = ($height-180) / $lines;
-	
-	$amount = sizeof($data);
-	
-	$bar_width = 1;
-	if ($amount>0) {
-		$bar_width= ($width-$x-180) / $amount;
-	}
-	if ($bar_width>0.8) {
-		$bar_width=0.8;
-	}
-	$x=$x+(($width-180-$x)/2)-(($bar_width*$amount)/2);
-	
-	$starty = $height - 120 + $y;	
-	$startx = $x;
-		
-	$count=0;
-	
-	for ($row=0; $row<sizeof($data); $row++) {
-			
-		$bar_height1=0;
-		if ($step>0) {
-			$bar_height1 = ($data[$row][1] / $step) * $pixel;		
-		}
-		
-		$bar_start1 = $starty;
-		$bar_end1 = $bar_start1 - $bar_height1;
-		if ($data[$row][1]>0) {
-			imagefilledrectangle( $im, $startx, $bar_start1 , ($startx+$bar_width) , $bar_end1, $blue1 );		
-		}
-				
-		$bar_height2 = 0;
-		if ($step>0) {
-			$bar_height2 = ($data[$row][2] / $step) * $pixel;
-		}
-		$bar_start2 = $bar_end1;
-		$bar_end2 = $bar_start2 - $bar_height2;
-			
-		if ($data[$row][2]>0) {
-			imagefilledrectangle( $im, $startx, $bar_start2 , ($startx+$bar_width) , $bar_end2, $blue2 );
-		}
-		
-		$bar_height3 = 0;
-		if ($step>0) {
-			$bar_height3 = ($data[$row][3] / $step) * $pixel;
-		}
-		$bar_start3 = $bar_end2;
-		$bar_end3 = $bar_start3 - $bar_height3;
-			
-		if ($data[$row][3]>0) {			
-			imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $blue3 );
-		}
-		
-		if ($count%75==0) {
-			imagettftext($im, $font_size, 0, $startx-5, $starty+20, $color, $font, $data[$row][0] );
-		}
-
-		$startx += $bar_width;		
-		$count++;	
-	}
-}
-
-function drawLogo($im) {
-
-	global $width;
-	
-	$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
-	AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
-	goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
-	veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
-	/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
-	kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
-	to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
-	ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
-	afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
-	iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
-	TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
-	d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
-	
-	$src = imagecreatefromstring($logo);
-
-	// Copy and merge
-	imagecopymerge($im, $src, 210, 12, 0, 0, 32, 32, 100);
-	imagecopymerge($im, $src, $width-240, 12, 0, 0, 32, 32, 100);
-}
-
 // -------------------------------------------------------
-
+	
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
 
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
-$blue1 = imagecolorallocate($im, 0x00, 0x66, 0xcc);
-$blue2 = imagecolorallocate($im, 0x48, 0x82, 0xbc);
-$blue3 = imagecolorallocate($im, 0xaa, 0xcc, 0xee);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
+$green = imagecolorallocate($im, 0x00, 0x6f, 0x00);
 $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
+$blue1 = imagecolorallocate($im, 0x87, 0xce, 0xfa);
+$blue2 = imagecolorallocate($im, 0x46, 0x82, 0xb4);
 
-$data = plaatsign_get_data($day, $month, $year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 38, 'Solar Dag Productie '.$day.'-'.$month.'-'.$year, 24, $black);
-drawLogo($im);
+drawLabel($im, 0, 38, 'Solar systeem samenvatting', 24, $black);
 
-drawAxes($im, 60, 0, $data, $gray);
-drawBars($im, 70, 0, $data, $gray);
+$cellh=70;
 
-drawLegend($im, "Converter 1 (Watt)", "Converter 2 (Watt)", "Converter 3 (Watt)");
-drawLabel($im, 0, $height-38, 'Piek vermogen = '.getMax($data).' Watt', 18, $black);
+$x=50;
+for ($a=0; $a<6; $a++) {	
+	for ($b=0; $b<2; $b++)  {
+		$y=70;
+		$color = $blue1;
+		if (($a%2)==0) {
+			$color = $blue2;
+		}			
+		drawBox($im, $x+100+($b*430), $y+($a*$cellh), $x+520+($b*220), $y+(($a+1)*$cellh), $color);
+		$y+=80;
+	}
+}
+
+$y=120;
+drawLabel($im, 180, $y, 'In bedrijfstelling', 24, $white);
+$y+=$cellh;
+drawLabel($im, 180, $y, 'Piekvermogen installatie', 24, $white);
+$y+=$cellh;
+drawLabel($im, 180, $y, 'Meet moment', 24, $white);
+$y+=$cellh;
+drawLabel($im, 180, $y, 'Totaal opgewerkte energie', 24, $white);
+$y+=$cellh;
+drawLabel($im, 180, $y, 'CO2 emissie reductie', 24, $white);
+$y+=$cellh;
+drawLabel($im, 180, $y, 'Kosten besparing', 24, $white);
+
+$total = solarTotal();
+$price = getSetting("energy_price");
+$peak = getSetting("solar_peak_power");
+$part = preg_split('/-/', firstDay());
+$startDate = $part[2].'-'.$part[1].'-'.$part[0];
+		
+$y=120;
+drawLabel($im, 600, $y, $startDate, 24, $white);
+$y+=$cellh;
+drawLabel($im, 600, $y, round(($peak/1000),2).' kW', 24, $white);
+$y+=$cellh;
+drawLabel($im, 600, $y, date("d-m-Y"), 24, $white);
+$y+=$cellh;
+drawLabel($im, 600, $y, round($total,1).' kWh', 24, $white);
+$y+=$cellh;
+drawLabel($im, 600, $y, round($total*$kwh_to_co2_factor,1).' ton', 24, $white);
+$y+=$cellh;
+drawLabel($im, 600, $y, round($total*$price,1).' euro', 24, $white);
+	
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
 
 imagepng($im);

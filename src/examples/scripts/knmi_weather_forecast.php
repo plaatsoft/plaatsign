@@ -338,7 +338,6 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
-
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
