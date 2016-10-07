@@ -413,7 +413,7 @@ $blue2 = imagecolorallocate($im, 0x46, 0x82, 0xb4);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 38, 'Solar systeem samenvatting', 24, $black);
+drawLabel($im, 0, 38, 'Solar Systeem Samenvatting', 24, $black);
 
 $cellh=70;
 
