@@ -431,17 +431,17 @@ for ($a=0; $a<6; $a++) {
 }
 
 $y=120;
-drawLabel($im, 180, $y, 'In bedrijfstelling', 24, $white);
+drawLabel($im, 170, $y, 'In bedrijfstelling', 24, $white);
 $y+=$cellh;
-drawLabel($im, 180, $y, 'Piekvermogen installatie', 24, $white);
+drawLabel($im, 170, $y, 'Piekvermogen installatie', 24, $white);
 $y+=$cellh;
-drawLabel($im, 180, $y, 'Meet moment', 24, $white);
+drawLabel($im, 170, $y, 'Meet moment', 24, $white);
 $y+=$cellh;
-drawLabel($im, 180, $y, 'Totaal opgewerkte energie', 24, $white);
+drawLabel($im, 170, $y, 'Totaal opgewerkte energie', 24, $white);
 $y+=$cellh;
-drawLabel($im, 180, $y, 'CO2 emissie reductie', 24, $white);
+drawLabel($im, 170, $y, 'CO2 emissie reductie', 24, $white);
 $y+=$cellh;
-drawLabel($im, 180, $y, 'Kosten besparing', 24, $white);
+drawLabel($im, 170, $y, 'Kosten besparing', 24, $white);
 
 $total = solarTotal();
 $price = getSetting("energy_price");
@@ -456,9 +456,9 @@ drawLabel($im, 600, $y, round(($peak/1000),2).' kW', 24, $white);
 $y+=$cellh;
 drawLabel($im, 600, $y, date("d-m-Y"), 24, $white);
 $y+=$cellh;
-drawLabel($im, 600, $y, round($total,1).' kWh', 24, $white);
+drawLabel($im, 600, $y, round(($total/1000),2).' MWh', 24, $white);
 $y+=$cellh;
-drawLabel($im, 600, $y, round($total*$kwh_to_co2_factor,1).' ton', 24, $white);
+drawLabel($im, 600, $y, round(($total*$kwh_to_co2_factor)/1000,2).' ton', 24, $white);
 $y+=$cellh;
 drawLabel($im, 600, $y, round($total*$price,1).' euro', 24, $white);
 	
