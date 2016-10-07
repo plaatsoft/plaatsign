@@ -338,6 +338,20 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
+function drawWeatherMap($im, $x, $y, $width, $height ) {
+
+	$URL = 'http://cdn.knmi.nl/knmi/map/current/weather/forecast/kaart_verwachtingen_Vandaag_dag.gif';
+	$image = file_get_contents($URL);
+
+	$src = imagecreatefromstring($image);	
+	$dst = imagecreatetruecolor($width, $height);
+   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
+
+	// Copy and merge
+	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
+}
+
+
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
@@ -349,27 +363,9 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-$url = "http://projects.knmi.nl/RSSread/rss_KNMIverwachtingen.php";
-$xml = simplexml_load_file($url);
+drawLabel($im, 0, 38, 'KNMI Weer bericht', 24, $black);
 
-$y=50;
-$y = drawLabel($im, 0, $y, "KNMI", 40, $black);
-$y+=15;
-
-for($i = 0; $i < 3; $i++) {
-	$title = substr($xml->channel->item[$i]->title, 0, 60);
-	$description = substr($xml->channel->item[$i]->description,0, 250);
-	$pubDate = $xml->channel->item[$i]->pubDate;
-	$enclosure = $xml->channel->item[$i]->enclosure;
-	$url = $enclosure["url"];
-	
-	drawLabel($im, 20, $y, $title, 22, $black);	
-	
-	//drawUrlImage($im, 20, $y+20, $url, 120, 100);	
-	$y+=40;	
-	$y = drawTextBox($im, 170, $y, $description, 20, $brown );	
-	$y+=35;
-}
+drawWeatherMap($im, 230, 50, 525, 455 );
 
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatSign', 12, $gray);
 
