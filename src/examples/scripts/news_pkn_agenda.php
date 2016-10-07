@@ -353,21 +353,21 @@ $url = "http://www.protestantsekerk.nl/actueel/agenda/agenda/Paginas/default.asp
 $xml = simplexml_load_file($url);
 
 $y=50;
-$y = drawLabel($im, 0, $y, "PKN Agenda", 40, $black);
+$y = drawLabel($im, 0, $y, "PKN Agenda", 24, $black);
 $y+=15;
 
-for($i = 0; $i < 4; $i++) {
+for($i = 0; $i < 3; $i++) {
 	$title = substr($xml->channel->item[$i]->title, 0, 60);
 	$description = substr($xml->channel->item[$i]->description,0, 250);
 	$pubDate = $xml->channel->item[$i]->pubDate;
 	$enclosure = $xml->channel->item[$i]->enclosure;
 	$url = $enclosure["url"];
 	
-	drawLabel($im, 20, $y, $title, 22, $black);	
+	drawLabel($im, 20, $y, $title, 20, $black);	
 	
 	//drawUrlImage($im, 20, $y+20, $url, 120, 100);	
 	$y+=40;	
-	$y = drawTextBox($im, 170, $y, $description, 20, $brown );	
+	$y = drawTextBox($im, 170, $y, $description, 18, $brown );	
 	$y+=35;
 }
 

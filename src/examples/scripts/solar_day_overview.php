@@ -357,6 +357,24 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
+function plaatsign_get_day_total($day, $month, $year) {
+
+	$data = array();
+
+	$sql  = 'select solar_delivered from energy_summary ';
+	$sql .= 'where date="'.$year.'-'.$month.'-'.$day.'"';
+	
+	$result = plaatsign_db_query($sql);
+	$row = plaatsign_db_fetch_object($result);
+		
+	$value = 0;
+			
+	if (isset($row->solar_delivered)) {
+		$value = $row->solar_delivered;
+	}			
+	return $value;
+}
+
 function plaatsign_get_data($day, $month, $year) {
 	
 	$i=0;
@@ -523,6 +541,8 @@ $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
 $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 $data = plaatsign_get_data($day, $month, $year);
+$total = plaatsign_get_day_total($day, $month, $year);
+
 drawBackgound($im, $background);
 
 drawLabel($im, 0, 38, 'Solar Dag Productie '.$day.'-'.$month.'-'.$year, 24, $black);
@@ -532,7 +552,8 @@ drawAxes($im, 60, 0, $data, $gray);
 drawBars($im, 70, 0, $data, $gray);
 
 drawLegend($im, "Converter 1 (Watt)", "Converter 2 (Watt)", "Converter 3 (Watt)");
-drawLabel($im, 0, $height-38, 'Piek vermogen = '.getMax($data).' Watt', 18, $black);
+
+drawLabel($im, 0, $height-38, 'Piek vermogen = '.getMax($data).' Watt [Totaal = '.round($total,2).' kWh]', 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
 
 imagepng($im);

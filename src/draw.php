@@ -24,9 +24,6 @@ date_default_timezone_set ( "Europe/Amsterdam" );
 $width = 1920/2;
 $height = 1080/2;
 
-/* For now picture size is 4 by 3 ratio */
-$height = 720;
-
 $font = './../../fonts/arial.ttf';
 
 // -------------------------------------------------------
@@ -152,6 +149,11 @@ function drawAxes($im, $x, $y, $data, $color)  {
 		imagettftext($im, $font_size, 0, $x-50, $starty-($y1*$pixel)+$lines, $color, $font, $step*$y1);
 	}
 }
+
+function drawBox($im, $x1, $y1, $x2, $y2, $color)  {
+	imagefilledrectangle( $im , $x1, $y1 ,$x2, $y2, $color );
+}
+
 
 // -------------------------------------------------------
 
