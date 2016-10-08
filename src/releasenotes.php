@@ -63,7 +63,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 
 <h2>24-09-2016 Version 0.1</h2>
 <ul>
-<li>Added ontent page with CRUD actions</li>
+<li>Added content page with CRUD actions</li>
 <li>Added role base access</li>
 <li>Added settings page</li>
 <li>Added login/logout functionality</li>
