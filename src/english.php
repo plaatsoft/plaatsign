@@ -290,8 +290,9 @@ Many thanks to the following people who helped creating <b>PlaatSign</b>.
 <ul>
 <li>wplaat</li>
 <li>lplaat</li>
-<li>mvdwind</li>
-<li>pvdbrink</li>
+<li>golbertijn</li>
+<li>mwind</li>
+<li>pbrink</li>
 </ul>
 </p>
 

@@ -435,6 +435,9 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 $blue1 = imagecolorallocate($im, 0x87, 0xce, 0xfa);
 $blue2 = imagecolorallocate($im, 0x46, 0x82, 0xb4);
 
+$green1 = imagecolorallocate($im, 0xae, 0xcb, 0x11);
+$green2 = imagecolorallocate($im, 0x22, 0x93, 0x37);
+  
 drawBackgound($im, $background);
 
 drawLabel($im, 0, 38, 'Solar Systeem Samenvatting', 24, $black);
@@ -446,9 +449,9 @@ $x=50;
 for ($a=0; $a<6; $a++) {	
 	for ($b=0; $b<2; $b++)  {
 		$y=70;
-		$color = $blue1;
+		$color = $green1;
 		if (($a%2)==0) {
-			$color = $blue2;
+			$color = $green2;
 		}			
 		drawBox($im, $x+100+($b*430), $y+($a*$cellh), $x+520+($b*220), $y+(($a+1)*$cellh), $color);
 		$y+=80;

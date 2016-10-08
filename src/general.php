@@ -374,12 +374,15 @@ function plaatsign_ui_content2($tid, $cid, $filename) {
 			break;
 		
 	case TYPE_SCRIPT:
-			$page	= '<image class="imgl" src="'.plaatsign_content_path(TYPE_IMAGE).$cid.'.png'.'" width="548" height="308" />';
+			$filename = plaatsign_content_path(TYPE_IMAGE).$cid.'.png';			
+			if (!is_file($filename)) {
+				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
+			}
+			$page	= '<image class="imgl" src="'.$filename.'" width="548" height="308" />';
 			break;
 		
-	default:
-	
-		$page	= '<image class="imgl" src="'.plaatsign_content_path($tid).$filename.'" width="548" height="308" />';
+	default:	
+			$page	= '<image class="imgl" src="'.plaatsign_content_path($tid).$filename.'" width="548" height="308" />';
 	}
 	return $page;
 }
@@ -392,19 +395,23 @@ function plaatsign_ui_content1($tid, $cid, $filename) {
 	switch ($tid) {
 	
 		case TYPE_MOVIE:
-				$page  = '<video width="192" height="108" autoplay>';
-				$page .= '<source src="'.plaatsign_content_path($tid).$filename.'" type="video/mp4">';
-				$page .= 'Your browser does not support the video tag.';
-				$page .= '</video>';
-				break;
+			$page  = '<video width="192" height="108" autoplay>';
+			$page .= '<source src="'.plaatsign_content_path($tid).$filename.'" type="video/mp4">';
+			$page .= 'Your browser does not support the video tag.';
+			$page .= '</video>';
+			break;
 
 		case TYPE_SCRIPT:
-				$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.plaatsign_content_path(TYPE_IMAGE).$cid.'.png'.'" width="192" height="108" />');
-				break;
+			$filename = plaatsign_content_path(TYPE_IMAGE).$cid.'.png';			
+			if (!is_file($filename)) {
+				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
+			}
+			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.$filename.'" width="192" height="108" />');
+			break;
 				
 		default:
-				$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.plaatsign_content_path($tid).$filename.'" width="192" height="108" />');
-				break;
+			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.plaatsign_content_path($tid).$filename.'" width="192" height="108" />');
+			break;
 	}
 	return $page;
 }
