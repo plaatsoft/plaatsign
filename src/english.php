@@ -59,6 +59,7 @@ $lang['ROLE_1'] = 'Admin';
 */
 
 $lang['LINK_LOGIN']  = 'Login'; 
+$lang['LINK_HOME']  = 'Home'; 
 $lang['LINK_CONTENT']  = 'Content'; 
 $lang['LINK_MANUAL']  = 'Manual'; 
 $lang['LINK_SCRIPTS']  = 'Scripts';
@@ -156,6 +157,15 @@ $lang['LOGIN_NAME_TO_SHORT'] = 'Name to short! Minimal length is 3';
 $lang['LOGIN_EMAIL_INVALID' ] = 'Email address is not valid';
 
 $lang['LOGIN_RECOVER'] = 'RECOVER';
+
+/*
+** ------------------
+**  HOME
+** ------------------
+*/
+
+$lang['HOME_TITLE'] = 'HOME';
+$lang['HOME_CONTENT'] = 'On this moment the following content is part of the slideshow.';
 
 /*
 ** ------------------
@@ -301,9 +311,7 @@ Many thanks to the following people who helped creating <b>PlaatSign</b>.
 <ul>
 <li>and of course all other users who sent great feedback to improve this application</li>
 </ul>
-</p>
-
-';
+</p>';
 
 /*
 ** ------------------

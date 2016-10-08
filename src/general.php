@@ -36,24 +36,24 @@ define('ROLE_USER', 0);
 define('ROLE_ADMIN', 1);
 
 define("MENU_LOGIN", 100);
-define("MENU_CONTENT", 101);
-define("MENU_SETTINGS", 102);
-define("MENU_HELP", 103);
-define("MENU_LOGOUT", 104);
+define("MENU_HOME", 101);
+define("MENU_CONTENT", 102);
+define("MENU_SETTINGS", 103);
+define("MENU_HELP", 104);
+define("MENU_LOGOUT", 105);
 
 define("PAGE_LOGIN", 200);
-define("PAGE_REGISTER", 201);
-define("PAGE_RECOVER", 202);
-define("PAGE_CONTENTLIST", 203);
-define("PAGE_CONTENT", 204);
-define("PAGE_USERLIST", 205);
-define("PAGE_USER", 206);
-define("PAGE_RELEASE_NOTES", 207);
-define("PAGE_CREDITS", 208);
-define("PAGE_DONATE", 209);
-define("PAGE_ABOUT", 210);
-define("PAGE_SETTINGS", 211);
-define("PAGE_MANUAL", 212);
+define("PAGE_HOME", 201);
+define("PAGE_CONTENTLIST", 202);
+define("PAGE_CONTENT", 203);
+define("PAGE_USERLIST", 204);
+define("PAGE_USER", 205);
+define("PAGE_RELEASE_NOTES", 206);
+define("PAGE_CREDITS", 207);
+define("PAGE_DONATE", 208);
+define("PAGE_ABOUT", 209);
+define("PAGE_SETTINGS", 210);
+define("PAGE_MANUAL", 211);
 
 define("EVENT_NONE", 300);
 define("EVENT_LOGIN", 301);
@@ -778,7 +778,7 @@ function plaatsign_ui_banner($menu) {
 	if ($mid==MENU_LOGIN) { 
 		$page .= plaatsign_link('mid='.MENU_LOGIN.'&sid='.PAGE_LOGIN, 'PlaatSign' );
 	} else {	
-		$page .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST,'PlaatSign' );
+		$page .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME,'PlaatSign' );
 	}
 	$page .= '</h1>';
 	$data = plaatsign_db_config("database_version");	

@@ -30,7 +30,15 @@ function plaatsign_main_menu() {
 	global $user;
 	global $access;
 				
+	/* -----------------*/
+				
 	$menu = '<ul>';
+	
+	if ($mid==MENU_HOME) $menu .= '<li class="active">'; else $menu .= '<li>';
+	$menu .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME.'&tid='.TYPE_IMAGE, t('LINK_HOME'));
+	$menu .= '</li>';
+	
+	/* -----------------*/
 	
 	if ($mid==MENU_CONTENT) $menu .= '<li class="active">'; else $menu .= '<li>';
 	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_IMAGE, t('LINK_CONTENT'));
