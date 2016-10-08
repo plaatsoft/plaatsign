@@ -26,6 +26,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 
 <h2>08-10-2016 Version 0.4</h2>
 <ul>
+<li>Added home page with slide show preview.</li>
 <li>Image format is now based on HD dimensions.</li>
 <li>Improve solar, news and weather script examples.</li>
 <li>Added icons for apple, android and window devices.</li>

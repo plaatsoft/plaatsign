@@ -282,11 +282,7 @@ function plaatsign_contentlist_form() {
 	$page .= '<h1>';	
 	$page .= $title;
 	$page .= '</h1>';
-
-	$page .= '<p>';
-	$page .= t('CONTENT_NOTE');
-	$page .= '</p>';
-		
+	
 	$query  = 'select cid, filename, filesize, enabled, created, uid from content where tid='.$tid.' ';
 		
 	switch ($sort) {

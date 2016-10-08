@@ -45,16 +45,14 @@ while (TRUE) {
  
 	system('setterm -cursor off');
 	system('clear');
- 
-	# Video player
-	exec('/usr/bin/omxplayer /var/www/html/plaatsign/uploads/videos/*.mp4');
-		
-	system('clear');
 	
 	# Image player
 	exec('/usr/bin/fbi -d /dev/fb0 -t '.$delay.' -noverbose -a /var/www/html/plaatsign/uploads/images/* -1');	 	 
-		
+	
 	system('clear');
+	
+	# Video player
+	exec('/usr/bin/omxplayer /var/www/html/plaatsign/uploads/videos/*.mp4');	
 }
 
 unlink( LOCK_FILE ); 

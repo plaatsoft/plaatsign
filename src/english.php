@@ -165,7 +165,7 @@ $lang['LOGIN_RECOVER'] = 'RECOVER';
 */
 
 $lang['HOME_TITLE'] = 'HOME';
-$lang['HOME_CONTENT'] = 'On this moment the following content is part of the slideshow.';
+$lang['HOME_CONTENT'] = 'The attached monitor display the following content.';
 
 /*
 ** ------------------
@@ -175,8 +175,6 @@ $lang['HOME_CONTENT'] = 'On this moment the following content is part of the sli
 
 $lang['CONTENT_TITLE'] = 'CONTENT';
 $lang['CONTENT_MINUTES'] = 'minutes';
-
-$lang['CONTENT_NOTE'] = 'On this moment the following content is part of the slideshow.';
 
 $lang['CONTENT_ADDED'] = 'Content added';
 $lang['CONTENT_UPDATED'] = 'Content updated';
