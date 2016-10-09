@@ -781,10 +781,10 @@ function plaatsign_ui_banner($menu) {
 		$page .= plaatsign_link('mid='.MENU_HOME.'&sid='.PAGE_HOME,'PlaatSign' );
 	}
 	$page .= '</h1>';
-	$data = plaatsign_db_config("database_version");	
-	if (isset($data->id)) {
+	$data1 = plaatsign_db_config("database_version");		
+	if (isset($data1->id)) {
 		$page .= '<div class="version">';	
-   	$page .= 'v'.$data->value.' '.t('BUILD_INFO');
+   	$page .= 'v'.$data1->value.' '.plaatsign_db_config_get('build_number');
 		$page .= '</div>';
 	}
 	$page .= '</div>';

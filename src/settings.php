@@ -16,7 +16,6 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-
 /*
 ** ------------------
 ** POST PARAMETERS
@@ -39,20 +38,31 @@ function plaatsign_settings_save_do() {
 	global $timer;
 	global $timezone;
 		
-	$data = plaatsign_db_config("slide_show_delay");
-	if (isset($data->id)) {						
-		$data->value = $timer;			
-		plaatsign_db_config_update($data);
-	}
+	if (!is_numeric($timer)) {
 	
-	$data = plaatsign_db_config("timezone");
-	if (isset($data->id)) {
-		$data->value = $timezone;			
-		plaatsign_db_config_update($data);
-	}
+		plaatsign_ui_box('warning', t('SETTING_TIMER_NO_NUMBER'));
 	
-	plaatsign_ui_box('info', t('SETTING_UPDATED'));
-	plaatsign_info($user->name.' ['.$user->uid.'] update settings');		
+	} else if ($timer<1) {
+	
+		plaatsign_ui_box('warning', t('SETTING_TIMER_TOO_LOW'));
+		
+	} else {
+	
+		$data = plaatsign_db_config("slide_show_delay");
+		if (isset($data->id)) {						
+			$data->value = $timer;			
+			plaatsign_db_config_update($data);
+		}
+		
+		$data = plaatsign_db_config("timezone");
+		if (isset($data->id)) {
+			$data->value = $timezone;			
+			plaatsign_db_config_update($data);
+		}
+		
+		plaatsign_ui_box('info', t('SETTING_UPDATED'));
+		plaatsign_info($user->name.' ['.$user->uid.'] update settings');		
+	}
 }
 
 /*

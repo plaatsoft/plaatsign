@@ -18,14 +18,6 @@
 
 /*
 ** ------------------
-** VERSION
-** ------------------
-*/
-
-$lang['BUILD_INFO'] = '(Build 08-10-2016)';
-
-/*
-** ------------------
 ** LANGUAGES
 ** ------------------
 */
@@ -205,6 +197,9 @@ $lang['SLIDE_SHOW_DELAY'] = 'Slide delay:';
 $lang['SLIDE_SECONDS'] = 'seconds';
 
 $lang['SETTING_UPDATED'] = 'Setting items updated!';
+
+$lang['SETTING_TIMER_NO_NUMBER'] = 'Timer setting must contain number!';
+$lang['SETTING_TIMER_TOO_LOW'] = 'Timer setting value must be atleast one second!';
 
 /*
 ** ------------------

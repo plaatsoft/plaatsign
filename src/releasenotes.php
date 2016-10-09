@@ -24,6 +24,11 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
+<h2>09-10-2016 Version 0.5</h2>
+<ul>
+<li>Slide delay value is now validated.</li>
+</ul>
+
 <h2>08-10-2016 Version 0.4</h2>
 <ul>
 <li>Added home page with slide show preview.</li>
