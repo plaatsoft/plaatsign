@@ -118,7 +118,7 @@ function plaatsign_login_form() {
    $page .= '<div id="content">';
 	
 	$page .= '<h1>'.t('LOGIN_WELCOME_TITLE').'</h1>';
-	$page .= '<img class="imgl" src="images/plaatsign256.png" alt="" />';
+	$page .= '<img class="imgl" src="images/plaatsign256.png" widht="220" height="220" alt="" />';
 	$page .= t('LOGIN_WELCOME');	
 	$page .= '</div>'; 
 		
