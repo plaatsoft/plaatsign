@@ -136,17 +136,22 @@ function plaatsign_login_form() {
 	$page .= '<input type="password" name="password" id="password" value=""/>';
 	$page .= '</p>';
 	
-	$page .= plaatsign_button('mid='.$mid.'&eid='.EVENT_LOGIN, t('LINK_LOGIN'));
+	$page .= plaatsign_link('mid='.$mid.'&eid='.EVENT_LOGIN, t('LINK_LOGIN'));
 			
 	$page .= '</div>';
 	$page .= '</div>';	
 	
 	$page .= '<br class="clear" /><div id="footer"><h1>SCREENSHOTS</h1>';
-	$page .= '<div class="footbox"><img  src="images/screenshot1.png" width="160" height="140" /><p><b>Content Editor</b></p></div>';
-	$page .= '<div class="footbox"><img  src="images/screenshot2.png" width="160" height="140"/><p><b>Content Preview</b></p></div>';
-	$page .= '<div class="footbox"><img  src="images/screenshot3.png" width="160" height="140"/><p><b>Weather Forecast</b></p></div>';
-	$page .= '<div class="footbox"><img  src="images/screenshot4.png" width="160" height="140"/><p><b>PlaatEnergy Data</b></p></div>';
-	$page .= '<div class="footbox last"><img  src="images/screenshot5.png" width="160" height="140" /><p><b>Latest News</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot1.png" style="border:1px;border-style:solid;border-color:lightgray;" />';
+	$page .= '<p><b>Content Editor</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot2.png" style="border:1px;border-style:solid;border-color:lightgray;"/>';
+	$page .= '<p><b>Content Preview</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot3.png" style="border:1px;border-style:solid;border-color:lightgray;"/>';
+	$page .= '<p><b>Weather Forecast</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot4.png" style="border:1px;border-style:solid;border-color:lightgray;"/>';
+	$page .= '<p><b>PlaatEnergy Data</b></p></div>';
+	$page .= '<div class="footbox last"><img  src="images/screenshot5.png" style="border:1px;border-style:solid;border-color:lightgray;"/>';
+	$page .= '<p><b>Latest News</b></p></div>';
 		
 	$page .= plaatsign_login_footer();
 		
