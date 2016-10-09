@@ -141,6 +141,13 @@ function plaatsign_login_form() {
 	$page .= '</div>';
 	$page .= '</div>';	
 	
+	$page .= '<br class="clear" /><div id="footer"><h1>SCREENSHOTS</h1>';
+	$page .= '<div class="footbox"><img  src="images/screenshot1.png" width="160" height="140" /><p><b>Content Editor</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot2.png" width="160" height="140"/><p><b>Content Preview</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot3.png" width="160" height="140"/><p><b>Weather Forecast</b></p></div>';
+	$page .= '<div class="footbox"><img  src="images/screenshot4.png" width="160" height="140"/><p><b>PlaatEnergy Data</b></p></div>';
+	$page .= '<div class="footbox last"><img  src="images/screenshot5.png" width="160" height="140" /><p><b>Latest News</b></p></div>';
+		
 	$page .= plaatsign_login_footer();
 		
 	return $page;	
