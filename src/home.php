@@ -80,7 +80,7 @@ function plaatsign_home_form() {
 	$page .= 'var id = 0; ';
 	$page .= 'var max1 = '.$max1.'; ';
 	$page .= 'var max2 = '.$max2.'; ';
-	$page .= 'var type = 0;';
+	$page .= 'var type = 1;';
 	$page .= 'window.setInterval(function() {';
 	$page .= 'if (type<1) {';
 	$page .= '  if (id<(max1-1)) {';
@@ -104,15 +104,16 @@ function plaatsign_home_form() {
 	$page .= '    document.getElementById("video0").style.display = "none"; ';
 	$page .= '  }';	
 	$page .= '  document.getElementById("video0").src = video_files[id];';
+	$page .= '  document.getElementById("video0").load();';
 	$page .= '  document.getElementById("video0").play();';
 	$page .= '}}, '.($delay*1000).');';
 	$page .= '</script>';
 
 	$page .= '<br/>';
 	$page .= '<br/>';
-	$page .= '<img width="960" height="540" id="image0" src="'.$filename1.'" alt="" />';	
-	$page .= '<video width="960" height="540" id="video0" style="display:none" autoplay loop>';
-	$page .= '<source src="'.$filename2.'" type="video/mp4">';
+	$page .= '<img width="960" height="540" id="image0" style="display:none;border:1px;border-style: solid; border-color: lightgray;" src="'.$filename1.'" alt="" />';	
+	$page .= '<video width="960" height="540" id="video0" autoplay loop>';
+	$page .= '<source src="'.$filename2.'" type="video/mp4" >';
 	$page .= '</video>';	
 	
 	$page .= '<br/>';
