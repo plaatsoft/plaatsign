@@ -23,7 +23,7 @@
 */
 
 define('DEBUG', 0);
-define('MAX_FILE_SIZE', 8096000);
+define('MAX_FILE_SIZE', 1024000*18);
 
 define('TYPE_IMAGE', 0);
 define('TYPE_MOVIE', 1);
@@ -406,11 +406,11 @@ function plaatsign_ui_content1($tid, $cid, $filename) {
 			if (!is_file($filename)) {
 				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
 			}
-			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.$filename.'" width="192" height="108" />');
+			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<img src="'.$filename.'" width="192" height="108" />');
 			break;
 				
 		default:
-			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<image src="'.plaatsign_content_path($tid).$filename.'" width="192" height="108" />');
+			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<img src="'.plaatsign_content_path($tid).$filename.'" width="192" height="108" />');
 			break;
 	}
 	return $page;
@@ -713,7 +713,7 @@ function plaatsign_ui_header( $title = "") {
 	global $player;
 	global $session;
 	
-	$page  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+	$page  = '<!DOCTYPE HTML>';
 	$page .= '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="EN" lang="EN" dir="ltr">';
 	$page .= '<head profile="http://gmpg.org/xfn/11">';
 
@@ -835,8 +835,7 @@ function plaatsign_ui_footer($renderTime, $queryCount) {
 	
 	$page .= '</div>';
 	
-	$page .= '<br/>';
-	$page .= '<br/>';
+	$page .= '<br class="clear" />';
 			
 	$page .= '</form>';
 	$page .= "</body>";

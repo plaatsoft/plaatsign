@@ -24,11 +24,14 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>09-10-2016 Version 0.5</h2>
+<h2>10-10-2016 Version 0.5</h2>
 <ul>
-<li>Added screenshots example to login page.</li>
-<li>Added border to home page preview.</li>
-<li>Slide delay value is now validated.</li>
+<li>PlaatSign can now display more then one video.</li>
+<li>Improve video slide show preview.</li>
+<li>Improve login page.</li>
+<li>Slide show delay value is now validated.</li>
+<li>Protect image upload directory against direct URL access.</li>
+<li>Make HTML code compliant with Microsoft Explorer 10 and higher.</li>
 </ul>
 
 <h2>08-10-2016 Version 0.4</h2>

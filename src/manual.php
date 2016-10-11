@@ -34,9 +34,8 @@ function plaatsign_manual_form() {
 	$page .= '<div id="content">';	
  	$page .= '<h1>'.$title.'</h1>';
 
-	$page .= '<p>';		
 	$page .= t('MANUAL_CONTENT');
-	$page .= '</p>';
+	
 	$page .= '</div>';
 	
 	$page .= '<div id="column">';

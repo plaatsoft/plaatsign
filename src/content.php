@@ -193,7 +193,7 @@ function plaatsign_content_form() {
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
 	   $page .= plaatsign_ui_content2($tid, $data->cid, $cache_filename);
 	} else {
-		$page	.= '<image class="imgl" src="images/unknown.jpg" width="540" height="420" />';
+		$page	.= '<img class="imgl" src="images/unknown.jpg" width="540" height="420" />';
 	}
 	
 	$page .= '<p>';

@@ -40,19 +40,41 @@ $time_start = microtime(true);
 while (TRUE) {			
 
 	plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
-
 	$delay = plaatsign_db_config_get("slide_show_delay");
  
-	system('setterm -cursor off');
+ 	system('setterm -cursor off');
 	system('clear');
-		
-	# Video player	
-	exec('/usr/bin/omxplayer /var/www/html/plaatsign/uploads/videos/*.mp4');	
 	
-	system('clear');
+   $files = scandir('../'.plaatsign_content_path(TYPE_MOVIE));
+	foreach ($files as $file) {
+		if (($file!='.') && ($file!='..') && ($file!='index.php')) {			
+
+			$data = '../'.plaatsign_content_path(TYPE_MOVIE).$file;
+	
+			# Video player	
+			$command = '/usr/bin/omxplayer '.$data;	
+			
+			exec($command);		
+			system('clear');
+		}
+	};
+	
+	$data = "";
+	$files = scandir('../'.plaatsign_content_path(TYPE_IMAGE));
+	foreach ($files as $file) {
+		if (($file!='.') && ($file!='..') && ($file!='index.php')) {
+			if (strlen($data)>0) {					
+				$data .= ' ';
+			}
+			$data .= '../'.plaatsign_content_path(TYPE_IMAGE).$file;
+		}
+	};
 	
 	# Image player
-	exec('/usr/bin/fbi -d /dev/fb0 -t '.$delay.' -noverbose -a /var/www/html/plaatsign/uploads/images/* -1');	 	 	
+	$command = '/usr/bin/fbi -d /dev/fb0 -1 -t '.$delay.' -noverbose -a '.$data;	 	 	
+	
+	exec($command);
+	system('clear');
 }
 
 unlink( LOCK_FILE ); 

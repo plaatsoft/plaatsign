@@ -177,7 +177,7 @@ table thead a {
 	display:block; 
 	width:280px; 
 	padding:10px; 
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	margin-bottom:30px;
 }
 
@@ -493,13 +493,13 @@ h2, h3, h4, h5, h6{
 	margin:5px 0 0 0;
 	padding:30px;
 	color:#666666;
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	}
 
 #intro a{
 	color:#C80000;
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	}
 
 #intro .fl_left{
@@ -574,7 +574,7 @@ h2, h3, h4, h5, h6{
 	font-weight:bold;
 	line-height:normal;
 	color:#C80000;
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	}
 
 #imageline{
@@ -607,7 +607,7 @@ h2, h3, h4, h5, h6{
 	margin: 0px 0px 5px;
 	padding: 5px 5px 5px;
 	color:#666666;
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	width: 950px;
 	}
 
@@ -635,13 +635,13 @@ h2, h3, h4, h5, h6{
 	margin: 7px 0px;
 	padding: 10px 5px;
 	color:#666666;
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	width: 950px;
 	}
 
 #box a{
 	color:#C80000;
-	background-color:#eceff5;
+	background-color:#F0F0F0;
 	}
 
 #box ul{

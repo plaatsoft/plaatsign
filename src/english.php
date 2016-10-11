@@ -130,13 +130,13 @@ $lang['LOGIN_TITLE'] = 'LOGIN';
 $lang['LOGIN_WELCOME_TITLE'] = 'WELCOME';
 
 $lang['LOGIN_WELCOME'] = '
-<p><b>PlaatSign</b> is an digital content viewer for the Raspberry Pi.</p></p>With this product you can managed digital content 
+<p><b>PlaatSign</b> is an digital content viewer for the Raspberry Pi.</p><p>With this product you can managed digital content 
 (images, videos and dynamic content scripts) remotely. The content is realtime displayed on an attached monitor.</p>
 <p><b>PlaatSign</b> is created by <a target="new" href="http://www.plaatsoft.nl">PlaatSoft</a>. PlaatSoft is a 
 small christian non profit organization with as mission to created high quality software. This 
 software is open source and may be copied, distributed or modified under the terms of the GNU General Public License (GPL) 
 Version 3.</p><p>If you are interresed or have any questions please writing an email to 
-<a href="mailto:info@plaatsoft.nl"/>info@plaatsoft.nl</a></p>';
+<a href="mailto:info@plaatsoft.nl">info@plaatsoft.nl</a></p>';
 
 $lang['LOGIN_FAILED'] = 'Login failed!';
 $lang['LOGIN_LOGOUT'] = 'You have logout!';
