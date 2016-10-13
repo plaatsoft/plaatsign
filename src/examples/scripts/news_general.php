@@ -349,29 +349,29 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-$y=50;
-$y = drawLabel($im, 0, $y, 'Laatste Nieuws', 24, $black);
-$y+=15;
+$y=40;
+$y = drawLabel($im, 0, $y, 'Laatste Nieuws', $fontArial, 30, $black);
+$y+=10;
 
 $url = "http://www.nu.nl/rss/Algemeen";
 $xml = simplexml_load_file($url);
 
-for($i = 0; $i<2; $i++) {
+for($i = 0; $i<3; $i++) {
 	$title = $str = substr($xml->channel->item[$i]->title, 0, 65);
 	$description = substr($xml->channel->item[$i]->description,0, 300);
 	$pubDate = $xml->channel->item[$i]->pubDate;
 	$enclosure = $xml->channel->item[$i]->enclosure;
 	$url = $enclosure["url"];
 	
-	drawLabel($im, 20, $y, $title, 20, $black);	
+	drawLabel($im, 20, $y, $title, $fontArial, 22, $black);	
 	
-	drawUrlImage($im, 20, $y+20, $url, 120, 100);	
-	$y+=40;	
-	$y = drawTextBox($im, 170, $y, $description, 18, $brown );	
+	drawUrlImage($im, 20, $y+15, $url, 110, 80);	
+	$y+=30;	
+	$y = drawTextBox($im, 170, $y, $description, $fontArial, 18, $brown );	
 	$y+=35;
 }
 
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatSign', 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

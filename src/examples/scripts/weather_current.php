@@ -363,11 +363,11 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 38, 'KNMI Weer bericht', 24, $black);
+drawLabel($im, 0, 40, 'Weer Bericht', $fontArial, 30, $black);
 
 drawWeatherMap($im, 230, 50, 525, 455 );
 
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatSign', 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

@@ -24,23 +24,26 @@ date_default_timezone_set ( "Europe/Amsterdam" );
 $width = 1920/2;
 $height = 1080/2;
 
-$font = './../../fonts/arial.ttf';
+$fontArial = './../../fonts/arial.ttf';
+$fontCardoRegular = './../../fonts/cardo-regular.ttf';
+$fontCardoBold = './../../fonts/cardo-bold.ttf';
+$fontRobotoRegular = './../../fonts/roboto-regular.ttf';
+$fontRobotoBold = './../../fonts/roboto-bold.ttf';
+$fontSansRegular = './../../fonts/sourcesanspro-regular.ttf';
+$fontSansBold = './../../fonts/sourcesanspro-bold.ttf';
 
 // -------------------------------------------------------
 
-function drawUrlImage($im, $x, $y, $url, $width1=128, $height1=128) {
+function drawUrlImage($im, $x, $y, $url, $width=128, $height=128) {
 
-	global $width;
-	global $height;
-		
 	$data = file_get_contents($url);
 	$src = imagecreatefromstring($data);	
 			
 	$dst = imagecreatetruecolor($width, $height);
-   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width1, $height1, imagesx($src), imagesy($src));
+   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
 	
 	// Copy and merge
-	imagecopymerge($im, $dst, $x, $y, 0, 0, $width1, $height1, 100);
+	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
 }
 
 function drawBackgound($im, $background) {
@@ -56,9 +59,8 @@ function drawBackgound($im, $background) {
 	imagecopymerge($im, $dst, 0, 0, 0, 0, $width, $height, 100);
 }
 
-function drawLabel($im, $x, $y, $text, $font_size=28, $color) {
+function drawLabel($im, $x, $y, $text, $font, $font_size, $color) {
 	
-	global $font;
 	global $width;
 	global $height;
 	
@@ -79,9 +81,21 @@ function drawLabel($im, $x, $y, $text, $font_size=28, $color) {
 	return $y + $font_size + 5;
 }
 
-function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 
-	global $font;
+function drawImage($im, $x, $y, $image, $width, $height ) {
+
+	$src = imagecreatefromstring($image);	
+	
+	// Resize
+	$dst = imagecreatetruecolor($width, $height);
+   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
+
+	// Copy and merge
+	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
+}
+
+function drawTextBox($im, $x, $y, $text, $font, $font_size, $color) {
+
 	global $width;
 	global $height;
 	
@@ -95,7 +109,7 @@ function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 	$text = str_replace(  '<br>', ' ', $text);
 	$text = str_replace(  '<p>', ' ', $text);
 	
-	$buffer = wordwrap($text, 52, "<br/>", false);		
+	$buffer = wordwrap($text, 59, "<br/>", false);		
 	$buffer = explode("<br/>", $buffer);
 	
 	$center = false;	
@@ -118,25 +132,12 @@ function drawTextBox($im, $x, $y, $text, $font_size=28, $color) {
 	return $y;
 }
 
-function drawDashedLine($im, $x, $y, $width, $color) {
-    
-	 $dist = 3;
-	 	
-    $nextX = $dist * 2;
-
-    for ($x1 = $x; $x1 <= $width; $x1 += $nextX) {
-        imageline($im, $x1, $y, $x1 + $dist - 1, $y, $color);
-    }
-}
-
-function drawAxes($im, $x, $y, $data, $color)  {
+function drawAxes($im, $x, $y, $data, $font, $font_size, $color)  {
 	
 	global $width;
 	global $height;
-	global $font;
 	
 	$lines = 5;
-	$font_size = 10;
 	
 	$max = getMax($data);	
 	$step = ceil($max / $lines);
@@ -148,6 +149,17 @@ function drawAxes($im, $x, $y, $data, $color)  {
 		drawDashedLine($im, $x, $starty-($y1*$pixel), $width-150, $color);
 		imagettftext($im, $font_size, 0, $x-50, $starty-($y1*$pixel)+$lines, $color, $font, $step*$y1);
 	}
+}
+
+function drawDashedLine($im, $x, $y, $width, $color) {
+    
+	 $dist = 3;
+	 	
+    $nextX = $dist * 2;
+
+    for ($x1 = $x; $x1 <= $width; $x1 += $nextX) {
+        imageline($im, $x1, $y, $x1 + $dist - 1, $y, $color);
+    }
 }
 
 function drawBox($im, $x1, $y1, $x2, $y2, $color)  {

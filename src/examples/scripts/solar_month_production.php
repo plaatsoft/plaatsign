@@ -356,6 +356,19 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
+$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
+AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
+goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
+veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
+/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
+kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
+to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
+ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
+afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
+iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
+TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
+d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
+	
 function plaatsign_get_data($month, $year) {
 
 	$data = array();
@@ -393,17 +406,15 @@ function plaatsign_get_data($month, $year) {
 	return $data;
 }
 
-function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3)  {
+function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
 
 	global $width;
 	global $height;
-	global $font;
 	
 	global $black;
 	global $red;
 	
 	$size = 10;
-	$font_size = 13;
 	
 	imagefilledrectangle( $im, 200, $height-80 , 200+$size , $height-80+$size, $cbar1 );
 	imagettftext($im, $font_size, 0, 220, $height-70, $black, $font, $text1);
@@ -422,11 +433,8 @@ function drawForcast($im, $x, $data, $value, $color)  {
 	
 	global $width;
 	global $height;
-	global $arial;
-	global $font;
 
 	$lines = 5;
-	$font_size = 10;
 	$pixel = ($height-180) / $lines;
 	
 	$max = getMax($data);	
@@ -440,18 +448,15 @@ function drawForcast($im, $x, $data, $value, $color)  {
 	imagefilledrectangle( $im, $x, $y , $width-145, $y+1, $color );
 }
 
-function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3)  {
+function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
 
 	global $width;
 	global $height;
-	global $arial;
-	global $font;
 	
 	global $gray;
 	global $white;
 	
 	$lines = 5;
-	$font_size = 8;
 	
 	$max = getMax($data);
 	$step = ceil($max / $lines);
@@ -518,30 +523,6 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3)  {
 	}
 }
 
-function drawLogo($im) {
-
-	global $width;
-	
-	$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
-	AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
-	goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
-	veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
-	/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
-	kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
-	to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
-	ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
-	afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
-	iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
-	TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
-	d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
-	
-	$src = imagecreatefromstring($logo);
-
-	// Copy and merge
-	imagecopymerge($im, $src, 200, 12, 0, 0, 32, 32, 100);
-	imagecopymerge($im, $src, $width-240, 12, 0, 0, 32, 32, 100);
-}
-
 // -------------------------------------------------------
 
 header('Content-Type: image/png');
@@ -564,16 +545,17 @@ $green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
 $data = plaatsign_get_data($month, $year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 38, 'Solar Maand Productie '.$month.'-'.$year, 24, $black);
-drawLogo($im);
+drawLabel($im, 0, 40, 'Solar Maand Productie '.$month.'-'.$year, $fontArial, 30, $black);
+drawImage($im, 160, 12, $logo, 32, 32);
+drawImage($im, $width-190, 12, $logo, 32, 32);
 
-drawAxes($im, 60, 0, $data, $gray);
-drawForcast($im, 60, $data, getAverage($data), $red);
-drawBars($im, 50, 0, $data, $green1, $green2, $green3);
-drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3);
+drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
+drawForcast($im, 60, $data, getAverage($data), $red, $fontArial, 13);
+drawBars($im, 50, 0, $data, $green1, $green2, $green3, $fontArial, 10);
+drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3, $fontArial, 13);
 
-drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal($data),2).' kWh [Gemiddeld per dag = '.round(getAverage($data),2).' kWh]', 18, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
+drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal($data),2).' kWh [Gemiddeld per dag = '.round(getAverage($data),2).' kWh]', $fontArial, 18, $black);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

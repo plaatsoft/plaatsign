@@ -29,10 +29,6 @@ $dbpass = "plaatenergy";
 include "./../../database.php";
 include "./../../draw.php";
 
-$width = 1920/2;
-$height = 1080/2;
-$font = './../../fonts/arial.ttf';
-
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 function solarPanelData($id) {
@@ -366,6 +362,20 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
+$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
+AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
+goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
+veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
+/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
+kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
+to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
+ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
+afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
+iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
+TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
+d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
+	
+	
 function drawPowerLine($im, $x, $y, $width, $height ) {
 
 $image = gzinflate(base64_decode("
@@ -1316,35 +1326,10 @@ RK5CYII="));
 	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
 }
 
-function drawLogo($im) {
-
-	global $width;
-	
-	$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
-	AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
-	goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
-	veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
-	/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
-	kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
-	to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
-	ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
-	afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
-	iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
-	TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
-	d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
-	
-	$src = imagecreatefromstring($logo);
-
-	// Copy and merge
-	imagecopymerge($im, $src, 260, 12, 0, 0, 32, 32, 100);
-	imagecopymerge($im, $src, $width-290, 12, 0, 0, 32, 32, 100);
-}
-
-function drawStats($im, $id, $x, $y) {
+function drawStats($im, $id, $x, $y, $font, $font_size) {
 
 	global $black;
 	global $green;
-	global $font;
 		
 	$data = solarPanelData($id);
 	
@@ -1376,28 +1361,28 @@ function drawStats($im, $id, $x, $y) {
 	}
 	
 	$x+=20;
-	imagettftext($im, 14, 0, $x, $y, $black, $font, number_format($vdc1,1).'V');
-	imagettftext($im, 14, 0, $x+70, $y, $black, $font, number_format($idc1,1).'A');
+	imagettftext($im, $font_size, 0, $x, $y, $black, $font, number_format($vdc1,1).'V');
+	imagettftext($im, $font_size, 0, $x+70, $y, $black, $font, number_format($idc1,1).'A');
 	$y+=75;
 
-	imagettftext($im, 14, 0, $x, $y, $black, $font, number_format($vdc2,1).'V');
-	imagettftext($im, 14, 0, $x+70, $y, $black, $font, number_format($idc2,1).'A');
+	imagettftext($im, $font_size, 0, $x, $y, $black, $font, number_format($vdc2,1).'V');
+	imagettftext($im, $font_size, 0, $x+70, $y, $black, $font, number_format($idc2,1).'A');
 	$y-=33;
 	
-	imagettftext($im, 14, 0, $x+350, $y, $black, $font, number_format($vac,1).'V');
-	imagettftext($im, 14, 0, $x+420, $y, $black, $font, number_format($iac,1).'A');
+	imagettftext($im, $font_size, 0, $x+350, $y, $black, $font, number_format($vac,1).'V');
+	imagettftext($im, $font_size, 0, $x+420, $y, $black, $font, number_format($iac,1).'A');
 	
 	if ($temp>0) {	
-		imagettftext($im, 14, 0, $x+260, $y, $black, $font, number_format($temp,1).'C');
+		imagettftext($im, $font_size, 0, $x+260, $y, $black, $font, number_format($temp,1).'C');
 	}
 	
 	if ($pac>0) {	
-		imagettftext($im, 14, 0, $x+380, $y+20, $black, $font, $pac.'W');
+		imagettftext($im, $font_size, 0, $x+380, $y+20, $black, $font, $pac.'W');
 	}
 	$y+=30;
 	
 	if ($etoday>0) {	
-		imagettftext($im, 14, 0, $x+380, $y+20, $black, $font, number_format($etoday,1).' kWh');
+		imagettftext($im, $font_size, 0, $x+380, $y+20, $black, $font, number_format($etoday,1).' kWh');
 	}
 }
 	
@@ -1414,14 +1399,15 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 38, 'Solar Systeem Overzicht', 24, $black);
-drawLogo($im);
+drawLabel($im, 0, 40, 'Solar Systeem Overzicht', $fontArial, 28, $black);
+drawImage($im, 240, 12, $logo, 32, 32);
+drawImage($im, $width-270, 12, $logo, 32, 32);
 
-drawSolarPanel($im, 50, ($height/2)-215, 120, 65);
+drawSolarPanel($im, 50, ($height/2)-210, 120, 65);
 drawSolarPanel($im, 50, ($height/2)-140, 120, 65);
 
-imageline($im, 170, ($height/2)-185, 500, ($height/2)-185, $green );
-imageline($im, 170, ($height/2)-110, 500, ($height/2)-110, $green );
+imageline($im, 170, ($height/2)-180, 500, ($height/2)-180, $green );
+imageline($im, 170, ($height/2)-105, 500, ($height/2)-105, $green );
 
 drawSolarPanel($im, 50, ($height/2)-55, 120, 65);
 drawSolarPanel($im, 50, ($height/2)+15, 120, 65);
@@ -1441,15 +1427,15 @@ drawConverter($im, ($width/2)-60, 370, 133*0.7, 194*0.7 );
 
 drawPowerLine($im, 700, ($height/2)-180, 147*0.9, 321*1.2);
 
-imageline($im, 510, ($height/2)-145, 700, ($height/2)-145, $green );
+imageline($im, 510, ($height/2)-140, 700, ($height/2)-140, $green );
 imageline($im, 510, ($height/2)+15, 700, ($height/2)+15, $green );
 imageline($im, 510, ($height/2)+165, 700, ($height/2)+165, $green );
 
-drawStats($im, 1, 160, 80);
-drawStats($im, 2, 160, 240);
-drawStats($im, 3, 160, 390);
+drawStats($im, 1, 160, 85, $fontArial, 14);
+drawStats($im, 2, 160, 240, $fontArial, 14);
+drawStats($im, 3, 160, 390, $fontArial, 14);
 
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);
