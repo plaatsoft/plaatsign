@@ -24,7 +24,7 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>10-10-2016 Version 0.5</h2>
+<h2>22-10-2016 Version 0.5</h2>
 <ul>
 <li>PlaatSign can now display more then one video.</li>
 <li>Improve video slide show preview.</li>
