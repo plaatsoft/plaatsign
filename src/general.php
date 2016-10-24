@@ -783,9 +783,8 @@ function plaatsign_ui_banner($menu) {
 	$page .= '</h1>';
 	$data1 = plaatsign_db_config("database_version");		
 	if (isset($data1->id)) {
-		$page .= '<div class="version">';	
-   	$page .= 'v'.$data1->value.' '.plaatsign_db_config_get('build_number');
-		$page .= '</div>';
+		$page .= 'v<span id="version">';	
+   	$page .= $data1->value.'</span> '.plaatsign_db_config_get('build_number');
 	}
 	$page .= '</div>';
 	
@@ -822,8 +821,13 @@ function plaatsign_ui_footer($renderTime, $queryCount) {
 				
 	$page .= '<div id="copyright">';
 	
-	$page .= '<p class="fl_left">';
+	$page .= '<p class="fl_left" style="width:420px;">';
 	$page .= t('COPYRIGHT');
+	$page .= '</p>';
+	
+	$page .= '<p class="fl_center">';
+	$page .= '<span id="upgrade" style="color:#e0440e" />';
+	$page .= '<script type="text/javascript" src="js/version.js"></script>';
 	$page .= '</p>';
 	
 	$page .= '<p class="fl_right">';

@@ -316,9 +316,9 @@ a:hover {
 	color: yellow;
 }
 
-.fl_center{float:center;}
-
 .fl_left{float:left;}
+
+.fl_center{display:inline;}
 
 .fl_right{float:right;}
 
