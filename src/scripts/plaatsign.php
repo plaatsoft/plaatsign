@@ -42,8 +42,9 @@ while (TRUE) {
 	plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
 	$delay = plaatsign_db_config_get("slide_show_delay");
  
- 	system('setterm -cursor off');
+        system('setterm -cursor off');
 	system('clear');
+
 	
    $files = scandir('../'.plaatsign_content_path(TYPE_MOVIE));
 	foreach ($files as $file) {
@@ -55,6 +56,7 @@ while (TRUE) {
 			$command = '/usr/bin/omxplayer '.$data;	
 			
 			exec($command);		
+        		system('setterm -cursor off');
 			system('clear');
 		}
 	};
@@ -71,7 +73,7 @@ while (TRUE) {
 	};
 	
 	# Image player
-	$command = '/usr/bin/fbi -d /dev/fb0 -1 -t '.$delay.' -noverbose -a '.$data;	 	 	
+	$command = '/usr/bin/fbi -d /dev/fb0 -1 -t '.$delay.' -noverbose -a '.$data.' > /dev/null 2>&1' ;
 	
 	exec($command);
 	system('clear');
