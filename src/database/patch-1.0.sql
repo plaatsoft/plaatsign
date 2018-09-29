@@ -16,3 +16,5 @@
 
 UPDATE config SET value="1.0" WHERE token = "database_version";
 
+UPDATE config SET value="(Build 29-09-2018)" WHERE token = "build_number";
+
