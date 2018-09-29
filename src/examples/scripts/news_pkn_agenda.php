@@ -399,14 +399,14 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-$url = "http://www.protestantsekerk.nl/actueel/agenda/agenda/Paginas/default.aspx?rss=1";
+$url = "https://www.protestantsekerk.nl/rss/udo/news";
 $xml = simplexml_load_file($url);
 
 $y=40;
 $y = drawLabel($im, 0, $y, "PKN Nieuws", $fontArial, 30, $black);
 $y+=15;
 
-for($i = 0; $i<3; $i++) {
+for($i = 0; $i<2; $i++) {
 	$title = $str = substr($xml->channel->item[$i]->title, 0, 65);
 	$description = substr($xml->channel->item[$i]->description,0, 300);
 	$pubDate = $xml->channel->item[$i]->pubDate;
