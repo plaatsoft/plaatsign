@@ -496,7 +496,7 @@ drawLabel($im, 600, $y, round(($total*$kwh_to_co2_factor)/1000,2).' ton', $fontA
 $y+=$cellh;
 drawLabel($im, 600, $y, round($total*$price,1).' euro', $fontArial, 24, $white);
 	
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

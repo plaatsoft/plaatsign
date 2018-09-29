@@ -381,25 +381,35 @@ function plaatsign_get_data($month, $year) {
 			$timestamp1=date('Y-m-d 00:00:00', $time);
 			$timestamp2=date('Y-m-d 23:59:59', $time);
 		
-			$sql  = 'select sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
-			$sql .= 'sum(solar_delivered) as solar_delivered from energy_summary ';
-			$sql .= 'where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
+			$low_used_value = 0;
+			$normal_used_value = 0;
+			$solar_delivered_value = 0;
+			$low_delivered_value = 0;
+			$normal_delivered_value = 0;
+			$verbruikt = 0;
+	
+			$sql  = 'select sum(low_used) as low_used, sum(normal_used) as normal_used, ';
+			$sql .= 'sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
+			$sql .= 'sum(solar_delivered) as solar_delivered ';
+			$sql .= 'from energy_summary where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
 	
 			$result = plaatsign_db_query($sql);
 			$row = plaatsign_db_fetch_object($result);
-		
-			$low_delivered = 0;
-			$normal_delivered = 0;
-			$solar_delivered = 0;
-			
-			if (isset($row->low_delivered)) {
-				$low_delivered = $row->low_delivered;
-				$normal_delivered = $row->normal_delivered;
-				$solar_delivered = $row->solar_delivered;
+	
+			if (isset($row->low_used)) {
+				$low_used_value = $row->low_used;
+				$normal_used_value = $row->normal_used;
+				$low_delivered_value = $row->low_delivered;
+				$normal_delivered_value = $row->normal_delivered;
+				$solar_delivered_value = $row->solar_delivered;
+	
+				$verbruikt = $solar_delivered_value - $low_delivered_value - $normal_delivered_value;
+				if ($verbruikt<0) {
+					$verbruikt=0;
+				} 
 			}
-			
-			$locale_delivered = $solar_delivered- $low_delivered - $normal_delivered;
-			$data[] = array(date('d-m', $time), $low_delivered, $normal_delivered, $locale_delivered);
+
+			$data[] = array(date('d-m', $time), $low_used_value, $normal_used_value, $verbruikt);
 		}
 	}
 	
@@ -545,7 +555,7 @@ $green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
 $data = plaatsign_get_data($month, $year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Maand energie productie '.$month.'-'.$year, $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Maand energie verbruikt '.$month.'-'.$year, $fontArial, 30, $black);
 drawImage($im, 130, 12, $logo, 32, 32);
 drawImage($im, $width-160, 12, $logo, 32, 32);
 

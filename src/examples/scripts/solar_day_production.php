@@ -529,9 +529,9 @@ $total = plaatsign_get_day_total($day, $month, $year);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Solar Dag Productie '.$day.'-'.$month.'-'.$year,  $fontArial, 30, $black);
-drawImage($im, 150, 12, $logo, 32, 32);
-drawImage($im, $width-180, 12, $logo, 32, 32);
+drawLabel($im, 0, 40, 'Dag energie productie '.$day.'-'.$month.'-'.$year,  $fontArial, 30, $black);
+drawImage($im, 130, 12, $logo, 32, 32);
+drawImage($im, $width-160, 12, $logo, 32, 32);
 
 drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
 drawBars($im, 70, 0, $data, $gray, $green1, $green2, $green3, $fontArial, 10);
@@ -539,7 +539,7 @@ drawBars($im, 70, 0, $data, $gray, $green1, $green2, $green3, $fontArial, 10);
 drawLegend($im, "Converter 1 (Watt)", "Converter 2 (Watt)", "Converter 3 (Watt)", $green1, $green2, $green3, $fontArial, 13);
 
 drawLabel($im, 0, $height-38, 'Totaal = '.round($total,2).' kWh [Piek vermogen = '.getMax($data).' Watt]',  $fontArial, 18, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

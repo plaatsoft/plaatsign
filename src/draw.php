@@ -151,6 +151,25 @@ function drawAxes($im, $x, $y, $data, $font, $font_size, $color)  {
 	}
 }
 
+function drawAxes2($im, $x, $y, $data, $font, $font_size, $color)  {
+	
+	global $width;
+	global $height;
+	
+	$lines = 5;
+	
+	$max = getMax2($data);	
+	$step = ceil($max / $lines);
+	$pixel = ($height-180) / $lines;
+	
+	$starty = $y+$height-120;
+	
+	for ($y1=0; $y1<=$lines; $y1++) {
+		drawDashedLine($im, $x, $starty-($y1*$pixel), $width-150, $color);
+		imagettftext($im, $font_size, 0, $x-50, $starty-($y1*$pixel)+$lines, $color, $font, $step*$y1);
+	}
+}
+
 function drawDashedLine($im, $x, $y, $width, $color) {
     
 	 $dist = 3;
@@ -169,6 +188,19 @@ function drawBox($im, $x1, $y1, $x2, $y2, $color)  {
 
 // -------------------------------------------------------
 
+function getMax2($data) {
+
+	$max=0;
+	
+	for ($row=0; $row<sizeof($data); $row++) {
+		$value = $data[$row][1] + $data[$row][2];
+		if ($value>$max) {
+			$max = $value;
+		}
+	}
+	return $max;
+}
+
 function getMax($data) {
 
 	$max=0;
@@ -182,6 +214,17 @@ function getMax($data) {
 	return $max;
 }
 
+function getTotal2($data) {
+
+	$total=0;
+	
+	for ($row=0; $row<sizeof($data); $row++) {
+		$total += $data[$row][1] + $data[$row][2];
+	}
+
+	return $total;
+}
+
 function getTotal($data) {
 
 	$total=0;
@@ -191,6 +234,28 @@ function getTotal($data) {
 	}
 
 	return $total;
+}
+
+function getAverage2($data) {
+
+	$total=0;
+	$count=0;
+	
+	for ($row=0; $row<sizeof($data); $row++) {
+	
+		$value = $data[$row][1] + $data[$row][2];
+		if ($value>0) {
+			$count++;
+		}
+		$total += $value;
+	}
+	
+	$average=0;
+	if (($count>0) && (sizeof($data)>0)) {
+		$average = $total / $count;
+	}
+	
+	return $average;
 }
 
 function getAverage($data) {

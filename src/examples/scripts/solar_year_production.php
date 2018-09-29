@@ -540,9 +540,9 @@ $green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
 $data = plaatsign_get_data($year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Solar Jaar Productie '.$year, $fontArial, 30, $black);
-drawImage($im, 210, 12, $logo, 32, 32);
-drawImage($im, $width-240, 12, $logo, 32, 32);
+drawLabel($im, 0, 40, 'Jaar energie productie '.$year, $fontArial, 30, $black);
+drawImage($im, 180, 12, $logo, 32, 32);
+drawImage($im, $width-210, 12, $logo, 32, 32);
 
 drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
 drawAverageLine($im, 60, $data, getAverage($data), $red);
@@ -550,7 +550,7 @@ drawBars($im, 50, 0, $data, $green1, $green2, $green3, $fontArial, 10);
 drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3, $fontArial, 13);
 
 drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal($data),2).' kWh [Gemiddeld per maand = '.round(getAverage($data),2).' kWh]', $fontArial, 18, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2016 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);
