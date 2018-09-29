@@ -240,6 +240,12 @@ function plaatsign_db_check_version() {
 		$version="0.5";
       plaatsign_db_execute_sql_file($version);
    }
+   
+   // Path database if needed	
+   if ($version=="0.5") {
+		$version="1.0";
+      plaatsign_db_execute_sql_file($version);
+   }
 }
 
 /*
