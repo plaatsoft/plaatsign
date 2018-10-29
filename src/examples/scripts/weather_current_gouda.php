@@ -338,19 +338,15 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
-function drawWeatherMap($im, $x, $y, $width, $height ) {
+function drawGif($url, $im, $x, $y, $width, $height ) {
 
-	$URL = 'http://cdn.knmi.nl/knmi/map/current/weather/forecast/kaart_verwachtingen_Vandaag_dag.gif';
-	$image = file_get_contents($URL);
+	$image = file_get_contents($url);
 
 	$src = imagecreatefromstring($image);	
-	$dst = imagecreatetruecolor($width, $height);
-    imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
 
 	// Copy and merge
-	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
+	imagecopymerge($im, $src, $x, $y, 0, 0, $width, $height, 100);
 }
-
 
 header('Content-Type: image/png');
 
@@ -363,9 +359,14 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Weer Bericht', $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Weer Gouda    ', $fontArial, 30, $black);
 
-drawWeatherMap($im, 230, 50, 525, 455 );
+$xoffset = 80;
+drawGif('http://www.meteo-gouda.nl/WindSpeed.gif', $im, 50+$xoffset, 55, 192, 192 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/Rain.gif', $im, 300+$xoffset, 55, 128, 220 );
+drawGif('http://weerstation-gouda-bloemendaal.nl/WindDirection.gif', $im, 490+$xoffset, 55, 192, 192 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/OutsideTempHistory.gif', $im, 30+$xoffset, 300, 384, 200 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/BarometerHistory.gif', $im, 380+$xoffset, 300, 384, 200 );
 
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
