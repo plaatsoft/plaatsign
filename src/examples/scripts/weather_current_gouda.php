@@ -362,11 +362,12 @@ drawBackgound($im, $background);
 drawLabel($im, 0, 40, 'Weerstation Gouda    ', $fontArial, 30, $black);
 
 $xoffset = 80;
-drawGif('http://www.meteo-gouda.nl/WindSpeed.gif', $im, 50+$xoffset, 55, 192, 192 );
-drawGif('http://www.weerstation-gouda-bloemendaal.nl/Rain.gif', $im, 300+$xoffset, 55, 128, 220 );
-drawGif('http://weerstation-gouda-bloemendaal.nl/WindDirection.gif', $im, 490+$xoffset, 55, 192, 192 );
-drawGif('http://www.weerstation-gouda-bloemendaal.nl/OutsideTempHistory.gif', $im, 30+$xoffset, 300, 384, 200 );
-drawGif('http://www.weerstation-gouda-bloemendaal.nl/BarometerHistory.gif', $im, 380+$xoffset, 300, 384, 200 );
+$yoffset = 5;
+drawGif('http://www.meteo-gouda.nl/WindSpeed.gif', $im, 80+$xoffset, 83+$yoffset, 192, 192 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/Rain.gif', $im, 300+$xoffset, 55+$yoffset, 128, 220 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/WindDirection.gif', $im, 460+$xoffset, 83+$yoffset, 192, 192 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/OutsideTempHistory.gif', $im, 30+$xoffset, 300+$yoffset, 384, 200 );
+drawGif('http://www.weerstation-gouda-bloemendaal.nl/BarometerHistory.gif', $im, 380+$xoffset, 300+$yoffset, 384, 200 );
 
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
