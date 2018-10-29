@@ -359,7 +359,7 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Weer Gouda    ', $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Weerstation Gouda    ', $fontArial, 30, $black);
 
 $xoffset = 80;
 drawGif('http://www.meteo-gouda.nl/WindSpeed.gif', $im, 50+$xoffset, 55, 192, 192 );
