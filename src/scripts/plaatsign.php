@@ -42,11 +42,11 @@ while (TRUE) {
 	plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
 	$delay = plaatsign_db_config_get("slide_show_delay");
  
-        system('setterm -cursor off');
+    system('setterm -cursor off');
 	system('clear');
 
 	
-   $files = scandir('../'.plaatsign_content_path(TYPE_MOVIE));
+    $files = scandir('../'.plaatsign_content_path(TYPE_MOVIE));
 	foreach ($files as $file) {
 		if (($file!='.') && ($file!='..') && ($file!='index.php')) {			
 
