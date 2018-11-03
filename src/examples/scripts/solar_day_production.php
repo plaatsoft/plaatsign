@@ -529,7 +529,7 @@ $total = plaatsign_get_day_total($day, $month, $year);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Dag energie productie '.$day.'-'.$month.'-'.$year,  $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Energie Dagproductie '.$day.'-'.$month.'-'.$year,  $fontArial, 30, $black);
 drawImage($im, 130, 12, $logo, 32, 32);
 drawImage($im, $width-160, 12, $logo, 32, 32);
 

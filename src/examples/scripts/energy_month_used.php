@@ -492,7 +492,7 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)
 		if ($data[$row][1]>0) {
 			imagefilledrectangle( $im, $startx, $bar_start1 , ($startx+$bar_width) , $bar_end1, $cbar1 );		
 			if ($data[$row][1]>1) {		
-				imagettftext($im, $font_size-2, 0, $startx+4, $bar_end1+12, $white, $font, number_format($data[$row][1],1) );
+				imagettftext($im, $font_size-2, 0, $startx+1, $bar_end1+12, $white, $font, number_format($data[$row][1],1) );
 			}
 		}
 				
@@ -506,7 +506,7 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)
 		if ($data[$row][2]>0) {
 			imagefilledrectangle( $im, $startx, $bar_start2 , ($startx+$bar_width) , $bar_end2, $cbar2 );
 			if ($data[$row][2]>1) {	
-				imagettftext($im, $font_size-2, 0, $startx+4, $bar_end2+12, $white, $font, number_format($data[$row][2],1) );
+				imagettftext($im, $font_size-2, 0, $startx+1, $bar_end2+12, $white, $font, number_format($data[$row][2],1) );
 			}
 		}
 		
@@ -520,7 +520,7 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)
 		if ($data[$row][3]>0) {			
 			imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $cbar3 );
 			if ($data[$row][3]>1) {	
-				imagettftext($im, $font_size-2, 0, $startx+4, $bar_end3+12, $white, $font, number_format($data[$row][3],1) );
+				imagettftext($im, $font_size-2, 0, $startx+1, $bar_end3+12, $white, $font, number_format($data[$row][3],1) );
 			}
 		}
 		

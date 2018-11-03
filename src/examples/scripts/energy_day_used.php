@@ -29,11 +29,12 @@ $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";
 
+$day=date('d');
 $month=date('m');
 $year=date('Y');
 
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
-
+	
 // -------------------------------------------------------
 
 $background= gzinflate(base64_decode("
@@ -368,93 +369,85 @@ afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeH
 iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
 TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
 d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
-	
-function plaatsign_get_data($month, $year) {
+
+
+function plaatsign_get_day_total($day, $month, $year) {
 
 	$data = array();
 
-	for($d=1; $d<=31; $d++) {
-		
-		$time=mktime(12, 0, 0, $month, $d, $year);  
-        
-		if (date('m', $time)==$month) {
-			$timestamp1=date('Y-m-d 00:00:00', $time);
-			$timestamp2=date('Y-m-d 23:59:59', $time);
-		
-			$sql  = 'select sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
-			$sql .= 'sum(solar_delivered) as solar_delivered from energy_summary ';
-			$sql .= 'where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
+	$sql  = 'select low_used, normal_used, solar_delivered, low_delivered, normal_delivered from energy_summary where date="'.$year.'-'.$month.'-'.$day.'"';	
+	$result = plaatsign_db_query($sql);
+	$row = plaatsign_db_fetch_object($result);
 	
-			$result = plaatsign_db_query($sql);
-			$row = plaatsign_db_fetch_object($result);
-		
-			$low_delivered = 0;
-			$normal_delivered = 0;
-			$solar_delivered = 0;
-			
-			if (isset($row->low_delivered)) {
-				$low_delivered = $row->low_delivered;
-				$normal_delivered = $row->normal_delivered;
-				$solar_delivered = $row->solar_delivered;
-			}
-			
-			$locale_delivered = $solar_delivered- $low_delivered - $normal_delivered;
-			$data[] = array(date('d-m', $time), $low_delivered, $normal_delivered, $locale_delivered);
-		}
+	$low_used = 0;	
+	$normal_used = 0;	
+	$low_delivered = 0;	
+	$normal_delivered = 0;	
+	$solar_delivered = 0;
+	
+	if (isset($row->low_used)) {
+		$low_used = $row->low_used;
+	}	
+	
+	if (isset($row->normal_used)) {
+		$normal_used = $row->normal_used;
 	}
 	
+	if (isset($row->low_delivered)) {
+		$low_delivered = $row->low_delivered;
+	}
+	
+	if (isset($row->normal_delivered)) {
+		$normal_delivered = $row->normal_delivered;
+	}
+
+	if (isset($row->solar_delivered)) {
+		$solar_delivered = $row->solar_delivered;
+	}			
+	
+	return $low_used + $normal_used + $solar_delivered - $low_delivered - $normal_delivered;
+}
+
+function plaatsign_get_data($day, $month, $year) {
+	
+	$i=0;
+	$data = array();
+
+	$time= mktime(0, 0, 0, $month, $day, $year); 
+		
+	$timestamp1 = date("Y-m-d 00:00:00", $time);
+	$timestamp2 = date("Y-m-d 23:59:59", $time);
+		
+	$sql  = 'select timestamp, power from energy1 where timestamp>="'.$timestamp1.'" and timestamp<="'.$timestamp2.'" order by timestamp';
+		
+	$result = plaatsign_db_query($sql);
+		
+	while ($row = plaatsign_db_fetch_object($result)) {
+
+		if ( isset($row->power)) {
+			$data[] = array(substr($row->timestamp,11,5), $row->power);
+		}
+	}		
 	return $data;
 }
 
-function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
+function drawLegend($im, $text1, $cbar1, $font, $font_size)  {
 
 	global $width;
 	global $height;
 	
 	global $black;
-	global $red;
 	
 	$size = 10;
 	
-	imagefilledrectangle( $im, 200, $height-80 , 200+$size , $height-80+$size, $cbar1 );
-	imagettftext($im, $font_size, 0, 220, $height-70, $black, $font, $text1);
-	
-	imagefilledrectangle( $im, 330, $height-80 , 330+$size , $height-80+$size, $cbar2 );
-	imagettftext($im, $font_size, 0, 350, $height-70, $black, $font, $text2);
-	
-	imagefilledrectangle( $im, $width-480, $height-80 , $width-480+$size , $height-80+$size, $cbar3 );
-	imagettftext($im, $font_size, 0, $width-460, $height-70, $black, $font, $text3);
-	
-	imagefilledrectangle( $im, $width-350, $height-80 , $width-350+$size , $height-80+$size, $red );
-	imagettftext($im, $font_size, 0, $width-330, $height-70, $black, $font, $text4);
+	imagefilledrectangle( $im, 450, $height-80 , 450+$size , $height-80+$size, $cbar1 );
+	imagettftext($im, $font_size, 0, 470, $height-70, $black, $font, $text1);
 }
 
-function drawForcast($im, $x, $data, $value, $color)  {
-	
-	global $width;
-	global $height;
-
-	$lines = 5;
-	$pixel = ($height-180) / $lines;
-	
-	$max = getMax($data);	
-	$step = ceil($max / $lines);
-	
-	$y = $height-120;
-	if ($step>0) {
-		$y = $height-120 - ($value / $step) * $pixel;
-	}
-		
-	imagefilledrectangle( $im, $x, $y , $width-145, $y+1, $color );
-}
-
-function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
+function drawBars($im, $x, $y, $data, $color, $cbar1, $font, $font_size)  {
 
 	global $width;
 	global $height;
-	
-	global $gray;
-	global $white;
 	
 	$lines = 5;
 	
@@ -462,11 +455,19 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)
 	$step = ceil($max / $lines);
 	$pixel = ($height-180) / $lines;
 	
-	$amount = sizeof($data);
-	$bar_width = ($width-(2*($x+138))) / sizeof($data)+2;
+	$amount = 1440;
 	
-	$starty = $height - 120;	
-	$startx = $x + 18;
+	$bar_width = 1;
+	if ($amount>0) {
+		$bar_width= ($width-$x-180) / $amount;
+	}
+	if ($bar_width>0.8) {
+		$bar_width=0.8;
+	}
+	$x=$x+(($width-180-$x)/2)-(($bar_width*$amount)/2);
+	
+	$starty = $height - 120 + $y;	
+	$startx = $x;
 		
 	$count=0;
 	
@@ -481,44 +482,13 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)
 		$bar_end1 = $bar_start1 - $bar_height1;
 		if ($data[$row][1]>0) {
 			imagefilledrectangle( $im, $startx, $bar_start1 , ($startx+$bar_width) , $bar_end1, $cbar1 );		
-			if ($data[$row][1]>1) {		
-				imagettftext($im, $font_size-2, 0, $startx+1, $bar_end1+12, $white, $font, number_format($data[$row][1],1) );
-			}
-		}
-				
-		$bar_height2 = 0;
-		if ($step>0) {
-			$bar_height2 = ($data[$row][2] / $step) * $pixel;
-		}
-		$bar_start2 = $bar_end1;
-		$bar_end2 = $bar_start2 - $bar_height2;
-			
-		if ($data[$row][2]>0) {
-			imagefilledrectangle( $im, $startx, $bar_start2 , ($startx+$bar_width) , $bar_end2, $cbar2 );
-			if ($data[$row][2]>1) {	
-				imagettftext($im, $font_size-2, 0, $startx+1, $bar_end2+12, $white, $font, number_format($data[$row][2],1) );
-			}
 		}
 		
-		$bar_height3 = 0;
-		if ($step>0) {
-			$bar_height3 = ($data[$row][3] / $step) * $pixel;
-		}
-		$bar_start3 = $bar_end2;
-		$bar_end3 = $bar_start3 - $bar_height3;
-			
-		if ($data[$row][3]>0) {			
-			imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $cbar3 );
-			if ($data[$row][3]>1) {	
-				imagettftext($im, $font_size-2, 0, $startx+1, $bar_end3+12, $white, $font, number_format($data[$row][3],1) );
-			}
-		}
-		
-		if ($count%2==0) {
-			imagettftext($im, $font_size, 0, $startx-3, $starty+20, $gray, $font, $data[$row][0] );
+		if ($count%100==0) {
+			imagettftext($im, $font_size, 0, $startx-5, $starty+20, $color,  $font, $data[$row][0] );
 		}
 
-		$startx += $bar_width+3;		
+		$startx += $bar_width;		
 		$count++;	
 	}
 }
@@ -532,7 +502,6 @@ $im = imagecreatetruecolor($width, $height);
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
 $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
-$red = imagecolorallocate($im, 0xff, 0x00, 0x00);
 
 $blue1 = imagecolorallocate($im, 0x00, 0x66, 0xcc);
 $blue2 = imagecolorallocate($im, 0x48, 0x82, 0xbc);
@@ -542,19 +511,21 @@ $green1 = imagecolorallocate($im, 0xae, 0xcb, 0x11);
 $green2 = imagecolorallocate($im, 0x22, 0x93, 0x37);
 $green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
 
-$data = plaatsign_get_data($month, $year);
+$data = plaatsign_get_data($day, $month, $year);
+$total = plaatsign_get_day_total($day, $month, $year);
+
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Energie Maandproductie '.$month.'-'.$year, $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Energie Dagverbruik '.$day.'-'.$month.'-'.$year,  $fontArial, 30, $black);
 drawImage($im, 130, 12, $logo, 32, 32);
 drawImage($im, $width-160, 12, $logo, 32, 32);
 
 drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
-drawForcast($im, 60, $data, getAverage($data), $red, $fontArial, 13);
-drawBars($im, 50, 0, $data, $green1, $green2, $green3, $fontArial, 10);
-drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3, $fontArial, 13);
+drawBars($im, 70, 0, $data, $gray, $green2, $fontArial, 10);
 
-drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal($data),2).' kWh [Gemiddeld per dag = '.round(getAverage($data),2).' kWh]', $fontArial, 18, $black);
+drawLegend($im, "Watt", $green2, $fontArial, 13);
+
+drawLabel($im, 0, $height-38, 'Totaal = '.round($total,2).' kWh [Piek verbruik = '.getMax($data).' Watt]',  $fontArial, 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
