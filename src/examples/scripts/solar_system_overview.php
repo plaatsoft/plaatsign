@@ -1399,9 +1399,9 @@ $gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
 
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Solar Systeem Overzicht', $fontArial, 28, $black);
-drawImage($im, 240, 12, $logo, 32, 32);
-drawImage($im, $width-270, 12, $logo, 32, 32);
+drawLabel($im, 0, 40, 'Oostpoort Zonnepanelen Systeem', $fontArial, 28, $black);
+drawImage($im, 150, 12, $logo, 32, 32);
+drawImage($im, $width-190, 12, $logo, 32, 32);
 
 drawSolarPanel($im, 50, ($height/2)-210, 120, 65);
 drawSolarPanel($im, 50, ($height/2)-140, 120, 65);
