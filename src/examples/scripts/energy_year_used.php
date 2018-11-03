@@ -549,7 +549,7 @@ $green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
 $data = plaatsign_get_data($year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Jaar energie verbruik '.$year, $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Energie jaarverbruik '.$year, $fontArial, 30, $black);
 drawImage($im, 180, 12, $logo, 32, 32);
 drawImage($im, $width-210, 12, $logo, 32, 32);
 
