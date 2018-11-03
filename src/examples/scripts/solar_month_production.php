@@ -545,7 +545,7 @@ $green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
 $data = plaatsign_get_data($month, $year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Energie maandproductie '.$month.'-'.$year, $fontArial, 30, $black);
+drawLabel($im, 0, 40, 'Energie Maandproductie '.$month.'-'.$year, $fontArial, 30, $black);
 drawImage($im, 130, 12, $logo, 32, 32);
 drawImage($im, $width-160, 12, $logo, 32, 32);
 
