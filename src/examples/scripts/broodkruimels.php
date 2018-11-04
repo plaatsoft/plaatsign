@@ -27,7 +27,12 @@ $xml = simplexml_load_file($url);
 
 for($i = 0; $i<1; $i++) {
     $url = $xml->channel->item[$i]->children('media', True)->content->attributes();
-	$url = str_replace("-400x400", "",$url);
+	
+	$start = strrpos($url,"-");
+	$end = strrpos($url,".");
+	$token = substr($url, $start, $end-$start);
+
+	$url = str_replace($token, "", $url);
 
  	drawUrlImage($im, 0, 0, $url, 960, 540);	
 }
