@@ -29,6 +29,8 @@ $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";
 
+$total = 0;
+$month_count = 0;
 $year=date('Y');
 
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
@@ -370,6 +372,9 @@ d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
 	
 function plaatsign_get_data($year) {
 
+	global $total;
+	global $month_count;
+
 	$data = array();
 
 	for($m=1; $m<=12; $m++) {
@@ -389,15 +394,38 @@ function plaatsign_get_data($year) {
 		$low_delivered = 0;
 		$normal_delivered = 0;
 		$solar_delivered = 0;
-			
+		$local_delivered = 0;
+		
 		if (isset($row->low_delivered)) {
+		
+			// Use realtime solar information		
+			$month_count++;
+						
 			$low_delivered = $row->low_delivered;
 			$normal_delivered = $row->normal_delivered;
 			$solar_delivered = $row->solar_delivered;
-		}
 			
-		$locale_delivered = $solar_delivered- $low_delivered - $normal_delivered;
-		$data[] = array(date('m-Y', $time), $low_delivered, $normal_delivered, $locale_delivered);
+			$tmp = $solar_delivered- $low_delivered - $normal_delivered;
+			if ($tmp>0) {
+				$local_delivered = $tmp;
+			}
+		
+		} else {
+		
+			// if realtime information is not there. Check if there is solar history information available
+			$sql2  = 'select energy from solar_history where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
+			$result2 = plaatsign_db_query($sql2);
+			$row2 = plaatsign_db_fetch_object($result2);
+			
+			if ( isset($row2->energy)) { 				
+				$month_count++;				
+				$local_delivered = $row2->energy;
+			}		
+		}
+		
+		$total += $low_delivered + $normal_delivered + $local_delivered;
+		
+		$data[] = array(date('m-Y', $time), $low_delivered, $normal_delivered, $local_delivered);
 	}
 	
 	return $data;
@@ -443,6 +471,14 @@ function drawAverageLine($im, $x, $data, $value, $color)  {
 	}
 		
 	imagefilledrectangle( $im, $x, $y , $width-145, $y+1, $color );
+}
+
+function getAverage3($total, $month_count) {
+	if ($month_count>0) {
+		return round( ($total / $month_count),2);
+	} else {
+		return 0;
+	}
 }
 
 function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
@@ -549,7 +585,7 @@ drawAverageLine($im, 60, $data, getAverage($data), $red);
 drawBars($im, 50, 0, $data, $green1, $green2, $green3, $fontArial, 10);
 drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3, $fontArial, 13);
 
-drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal($data),2).' kWh [Gemiddeld per maand = '.round(getAverage($data),2).' kWh]', $fontArial, 18, $black);
+drawLabel($im, 0, $height-38, 'Totaal = '.round($total,2).' kWh [Gemiddeld per maand = '.getAverage3($total, $month_count).' kWh]', $fontArial, 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
