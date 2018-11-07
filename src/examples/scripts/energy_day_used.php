@@ -24,6 +24,7 @@ include "./../../draw.php";
 define('DEBUG', 0);
 
 // Database credentials
+//$dbhost = "192.168.2.101";
 $dbhost = "192.168.1.240";
 $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
@@ -521,9 +522,9 @@ drawImage($im, 130, 12, $logo, 32, 32);
 drawImage($im, $width-160, 12, $logo, 32, 32);
 
 drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
-drawBars($im, 70, 0, $data, $gray, $green2, $fontArial, 10);
+drawBars($im, 70, 0, $data, $gray, $blue1, $fontArial, 10);
 
-drawLegend($im, "Watt", $green2, $fontArial, 13);
+drawLegend($im, "Watt", $blue1, $fontArial, 13);
 
 drawLabel($im, 0, $height-38, 'Totaal = '.round($total,2).' kWh [Piek verbruik = '.getMax($data).' Watt]',  $fontArial, 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);

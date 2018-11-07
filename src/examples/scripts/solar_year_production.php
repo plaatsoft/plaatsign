@@ -24,6 +24,7 @@ include "./../../draw.php";
 define('DEBUG', 0);
 
 // Database credentials
+//$dbhost = "192.168.2.101";
 $dbhost = "192.168.1.240";
 $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
@@ -384,28 +385,28 @@ function plaatsign_get_data($year) {
 		$timestamp1=date('Y-m-0 00:00:00', $time);
 		$timestamp2=date('Y-m-t 23:59:59', $time);
 	
-		$sql  = 'select sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
-		$sql .= 'sum(solar_delivered) as solar_delivered from energy_summary ';
-		$sql .= 'where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
+		$sql1  = 'select sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
+		$sql1 .= 'sum(solar_delivered) as solar_delivered from energy_summary ';
+		$sql1 .= 'where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
 	
-		$result = plaatsign_db_query($sql);
-		$row = plaatsign_db_fetch_object($result);
+		$result1 = plaatsign_db_query($sql1);
+		$row1 = plaatsign_db_fetch_object($result1);
 		
 		$low_delivered = 0;
 		$normal_delivered = 0;
 		$solar_delivered = 0;
 		$local_delivered = 0;
 		
-		if (isset($row->low_delivered)) {
+		if (isset($row1->low_delivered)) {
 		
 			// Use realtime solar information		
 			$month_count++;
 						
-			$low_delivered = $row->low_delivered;
-			$normal_delivered = $row->normal_delivered;
-			$solar_delivered = $row->solar_delivered;
+			$low_delivered = $row1->low_delivered;
+			$normal_delivered = $row1->normal_delivered;
+			$solar_delivered = $row1->solar_delivered;
 			
-			$tmp = $solar_delivered- $low_delivered - $normal_delivered;
+			$tmp = $solar_delivered - $low_delivered - $normal_delivered;
 			if ($tmp>0) {
 				$local_delivered = $tmp;
 			}
@@ -424,20 +425,28 @@ function plaatsign_get_data($year) {
 		}
 		
 		$total += $low_delivered + $normal_delivered + $local_delivered;
+				
+		$sql3 = 'select value from config where token="energy_delivery_forecast"';
+		$result3 = plaatsign_db_query($sql3);
+		$row3 = plaatsign_db_fetch_object($result3);
+		
+		// Energy delivery forecast (per month)
+		$out_forecast = array(0,50/2550,100/2550,210/2550,310/2550,360/2550,360/2550,330/2550,290/2550,240/2550,160/2550,90/2550,50/2550);
+		$forecast = $out_forecast[$m] * $row3->value;
 		
 		$data[] = array(date('m-Y', $time), $low_delivered, $normal_delivered, $local_delivered);
+		$data[] = array(date('m-Y', $time), $forecast, 0, 0);
 	}
 	
 	return $data;
 }
 
-function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
+function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3, $cbar4, $font, $font_size)  {
 
 	global $width;
 	global $height;
 	
 	global $black;
-	global $red;
 	
 	$size = 10;
 	
@@ -450,38 +459,19 @@ function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3,
 	imagefilledrectangle( $im, $width-480, $height-80 , $width-480+$size , $height-80+$size, $cbar3 );
 	imagettftext($im, $font_size, 0, $width-460, $height-70, $black, $font, $text3);
 	
-	imagefilledrectangle( $im, $width-350, $height-80 , $width-350+$size , $height-80+$size, $red );
+	imagefilledrectangle( $im, $width-350, $height-80 , $width-350+$size , $height-80+$size, $cbar4 );
 	imagettftext($im, $font_size, 0, $width-330, $height-70, $black, $font, $text4);
-}
-
-function drawAverageLine($im, $x, $data, $value, $color)  {
-	
-	global $width;
-	global $height;
-
-	$lines = 5;
-	$pixel = ($height-180) / $lines;
-	
-	$max = getMax($data);	
-	$step = ceil($max / $lines);
-	
-	$y = $height-120;
-	if ($step>0) {
-		$y = $height-120 - ($value / $step) * $pixel;
-	}
-		
-	imagefilledrectangle( $im, $x, $y , $width-145, $y+1, $color );
 }
 
 function getAverage3($total, $month_count) {
 	if ($month_count>0) {
-		return round( ($total / $month_count),2);
+		return round( ($total / $month_count),1);
 	} else {
 		return 0;
 	}
 }
 
-function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)  {
+function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $cbar4, $font, $font_size)  {
 
 	global $width;
 	global $height;
@@ -499,55 +489,78 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $font, $font_size)
 	$bar_width = ($width-(2*($x+80))) / sizeof($data);
 	
 	$starty = $height - 120;	
-	$startx = $x + 18;
+	$startx = $x;
 		
 	$count=0;
 	
 	for ($row=0; $row<sizeof($data); $row++) {
-			
-		$bar_height1=0;
-		if ($step>0) {
-			$bar_height1 = ($data[$row][1] / $step) * $pixel;		
-		}
 		
-		$bar_start1 = $starty;
-		$bar_end1 = $bar_start1 - $bar_height1;
-		if ($data[$row][1]>0) {
-			imagefilledrectangle( $im, $startx, $bar_start1 , ($startx+$bar_width) , $bar_end1, $cbar1 );		
-			if ($data[$row][1]>1) {		
-				imagettftext($im, $font_size-2, 0, $startx+14, $bar_end1+12, $white, $font, number_format($data[$row][1],1) );
+		if (($row % 2) == 0) {
+		
+			// energy use 
+			
+			$bar_height1=0;
+			if ($step>0) {
+				$bar_height1 = ($data[$row][1] / $step) * $pixel;		
 			}
-		}
+			
+			$bar_start1 = $starty;
+			$bar_end1 = $bar_start1 - $bar_height1;
+			if ($data[$row][1]>0) {
+				imagefilledrectangle( $im, $startx, $bar_start1 , ($startx+$bar_width) , $bar_end1, $cbar1 );		
+				if ($data[$row][1]>1) {		
+					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end1+12, $white, $font, round($data[$row][1]) );
+				}
+			}
+					
+			$bar_height2 = 0;
+			if ($step>0) {
+				$bar_height2 = ($data[$row][2] / $step) * $pixel;
+			}
+			$bar_start2 = $bar_end1;
+			$bar_end2 = $bar_start2 - $bar_height2;
 				
-		$bar_height2 = 0;
-		if ($step>0) {
-			$bar_height2 = ($data[$row][2] / $step) * $pixel;
-		}
-		$bar_start2 = $bar_end1;
-		$bar_end2 = $bar_start2 - $bar_height2;
+			if ($data[$row][2]>0) {
+				imagefilledrectangle( $im, $startx, $bar_start2 , ($startx+$bar_width) , $bar_end2, $cbar2 );
+				if ($data[$row][2]>1) {	
+					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end2+12, $white, $font, round($data[$row][2]) );
+				}
+			}
+		
+			$bar_height3 = 0;
+			if ($step>0) {
+				$bar_height3 = ($data[$row][3] / $step) * $pixel;
+			}
+			$bar_start3 = $bar_end2;
+			$bar_end3 = $bar_start3 - $bar_height3;
+				
+			if ($data[$row][3]>0) {			
+				imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $cbar3 );
+				if ($data[$row][3]>1) {	
+					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end3+12, $white, $font, round($data[$row][3]) );
+				}
+			}
 			
-		if ($data[$row][2]>0) {
-			imagefilledrectangle( $im, $startx, $bar_start2 , ($startx+$bar_width) , $bar_end2, $cbar2 );
-			if ($data[$row][2]>1) {	
-				imagettftext($im, $font_size-2, 0, $startx+14, $bar_end2+12, $white, $font, number_format($data[$row][2],1) );
+			imagettftext($im, $font_size, 0, $startx+8, $starty+20, $gray, $font, $data[$row][0] );
+			
+		} else {
+		
+			// forcast 
+			
+			$bar_height1=0;
+			if ($step>0) {
+				$bar_height1 = ($data[$row][1] / $step) * $pixel;		
+			}
+			
+			$bar_start1 = $starty;
+			$bar_end1 = $bar_start1 - $bar_height1;
+			if ($data[$row][1]>0) {
+				imagefilledrectangle( $im, $startx-2, $bar_start1 , ($startx+$bar_width-2) , $bar_end1, $cbar4 );		
+				if ($data[$row][1]>1) {		
+					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end1+12, $white, $font, round($data[$row][1]) );
+				}
 			}
 		}
-		
-		$bar_height3 = 0;
-		if ($step>0) {
-			$bar_height3 = ($data[$row][3] / $step) * $pixel;
-		}
-		$bar_start3 = $bar_end2;
-		$bar_end3 = $bar_start3 - $bar_height3;
-			
-		if ($data[$row][3]>0) {			
-			imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $cbar3 );
-			if ($data[$row][3]>1) {	
-				imagettftext($im, $font_size-2, 0, $startx+14, $bar_end3+12, $white, $font, number_format($data[$row][3],1) );
-			}
-		}
-		
-		imagettftext($im, $font_size, 0, $startx+5, $starty+20, $gray, $font, $data[$row][0] );
 
 		$startx += $bar_width+3;		
 		$count++;	
@@ -581,11 +594,10 @@ drawImage($im, 180, 12, $logo, 32, 32);
 drawImage($im, $width-210, 12, $logo, 32, 32);
 
 drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
-drawAverageLine($im, 60, $data, getAverage($data), $red);
-drawBars($im, 50, 0, $data, $green1, $green2, $green3, $fontArial, 10);
-drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3, $fontArial, 13);
+drawBars($im, 50, 0, $data, $blue1, $blue2, $blue3, $gray, $fontArial, 10);
+drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Prognose (kWh)', $blue1, $blue2, $blue3, $gray, $fontArial, 13);
 
-drawLabel($im, 0, $height-38, 'Totaal = '.round($total,2).' kWh [Gemiddeld per maand = '.getAverage3($total, $month_count).' kWh]', $fontArial, 18, $black);
+drawLabel($im, 0, $height-38, 'Totaal = '.round($total,1).' kWh [Gemiddeld per maand = '.getAverage3($total, $month_count).' kWh]', $fontArial, 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);

@@ -24,6 +24,7 @@ include "./../../draw.php";
 define('DEBUG', 0);
 
 // Database credentials
+//$dbhost = "192.168.2.101";
 $dbhost = "192.168.1.240";
 $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
@@ -551,8 +552,8 @@ drawImage($im, $width-160, 12, $logo, 32, 32);
 
 drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
 drawForcast($im, 60, $data, getAverage($data), $red, $fontArial, 13);
-drawBars($im, 50, 0, $data, $green1, $green2, $green3, $fontArial, 10);
-drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $green1, $green2, $green3, $fontArial, 13);
+drawBars($im, 50, 0, $data, $blue1, $blue2, $blue3, $fontArial, 10);
+drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Gemiddeld (kWh)', $blue1, $blue2, $blue3, $fontArial, 13);
 
 drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal($data),2).' kWh [Gemiddeld per dag = '.round(getAverage($data),2).' kWh]', $fontArial, 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);

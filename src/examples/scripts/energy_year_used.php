@@ -30,6 +30,8 @@ $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";
 
+$total = 0;
+$month_count = 0;
 $year=date('Y');
 
 plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
@@ -371,6 +373,9 @@ d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
 	
 function plaatsign_get_data($year) {
 
+	global $total;
+	global $month_count;
+	
 	$data = array();
 
 	for($m=1; $m<=12; $m++) {
@@ -395,6 +400,9 @@ function plaatsign_get_data($year) {
 		$verbruikt=0;
 
 		if (isset($row1->low_used)) {
+		
+			$month_count++;
+		
 			$low_used_value = $row1->low_used;
 			$normal_used_value = $row1->normal_used;
 			$low_delivered_value = $row1->low_delivered;
@@ -406,6 +414,8 @@ function plaatsign_get_data($year) {
 				$verbruikt=0;
 			}
 		}
+		
+		$total += $low_used_value + $normal_used_value + $verbruikt;		
 		
 		$sql2 = 'select value from config where token="energy_use_forecast"';
 		$result2 = plaatsign_db_query($sql2);
@@ -420,6 +430,14 @@ function plaatsign_get_data($year) {
 	}
 	
 	return $data;
+}
+
+function getAverage3($total, $month_count) {
+	if ($month_count>0) {
+		return round( ($total / $month_count),1);
+	} else {
+		return 0;
+	}
 }
 
 function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3, $cbar4, $font, $font_size)  {
@@ -442,18 +460,6 @@ function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3,
 	
 	imagefilledrectangle( $im, $width-350, $height-80 , $width-350+$size , $height-80+$size, $cbar4 );
 	imagettftext($im, $font_size, 0, $width-330, $height-70, $black, $font, $text4);
-}
-
-function getTotal3($data) {
-
-	$total = 0;
-	
-	for ($row=0; $row<sizeof($data); $row++) {		
-		if (($row % 2) == 0) {
-			$total += $data[$row][1] + $data[$row][2] + $data[$row][3];
-		}
-	}
-	return $total;
 }
 
 function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $cbar4, $font, $font_size)  {
@@ -546,9 +552,6 @@ function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $cbar4, $font, $fo
 				}
 			}
 		}
-			
-		
-
 		$startx += $bar_width+3;		
 		$count++;	
 	}
@@ -583,7 +586,7 @@ drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
 drawBars($im, 50, 0, $data, $blue1, $blue2, $blue3, $gray, $fontArial, 10);
 drawLegend($im, "Laag (kWh)", "Normaal (kWh)", 'Lokaal (kWh)', 'Prognose (kWh)', $blue1, $blue2, $blue3, $gray, $fontArial, 13);
 
-drawLabel($im, 0, $height-38, 'Totaal = '.round(getTotal3($data),1).' kWh [Gemiddeld per maand = '.round(getAverage($data),1).' kWh]', $fontArial, 18, $black);
+drawLabel($im, 0, $height-38, 'Totaal = '.round($total,1).' kWh [Gemiddeld per maand = '.getAverage3($total, $month_count).' kWh]', $fontArial, 18, $black);
 drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
