@@ -19,7 +19,8 @@
 define('DEBUG', 0);
 
 // Database credentials
-$dbhost = "192.168.1.240";
+$dbhost = "192.168.2.101";
+//$dbhost = "192.168.1.240";
 $dbname = "plaatenergy";
 $dbuser = "plaatenergy";
 $dbpass = "plaatenergy";

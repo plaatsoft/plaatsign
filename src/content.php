@@ -23,7 +23,7 @@
 */
 
 $filename = plaatsign_post("filename", "");
-$enabled = plaatsign_post("enabled", 1);
+$enabled = plaatsign_post_radio("enabled", 0);
 $refresh = plaatsign_post("refresh", 1);
 
 /*
@@ -118,7 +118,7 @@ function plaatsign_content_delete_do() {
 		
 		/* Remove generate content of cron job */
 		if ($data->tid==TYPE_SCRIPT) {		
-			@unlink(plaatsign_content_path(TYPE_IMAGES).$data->cid.'.png');			
+			@unlink(plaatsign_content_path(TYPE_SCRIPT).$data->cid.'.png');			
 		}
 				
 		plaatsign_db_content_delete($id);
@@ -225,6 +225,11 @@ function plaatsign_content_form() {
 	$page .= '<hr>';
 	$page .= '</p>';	
 		
+	$page .= '<th>';
+	$page .= '<label>'.t('GENERAL_ENABLED').':</label>';	
+	$page .= plaatsign_ui_checkbox("enabled", $enabled, false);
+	$page .= '</th>';
+	
 	if ($tid==TYPE_SCRIPT) {
 		$page .= '<p>';
 		$page .= '<label>'.t('GENERAL_REFRESH').': </label>';
@@ -283,7 +288,7 @@ function plaatsign_contentlist_form() {
 	$page .= $title;
 	$page .= '</h1>';
 	
-	$query  = 'select cid, filename, filesize, enabled, created, uid from content where tid='.$tid.' ';
+	$query  = 'select cid, filename, filesize, enabled, created, refresh, uid from content where tid='.$tid.' ';
 		
 	switch ($sort) {
 
@@ -293,7 +298,7 @@ function plaatsign_contentlist_form() {
 		case 2:  $query .= 'order by filename asc';
 				   break;
 		   		
-	   case 3:  $query .= 'order by filesize asc';
+	    case 3:  $query .= 'order by filesize asc';
 				   break;					
 					
 		case 4:  $query .= 'order by created asc';
@@ -317,14 +322,20 @@ function plaatsign_contentlist_form() {
 	$page .= '<th>';
 	$page	.= t('GENERAL_CONTENT');	
 	$page .= '</th>';
-		
+	
+	$page .= '<th>';
+	$page	.= t('GENERAL_ENABLED');	
+	$page .= '</th>';
+	
 	$page .= '<th>';
 	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=2', t('GENERAL_FILENAME'));
 	$page .= '</th>';
 	
-	$page .= '<th>';
-	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=3', t('GENERAL_FILESIZE'));	
-	$page .= '</th>';
+	if ($tid==TYPE_SCRIPT) {
+		$page .= '<th>';
+		$page	.= t('GENERAL_REFRESH');	
+		$page .= '</th>';
+	}
 	
 	$page .= '<th>';
 	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=4', t('GENERAL_CREATED'));
@@ -333,7 +344,7 @@ function plaatsign_contentlist_form() {
 	$page .= '<th>';
 	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=5', t('GENERAL_OWNER'));	
 	$page .= '</th>';
-			
+	
 	$page .= '</tr>';
 	$page .= '</thead>';
 		
@@ -353,19 +364,29 @@ function plaatsign_contentlist_form() {
 		$page .= '<td>';
 		$page	.= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$data->cid, $data->cid);
 		$page .= '</td>';
-		
+				
 		$page .= '<td>';
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
 		$page .= plaatsign_ui_content1($tid, $data->cid, $cache_filename);
     	$page .= '</td>';
-			
+		
+		$page .= '<td>';
+		if ($data->enabled==1) {
+			$page .= t('GENERAL_TRUE');
+		} else {
+			$page .= t('GENERAL_FALSE');
+		}
+		$page .= '</td>';
+	
 		$page .= '<td>';
 		$page	.= $data->filename;
 		$page .= '</td>';
 				
-		$page .= '<td>';
-		$page	.= plaatsign_filesize($data->filesize,1);
-		$page .= '</td>';
+		if ($tid==TYPE_SCRIPT) {
+			$page .= '<td>';
+			$page	.= $data->refresh;
+			$page .= '</td>';
+		}
 				
 		$page .= '<td>';
 		$page	.= convert_datetime_php($data->created);
@@ -377,7 +398,7 @@ function plaatsign_contentlist_form() {
 			$page	.= $owner->name;
 		}
 		$page .= '</td>';
-		
+				
 		$page .= '</tr>';	
 	}
 	$page .= '</tbody>';

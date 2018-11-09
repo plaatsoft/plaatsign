@@ -34,34 +34,78 @@ function plaatsign_home_form() {
  	$page .= '<h1>'.$title.'</h1>';
 	$page .= t('HOME_CONTENT');	
 
-	$data = '';
+	$image_files = "";
 	$max = 0;
 	
 	$files = scandir(plaatsign_content_path(TYPE_MOVIE));
 	foreach ($files as $file) {
 		if (($file!='.') && ($file!='..') && ($file!='index.php')) {			
-			if (strlen($data)>0) {					
-				$data .= ',';
+			
+			list($cid, $ext) = explode(".", $file);	
+			
+			$query = 'select enabled from content where cid='.$cid;
+			$result = plaatsign_db_query($query);
+			$data = plaatsign_db_fetch_object($result);
+			
+			if (isset($data->enabled) && ($data->enabled==1)) {
+				
+				if (strlen($image_files)>0) {					
+					$image_files .= ',';
+				}	
+				$max++;
+				$image_files .= '"'.plaatsign_content_path(TYPE_MOVIE).$file.'"';
 			}
-			$max++;
-			$data .= '"'.plaatsign_content_path(TYPE_MOVIE).$file.'"';
 		}
-	};
+	}
+	
+	$files = scandir(plaatsign_content_path(TYPE_SCRIPT));
+	foreach ($files as $file) {
+		if (($file!='.') && ($file!='..') && ($file!='index.php')) {
+		
+			list($cid, $ext) = explode(".", $file);	
+			
+			if (in_array($ext, array("jpg","jpeg","png","gif"))) {
+			
+				$query = 'select enabled from content where cid='.$cid;
+				$result = plaatsign_db_query($query);
+				$data = plaatsign_db_fetch_object($result);
+			
+				if (isset($data->enabled) && ($data->enabled==1)) {
+			
+					if (strlen($image_files)>0) {					
+						$image_files .= ',';
+					}
+					$max++;		
+					$image_files .= '"'.plaatsign_content_path(TYPE_SCRIPT).$file.'"';
+				}
+			}
+		}
+	}
 		
 	$files = scandir(plaatsign_content_path(TYPE_IMAGE));
 	foreach ($files as $file) {
 		if (($file!='.') && ($file!='..') && ($file!='index.php')) {
-			if (strlen($data)>0) {					
-				$data .= ',';
+		
+			list($cid, $ext) = explode(".", $file);	
+		
+			$query = 'select enabled from content where cid='.$cid;
+			$result = plaatsign_db_query($query);
+			$data = plaatsign_db_fetch_object($result);
+			
+			if (isset($data->enabled) && ($data->enabled==1)) {
+				
+				if (strlen($image_files)>0) {					
+					$image_files .= ',';
+				}
+				$max++;
+				$image_files .= '"'.plaatsign_content_path(TYPE_IMAGE).$file.'"';
 			}
-			$max++;
-			$data .= '"'.plaatsign_content_path(TYPE_IMAGE).$file.'"';
 		}
-	};
+	}
 		
 	$page .= '<script>';		
 	$page .= 'var id = 0; ';
-	$page .= 'var files = ['.$data.'];';
+	$page .= 'var files = ['.$image_files.'];';
 	
 	$page .= 'function select_image(filename) { ';
 	$page .= '   console.log("image filename="+filename);';

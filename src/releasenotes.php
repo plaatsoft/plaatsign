@@ -24,12 +24,16 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>29-10-2018 Version 1.0</h2>
+<h2>09-11-2018 Version 1.0</h2>
 <ul>
 <li>First launching customer "Oostpoort"</li>
-<li>Added demo script to show year energy consumption</li>
-<li>Added demo script to show month energy consumption</li>
+<li>Added energy day consumption script</li>
+<li>Added energy month consumption script</li>
+<li>Added energy year consumption script</li>
 <li>Added gouda weatherstation script</li>
+<li>Added broodkruimels script</li>
+<li>Improve file use on disk</li>
+<li>Added feature to enable / disable content</li>
 <li>Updated copyrights banner</li>
 <li>Added new version check</li>
 </ul>

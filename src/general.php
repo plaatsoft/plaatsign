@@ -374,7 +374,7 @@ function plaatsign_ui_content2($tid, $cid, $filename) {
 			break;
 		
 	case TYPE_SCRIPT:
-			$filename = plaatsign_content_path(TYPE_IMAGE).$cid.'.png';			
+			$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.png';			
 			if (!is_file($filename)) {
 				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
 			}
@@ -402,7 +402,7 @@ function plaatsign_ui_content1($tid, $cid, $filename) {
 			break;
 
 		case TYPE_SCRIPT:
-			$filename = plaatsign_content_path(TYPE_IMAGE).$cid.'.png';			
+			$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.png';			
 			if (!is_file($filename)) {
 				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
 			}

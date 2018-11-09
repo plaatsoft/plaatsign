@@ -25,7 +25,7 @@ include "database.php";
 include "general.php";
 include "menu.php";
 include "english.php";
-
+	
 /*
 ** ---------------------------------------------------------------- 
 ** Config file
@@ -39,7 +39,7 @@ if (!file_exists( "config.php" )) {
 
 	$page  = '<h1>'.t('GENERAL_WARNING').'</h1>';
 	$page .= '<br/>';
-   $page .= t('CONGIG_BAD');
+    $page .= t('CONGIG_BAD');
 	$page .= '<br/>';
 	
 	echo '<div id="container">'.$page.'</div>';
@@ -68,7 +68,7 @@ if (@plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"
 
 	$page  = '<h1>'.t('GENERAL_WARNING').'</h1>';
 	$page .= '<br/>';
-   $page .= t('DATABASE_CONNECTION_FAILED');
+    $page .= t('DATABASE_CONNECTION_FAILED');
 	$page .= '<br/>';
 	
 	echo '<div id="container">'.$page.'</div>';
@@ -131,6 +131,17 @@ if (strlen($token)>0) {
 			echo $items[0].'='.$items[1].'<br>';
 		}
 	}
+}
+
+if (DEBUG == 1) {
+	echo "===<br/>";   
+	foreach ($_POST as $key => $value) {
+		echo "key=";     
+		echo $key;
+        echo " value=";
+        echo $value.'<br/>';
+    }	
+	echo "===<br/>";  
 }
 
 /*

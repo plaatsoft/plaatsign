@@ -106,7 +106,10 @@ $lang['GENERAL_CONTENT'] = 'Content';
 $lang['GENERAL_OWNER'] = 'Owner';
 $lang['GENERAL_TIMEZONE'] = 'Timezone';
 $lang['GENERAL_TYPE'] = 'Type';
-$lang['GENERAL_REFRESH'] = 'Refresh every';
+$lang['GENERAL_REFRESH'] = 'Refresh';
+
+$lang['GENERAL_TRUE'] = 'True';
+$lang['GENERAL_FALSE'] = 'False';
 
 $lang['GENERAL_INFO'] = 'INFO';
 $lang['GENERAL_WARNING'] = 'WARNING';
