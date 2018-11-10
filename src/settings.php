@@ -153,7 +153,7 @@ function plaatsign_settings_form() {
 	$page .= '</p>';
 	
 	$page .= '<p>';
-	$page .= '<label>'.t('PLAATENERGY_DBHOST').'</label>';
+	$page .= '<label>'.t('PLAATENERGY_DBUSER').'</label>';
 	$page .= plaatsign_ui_input("plaatenergy_dbuser", 25, 20, plaatsign_db_config_get("plaatenergy_dbuser"));
 	$page .= '</p>';
 	

@@ -1366,24 +1366,22 @@ function drawStats($im, $id, $x, $y, $font, $font_size) {
 	
 	$x+=20;
 	imagettftext($im, $font_size, 0, $x, $y, $black, $font, number_format($vdc1,1).'V');
-	imagettftext($im, $font_size, 0, $x+70, $y, $black, $font, number_format($idc1,1).'A');
+	imagettftext($im, $font_size, 0, $x+70, $y, $black, $font, number_format($idc1,1).'A');	
+	imagettftext($im, $font_size, 0, $x+130, $y, $black, $font, number_format(($idc1*$vdc1),0).'W');
 	$y+=75;
 
 	imagettftext($im, $font_size, 0, $x, $y, $black, $font, number_format($vdc2,1).'V');
 	imagettftext($im, $font_size, 0, $x+70, $y, $black, $font, number_format($idc2,1).'A');
+	imagettftext($im, $font_size, 0, $x+130, $y, $black, $font, number_format(($idc2*$vdc2),0).'W');
 	$y-=33;
-	
-	imagettftext($im, $font_size, 0, $x+350, $y, $black, $font, number_format($vac,1).'V');
-	imagettftext($im, $font_size, 0, $x+420, $y, $black, $font, number_format($iac,1).'A');
-	
+		
 	if ($temp>0) {	
-		imagettftext($im, $font_size, 0, $x+260, $y, $black, $font, number_format($temp,1).'C');
+		imagettftext($im, $font_size, 0, $x+260, $y-5, $black, $font, number_format($temp,1).'C');
 	}
 	
 	if ($pac>0) {	
-		imagettftext($im, $font_size, 0, $x+380, $y+20, $black, $font, $pac.'W');
+		imagettftext($im, $font_size, 0, $x+380, $y, $black, $font, $pac.'W');
 	}
-	$y+=30;
 	
 	if ($etoday>0) {	
 		imagettftext($im, $font_size, 0, $x+380, $y+20, $black, $font, number_format($etoday,1).' kWh');
