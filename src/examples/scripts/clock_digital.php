@@ -343,7 +343,7 @@ header('Content-Type: image/png');
 $im = imagecreatetruecolor($width, $height);
 
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
-$gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
+$gray = imagecolorallocate($im, 0x75, 0x75, 0x75);
 
 drawBackgound($im, $background);
 

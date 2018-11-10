@@ -24,6 +24,10 @@
 
 $timer = plaatsign_post("timer", "5");
 $timezone = plaatsign_post("timezone", "Europe/Amsterdam");
+$plaatenergy_dbhost = plaatsign_post("plaatenergy_dbhost", "127.0.0.1");
+$plaatenergy_dbname = plaatsign_post("plaatenergy_dbname", "plaatenergy");
+$plaatenergy_dbuser = plaatsign_post("plaatenergy_dbuser", "plaatenergy");
+$plaatenergy_dbpass = plaatsign_post("plaatenergy_dbpass", "plaatenergy");
 
 /*
 ** ------------------
@@ -37,6 +41,10 @@ function plaatsign_settings_save_do() {
 	global $user;
 	global $timer;
 	global $timezone;
+	global $plaatenergy_dbhost;
+	global $plaatenergy_dbname;
+	global $plaatenergy_dbuser;
+	global $plaatenergy_dbpass;
 		
 	if (!is_numeric($timer)) {
 	
@@ -57,6 +65,30 @@ function plaatsign_settings_save_do() {
 		$data = plaatsign_db_config("timezone");
 		if (isset($data->id)) {
 			$data->value = $timezone;			
+			plaatsign_db_config_update($data);
+		}
+		
+		$data = plaatsign_db_config("plaatenergy_dbhost");
+		if (isset($data->id)) {
+			$data->value = $plaatenergy_dbhost;			
+			plaatsign_db_config_update($data);
+		}
+		
+		$data = plaatsign_db_config("plaatenergy_dbname");
+		if (isset($data->id)) {
+			$data->value = $plaatenergy_dbname;			
+			plaatsign_db_config_update($data);
+		}
+		
+		$data = plaatsign_db_config("plaatenergy_dbuser");
+		if (isset($data->id)) {
+			$data->value = $plaatenergy_dbuser;			
+			plaatsign_db_config_update($data);
+		}
+		
+		$data = plaatsign_db_config("plaatenergy_dbpass");
+		if (isset($data->id)) {
+			$data->value = $plaatenergy_dbpass;			
 			plaatsign_db_config_update($data);
 		}
 		
@@ -90,9 +122,7 @@ function plaatsign_settings_form() {
 	$page .= t('SETTINGS_CONTENT');
 	
 	$page .= '<fieldset>' ;
-	$page .= '<legend>'.t('USER_GENERAL').'</legend>';
-	
-	// ------------------------
+	$page .= '<legend>'.t('SETTINGS_GENERAL').'</legend>';
 		
 	$page .= '<p>';
 	$page .= '<label>'.t('SLIDE_SHOW_DELAY').'</label>';
@@ -100,16 +130,41 @@ function plaatsign_settings_form() {
 	$page .= '  '.t('SLIDE_SECONDS');
 	$page .= '</p>';
 	
-	// ------------------------
-	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_TIMEZONE').'</label>';
 	$page .= plaatsign_ui_input("timezone", 25, 20, plaatsign_db_config_get("timezone"), $user->role==ROLE_USER);
 	$page .= '</p>';
 	
+	$page .= '</fieldset>' ;
+	
 	// ------------------------
+		
+	$page .= '<fieldset>' ;
+	$page .= '<legend>'.t('SETTINGS_PLAATENERGY').'</legend>';
+	
+	$page .= '<p>';
+	$page .= '<label>'.t('PLAATENERGY_DBHOST').'</label>';
+	$page .= plaatsign_ui_input("plaatenergy_dbhost", 25, 20, plaatsign_db_config_get("plaatenergy_dbhost"));
+	$page .= '</p>';
+	
+	$page .= '<p>';
+	$page .= '<label>'.t('PLAATENERGY_DBNAME').'</label>';
+	$page .= plaatsign_ui_input("plaatenergy_dbname", 25, 20, plaatsign_db_config_get("plaatenergy_dbname"));
+	$page .= '</p>';
+	
+	$page .= '<p>';
+	$page .= '<label>'.t('PLAATENERGY_DBHOST').'</label>';
+	$page .= plaatsign_ui_input("plaatenergy_dbuser", 25, 20, plaatsign_db_config_get("plaatenergy_dbuser"));
+	$page .= '</p>';
+	
+	$page .= '<p>';
+	$page .= '<label>'.t('PLAATENERGY_DBPASS').'</label>';
+	$page .= plaatsign_ui_input("plaatenergy_dbpass", 25, 20, plaatsign_db_config_get("plaatenergy_dbpass"));
+	$page .= '</p>';
 	
 	$page .= '</fieldset>' ;
+	
+	// ------------------------
 	
 	$page .= plaatsign_link('mid='.$mid.'&sid='.$sid.'&eid='.EVENT_SAVE, t('LINK_SAVE'));	
 	$page .= '</div>';

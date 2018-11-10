@@ -34,6 +34,7 @@ $lang['RELEASENOTES_CONTENT']  = '
 <li>Added broodkruimels script</li>
 <li>Improve file use on disk</li>
 <li>Added feature to enable / disable content</li>
+<li>Added plaatenergy database settings to settings page</li>
 <li>Updated copyrights banner</li>
 <li>Added new version check</li>
 </ul>

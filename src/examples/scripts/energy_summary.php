@@ -16,22 +16,25 @@
 **  All copyrights reserved (c) 2008-2016 PlaatSoft
 */
 
-define('DEBUG', 0);
+include "./../../database.php";
+include "./../../draw.php";
+include "./../../config.php";
 
-// Database credentials
-$dbhost = "192.168.2.101";
-//$dbhost = "192.168.1.240";
-$dbname = "plaatenergy";
-$dbuser = "plaatenergy";
-$dbpass = "plaatenergy";
+define('DEBUG', 0);
 
 // Energy co2 emission = Generate 1kWh electricity generate 0.526 kg co2
 $kwh_to_co2_factor = 0.526;
 
-include "./../../database.php";
-include "./../../draw.php";
+plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
 
-plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
+$plaatenergy_dbhost = plaatsign_db_config_get("plaatenergy_dbhost");
+$plaatenergy_dbname = plaatsign_db_config_get("plaatenergy_dbname");
+$plaatenergy_dbuser = plaatsign_db_config_get("plaatenergy_dbuser");
+$plaatenergy_dbpass = plaatsign_db_config_get("plaatenergy_dbpass");
+
+plaatsign_db_close();
+
+plaatsign_db_connect($plaatenergy_dbhost, $plaatenergy_dbuser, $plaatenergy_dbpass, $plaatenergy_dbname);
 
 function firstDay() {
 
@@ -437,7 +440,7 @@ $im = imagecreatetruecolor($width, $height);
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
 $green = imagecolorallocate($im, 0x00, 0x6f, 0x00);
-$gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
+$gray = imagecolorallocate($im, 0x75, 0x75, 0x75);
 $blue1 = imagecolorallocate($im, 0x87, 0xce, 0xfa);
 $blue2 = imagecolorallocate($im, 0x46, 0x82, 0xb4);
 

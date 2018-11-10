@@ -345,7 +345,7 @@ $im = imagecreatetruecolor($width, $height);
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
 $brown = imagecolorallocate($im, 5, 14, 45);
-$gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
+$gray = imagecolorallocate($im, 0x75, 0x75, 0x75);
 
 drawBackgound($im, $background);
 

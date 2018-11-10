@@ -196,10 +196,17 @@ $lang['SETTINGS_TITLE'] = 'SETTINGS';
 
 $lang['SETTINGS_CONTENT'] = 'The page contain an overview of settings of PlaatSign.';
 
+$lang['SETTINGS_GENERAL'] = 'General';
 $lang['SLIDE_SHOW_DELAY'] = 'Slide delay:';
 $lang['SLIDE_SECONDS'] = 'seconds';
 
 $lang['SETTING_UPDATED'] = 'Setting items updated!';
+
+$lang['SETTINGS_PLAATENERGY'] = 'PlaatEnergy Database';
+$lang['PLAATENERGY_DBHOST'] = 'DB Address';
+$lang['PLAATENERGY_DBNAME'] = 'DB Name';
+$lang['PLAATENERGY_DBUSER'] = 'DB Username';
+$lang['PLAATENERGY_DBPASS'] = 'DB Password';
 
 $lang['SETTING_TIMER_NO_NUMBER'] = 'Timer setting must contain number!';
 $lang['SETTING_TIMER_TOO_LOW'] = 'Timer setting value must be atleast one second!';

@@ -20,16 +20,20 @@
 
 define('DEBUG', 0);
 
-// Database credentials
-$dbhost = "192.168.1.240";
-$dbname = "plaatenergy";
-$dbuser = "plaatenergy";
-$dbpass = "plaatenergy";
-
 include "./../../database.php";
 include "./../../draw.php";
+include "./../../config.php";
 
-plaatsign_db_connect($dbhost, $dbuser, $dbpass, $dbname);
+plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
+
+$plaatenergy_dbhost = plaatsign_db_config_get("plaatenergy_dbhost");
+$plaatenergy_dbname = plaatsign_db_config_get("plaatenergy_dbname");
+$plaatenergy_dbuser = plaatsign_db_config_get("plaatenergy_dbuser");
+$plaatenergy_dbpass = plaatsign_db_config_get("plaatenergy_dbpass");
+
+plaatsign_db_close();
+
+plaatsign_db_connect($plaatenergy_dbhost, $plaatenergy_dbuser, $plaatenergy_dbpass, $plaatenergy_dbname);
 
 function solarPanelData($id) {
 
@@ -1395,7 +1399,7 @@ $im = imagecreatetruecolor($width, $height);
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
 $green = imagecolorallocate($im, 0x00, 0x6f, 0x00);
-$gray = imagecolorallocate($im, 0x85, 0x85, 0x85);
+$gray = imagecolorallocate($im, 0x75, 0x75, 0x75);
 
 drawBackgound($im, $background);
 
