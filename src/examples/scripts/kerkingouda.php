@@ -13,33 +13,10 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 1996-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2018 PlaatSoft
 */
 
-include "./../../database.php";
 include "./../../draw.php";
-include "./../../config.php";
-
-// -------------------------------------------------------
-
-define('DEBUG', 0);
-
-$total = 0;
-$month_count = 0;
-$year=date('Y');
-
-plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $config["dbname"]);
-
-$plaatenergy_dbhost = plaatsign_db_config_get("plaatenergy_dbhost");
-$plaatenergy_dbname = plaatsign_db_config_get("plaatenergy_dbname");
-$plaatenergy_dbuser = plaatsign_db_config_get("plaatenergy_dbuser");
-$plaatenergy_dbpass = plaatsign_db_config_get("plaatenergy_dbpass");
-
-plaatsign_db_close();
-
-plaatsign_db_connect($plaatenergy_dbhost, $plaatenergy_dbuser, $plaatenergy_dbpass, $plaatenergy_dbname);
-
-// -------------------------------------------------------
 
 $background= gzinflate(base64_decode("
 7f1XWJNb9wWOWjaiUYNsaUIABQtNioJ0kN6kJBCQEkCRLp0QehQElI40BQEhhE4Q6aFERIiCgKFK7zVCgNBL+ONOvnPOxbk9N+f5XfCEN8l6VxtzzDHnWu/K
@@ -361,251 +338,47 @@ HjYZzEdFk8tojzRUSPyD2jp6nXUwZBXNfTgZutuTOh4p0kDWa9jZ2pm+aIXlok9lctKrb106hfSGJmJE
 aijGFj3/e6or/6xR1UDxnMEs39t21UK09XRZLUsyy0WJiOsR3HFSC4x/vAMlwm9QQSf5wetRfi54Lx1juVpZYmeLvqxWvKKtP1zOV8zHHD6K7OJtu3y0EG6d
 ZKevAgFqnyiBY+qvL5y6Tao04f77zyPm/8+fiTr1iOv/Lv9/evlN7fD4tNSjwpgRxuYffz/QUtNTxShbh/w/"));
 
-$logo = base64_decode("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQ
-AAA7EAZUrDhsAAAAGYktHRAD/AP8A/6C9p5MAAAONSURBVFhHtZddSBRRFMf/7q5mftS6WRomlvRJvlQiZEVagRFF9GYPPURYED0GQVDPEvTQgy9lRPUQlBkFk
-goWBH1AHxKSlBb0aWKaSH5vu9v/zL0L4+7MzuxUPzjOnTM795w595xzrxkxAi9ExoGpfkoUCK4BMvP0g/Tw6Wv6jHYBTzcCVyuB7x1amT7eHfDN41fzmk3xyx9
-veHcgFgEYffymRDn2iL0Dz9dz4hl9Y0FWMbC4Fli5BchZqpUWRDhH6yp9k4x1Ej4pASYH+JTj2mkVbi9Ew8DlLBWpBUHg4KjSm7COQHapMi7yuNBQeeJGAZdKj
-/PK9GAu9mX4ajMw9owRsHg83g0MtQCzfcDXWaBgLbCiHght0D8w0cyvKN4E7H2hFXNJ3QeinNzHEMaZ7AW6twMTw0CA91IFbyh+CqONfCr20bkg8ydOhHP4TXM
-kkLoKzMa/NQGPOHF4hEvEnAhQ/HLlM/lZLiVML65XAH2X5A1FCuOCuzIcaQN6TgDzOZnZqUQkEvmUjqNsTmxULnDXiru4jgF+aoZYMCFf38syk6UwIzNKBR9zn
-to5Ap/PqWui8VRI9Qg9jXpgj7MDg1dUaNNFotLfrMYpUA50bwXu0+1OShtluNVQG/x6yy9KjLELZObhD2osfLoFnOfcTZQLYqfKUCsH/MwcsRGXDFPnM9o8X/C
-ClGYc6aayZ8Ulc4FotQML2c+X7AYK9/PK/i59Pk6WGJdemiaSfzlqaCD7RTkjXbYHWL6TdrYZaucqeL0L+MmSkppPxK4KBNkll9UAdQ/VvQ3OSVh6Uk2WLlKGF
-afUOAXODoS4NLlFalt1izgcCgElfNcBZweE6kGVjKnOB3Hkd5J89WzZLnDngLBDjDMhw7zKaSgRyVMeHYyCaZgQjSvsHQgPsY7v6Rsie0ANrZSf4VcyxtN0ZJY
-iRsWe+FR1GjjMnPab0v/LXc7FE7QN9lXwgJ/CnRRV7VzPOqUzM8MT0xS353E6FeIumcNTVCIDnUAL35Wd8oi1GWsHOmhcqk6SKcijd+VLQ502d3gWHHqvylQid
-TzZlPUSrOMmMsnrIjYOr8aFA/zHpYT/N4xxXH1W6RKRCFgyeE0PbPhxOxZr5+uNlI83tdKGdxf1IBn7JCw6pAc2+JhoskyyvgFzz7VgdYMeJOO+DJMwraeLM40
-d3h2IMUOl9kWs+oJL3B3J/iN/sQT/AuAPoNdiQncVhxoAAAAASUVORK5CYII=");
-	
-function plaatsign_get_data($year) {
-
-	global $total;
-	global $month_count;
-
-	$data = array();
-
-	for($m=1; $m<=12; $m++) {
-
-		$time=mktime(0, 0, 0, $m, 1, $year);
-		
-		$timestamp1=date('Y-m-0 00:00:00', $time);
-		$timestamp2=date('Y-m-t 23:59:59', $time);
-	
-		$sql1  = 'select sum(low_delivered) as low_delivered, sum(normal_delivered) as normal_delivered, ';
-		$sql1 .= 'sum(solar_delivered) as solar_delivered from energy_summary ';
-		$sql1 .= 'where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
-	
-		$result1 = plaatsign_db_query($sql1);
-		$row1 = plaatsign_db_fetch_object($result1);
-		
-		$low_delivered = 0;
-		$normal_delivered = 0;
-		$solar_delivered = 0;
-		$local_delivered = 0;
-		
-		if (isset($row1->low_delivered)) {
-		
-			// Use realtime solar information		
-			$month_count++;
-						
-			$low_delivered = $row1->low_delivered;
-			$normal_delivered = $row1->normal_delivered;
-			$solar_delivered = $row1->solar_delivered;
-			
-			$tmp = $solar_delivered - $low_delivered - $normal_delivered;
-			if ($tmp>0) {
-				$local_delivered = $tmp;
-			}
-		
-		} else {
-		
-			// if realtime information is not there. Check if there is solar history information available
-			$sql2  = 'select energy from solar_history where date>="'.$timestamp1.'" and date<="'.$timestamp2.'"';
-			$result2 = plaatsign_db_query($sql2);
-			$row2 = plaatsign_db_fetch_object($result2);
-			
-			if ( isset($row2->energy)) { 				
-				$month_count++;				
-				$local_delivered = $row2->energy;
-			}		
-		}
-		
-		$total += $low_delivered + $normal_delivered + $local_delivered;
-				
-		$sql3 = 'select value from config where token="energy_delivery_forecast"';
-		$result3 = plaatsign_db_query($sql3);
-		$row3 = plaatsign_db_fetch_object($result3);
-		
-		// Energy delivery forecast (per month)
-		$out_forecast = array(0,50/2550,100/2550,210/2550,310/2550,360/2550,360/2550,330/2550,290/2550,240/2550,160/2550,90/2550,50/2550);
-		$forecast = $out_forecast[$m] * $row3->value;
-		
-		$data[] = array(date('m-Y', $time), $low_delivered, $normal_delivered, $local_delivered);
-		$data[] = array(date('m-Y', $time), $forecast, 0, 0);
-	}
-	
-	return $data;
-}
-
-function drawLegend($im, $text1, $text2, $text3, $text4, $cbar1, $cbar2, $cbar3, $cbar4, $font, $font_size)  {
-
-	global $width;
-	global $height;
-	
-	global $black;
-	
-	$size = 10;
-	
-	imagefilledrectangle( $im, 200, $height-80 , 200+$size , $height-80+$size, $cbar1 );
-	imagettftext($im, $font_size, 0, 220, $height-70, $black, $font, $text1);
-	
-	imagefilledrectangle( $im, 330, $height-80 , 330+$size , $height-80+$size, $cbar2 );
-	imagettftext($im, $font_size, 0, 350, $height-70, $black, $font, $text2);
-	
-	imagefilledrectangle( $im, $width-480, $height-80 , $width-480+$size , $height-80+$size, $cbar3 );
-	imagettftext($im, $font_size, 0, $width-460, $height-70, $black, $font, $text3);
-	
-	imagefilledrectangle( $im, $width-350, $height-80 , $width-350+$size , $height-80+$size, $cbar4 );
-	imagettftext($im, $font_size, 0, $width-330, $height-70, $black, $font, $text4);
-}
-
-function getAverage3($total, $month_count) {
-	if ($month_count>0) {
-		return round( ($total / $month_count),1);
-	} else {
-		return 0;
-	}
-}
-
-function drawBars($im, $x, $y, $data, $cbar1, $cbar2, $cbar3, $cbar4, $font, $font_size)  {
-
-	global $width;
-	global $height;
-	
-	global $gray;
-	global $white;
-	
-	$lines = 5;
-	
-	$max = getMax($data);
-	$step = ceil($max / $lines);
-	$pixel = ($height-180) / $lines;
-	
-	$amount = sizeof($data);
-	$bar_width = ($width-(2*($x+80))) / sizeof($data);
-	
-	$starty = $height - 120;	
-	$startx = $x;
-		
-	$count=0;
-	
-	for ($row=0; $row<sizeof($data); $row++) {
-		
-		if (($row % 2) == 0) {
-		
-			// energy use 
-			
-			$bar_height1=0;
-			if ($step>0) {
-				$bar_height1 = ($data[$row][1] / $step) * $pixel;		
-			}
-			
-			$bar_start1 = $starty;
-			$bar_end1 = $bar_start1 - $bar_height1;
-			if ($data[$row][1]>0) {
-				imagefilledrectangle( $im, $startx, $bar_start1 , ($startx+$bar_width) , $bar_end1, $cbar1 );		
-				if ($data[$row][1]>1) {		
-					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end1+12, $white, $font, round($data[$row][1]) );
-				}
-			}
-					
-			$bar_height2 = 0;
-			if ($step>0) {
-				$bar_height2 = ($data[$row][2] / $step) * $pixel;
-			}
-			$bar_start2 = $bar_end1;
-			$bar_end2 = $bar_start2 - $bar_height2;
-				
-			if ($data[$row][2]>0) {
-				imagefilledrectangle( $im, $startx, $bar_start2 , ($startx+$bar_width) , $bar_end2, $cbar2 );
-				if ($data[$row][2]>1) {	
-					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end2+12, $white, $font, round($data[$row][2]) );
-				}
-			}
-		
-			$bar_height3 = 0;
-			if ($step>0) {
-				$bar_height3 = ($data[$row][3] / $step) * $pixel;
-			}
-			$bar_start3 = $bar_end2;
-			$bar_end3 = $bar_start3 - $bar_height3;
-				
-			if ($data[$row][3]>0) {			
-				imagefilledrectangle( $im, $startx, $bar_start3 , ($startx+$bar_width) , $bar_end3, $cbar3 );
-				if ($data[$row][3]>1) {	
-					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end3+12, $white, $font, round($data[$row][3]) );
-				}
-			}
-			
-			imagettftext($im, $font_size, 0, $startx+8, $starty+20, $gray, $font, $data[$row][0] );
-			
-		} else {
-		
-			// forcast 
-			
-			$bar_height1=0;
-			if ($step>0) {
-				$bar_height1 = ($data[$row][1] / $step) * $pixel;		
-			}
-			
-			$bar_start1 = $starty;
-			$bar_end1 = $bar_start1 - $bar_height1;
-			if ($data[$row][1]>0) {
-				imagefilledrectangle( $im, $startx-2, $bar_start1 , ($startx+$bar_width-2) , $bar_end1, $cbar4 );		
-				if ($data[$row][1]>1) {		
-					imagettftext($im, $font_size-2, 0, $startx+2, $bar_end1+12, $white, $font, round($data[$row][1]) );
-				}
-			}
-		}
-
-		$startx += $bar_width+3;		
-		$count++;	
-	}
-}
-
-// -------------------------------------------------------
-
 header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
 
 $white = imagecolorallocate($im, 0xff, 0xff, 0xff);
 $black = imagecolorallocate($im, 0x00, 0x00, 0x00);
+$brown = imagecolorallocate($im, 5, 14, 45);
 $gray = imagecolorallocate($im, 0x75, 0x75, 0x75);
-$red = imagecolorallocate($im, 0xff, 0x00, 0x00);
 
-$blue1 = imagecolorallocate($im, 0x00, 0x66, 0xcc);
-$blue2 = imagecolorallocate($im, 0x48, 0x82, 0xbc);
-$blue3 = imagecolorallocate($im, 0xaa, 0xcc, 0xee);
-
-$green1 = imagecolorallocate($im, 0xae, 0xcb, 0x11);
-$green2 = imagecolorallocate($im, 0x22, 0x93, 0x37);
-$green3 = imagecolorallocate($im, 0x22, 0x53, 0x37);
-
-$data = plaatsign_get_data($year);
 drawBackgound($im, $background);
 
-drawLabel($im, 0, 40, 'Energie Jaarproductie '.$year, $fontArial, 30, $black);
-drawImage($im, 180, 12, $logo, 32, 32);
-drawImage($im, $width-210, 12, $logo, 32, 32);
+$url = "http://www.kerkingouda.nl/feed";
+$xml = simplexml_load_file($url);
 
-drawAxes($im, 60, 0, $data, $fontArial, 10, $gray);
-drawBars($im, 50, 0, $data, $blue1, $blue2, $blue3, $gray, $fontArial, 10);
-drawLegend($im, "Laag (kWh)", "Normaal (kWh)", "Lokaal (kWh)", 'Prognose (kWh)', $blue1, $blue2, $blue3, $gray, $fontArial, 13);
+$url = $xml->channel->image->url;
+$start = strrpos($url,"-");
+$end = strrpos($url,".");
+$token = substr($url, $start, $end-$start);
+$url = str_replace($token, "", $url);
 
-drawLabel($im, 0, $height-38, 'Totaal = '.round($total,1).' kWh [Gemiddeld per maand = '.getAverage3($total, $month_count).' kWh]', $fontArial, 18, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
+$y=40;
+$y = drawLabel($im, 0, $y, $xml->channel->title.'.nl', $fontArial, 30, $black);
+$y+=15;
+
+for($i = 0; $i<2; $i++) {
+	$title = substr($xml->channel->item[$i]->title, 0, 65);
+	$description = substr($xml->channel->item[$i]->description,0, 300);
+	$pubDate = $xml->channel->item[$i]->pubDate;
+	
+	drawLabel($im, 20, $y, $title, $fontArial, 22, $black);	
+	
+	drawUrlImage($im, 20, $y+15, $url, 90, 90);
+	
+	$y+=30;	
+	$y = drawTextBox($im, 120, $y, $description, $fontArial, 18, $brown );	
+	$y+=35;
+}
+
+drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);
-
-// -------------------------------------------------------
 
 ?>

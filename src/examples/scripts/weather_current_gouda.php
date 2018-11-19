@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2016 PlaatSoft
 */
 
 include "./../../draw.php";
@@ -369,7 +369,7 @@ drawGif('http://www.weerstation-gouda-bloemendaal.nl/WindDirection.gif', $im, 46
 drawGif('http://www.weerstation-gouda-bloemendaal.nl/OutsideTempHistory.gif', $im, 30+$xoffset, 300+$yoffset, 384, 200 );
 drawGif('http://www.weerstation-gouda-bloemendaal.nl/BarometerHistory.gif', $im, 380+$xoffset, 300+$yoffset, 384, 200 );
 
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2018 PlaatSoft
+**  All copyrights reserved (c) 1996-2018 PlaatSoft
 */
 
 include "./../../draw.php";

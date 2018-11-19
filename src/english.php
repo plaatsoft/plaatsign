@@ -115,7 +115,7 @@ $lang['GENERAL_INFO'] = 'INFO';
 $lang['GENERAL_WARNING'] = 'WARNING';
 $lang['GENERAL_DEBUG'] = 'DEBUG';
 
-$lang['COPYRIGHT'] = 'All Copyright Reserved &copy; <a class="normal_link" href="http://www.plaatsoft.nl/">PlaatSoft</a> 2008 - ' . date("Y");
+$lang['COPYRIGHT'] = 'All Copyright Reserved &copy; <a class="normal_link" href="http://www.plaatsoft.nl/">PlaatSoft</a> 1996 - ' . date("Y");
 
 /*
 ** ------------------

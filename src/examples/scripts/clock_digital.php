@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2016 PlaatSoft
 */
 
 include "./../../draw.php";
@@ -349,7 +349,7 @@ drawBackgound($im, $background);
 
 drawLabel($im, 0, ($height/2)-20, date("d-m-Y ", (time()+60)), $fontArial, 100, $black);
 drawLabel($im, 0, ($height/2)+140, date("H:i", (time()+60)), $fontArial, 100, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

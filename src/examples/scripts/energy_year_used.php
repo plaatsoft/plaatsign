@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2016 PlaatSoft
 */
 
 include "./../../database.php";
@@ -590,7 +590,7 @@ drawBars($im, 50, 0, $data, $blue1, $blue2, $blue3, $gray, $fontArial, 10);
 drawLegend($im, "Laag (kWh)", "Normaal (kWh)", 'Lokaal (kWh)', 'Prognose (kWh)', $blue1, $blue2, $blue3, $gray, $fontArial, 13);
 
 drawLabel($im, 0, $height-38, 'Totaal = '.round($total,1).' kWh [Gemiddeld per maand = '.getAverage3($total, $month_count).' kWh]', $fontArial, 18, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

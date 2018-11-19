@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2016 PlaatSoft
 */
 
 include "./../../database.php";
@@ -543,7 +543,7 @@ drawBars($im, 70, 0, $data, $gray, $blue1, $blue2, $blue3, $fontArial, 10);
 drawLegend($im, "Converter 1 (Watt)", "Converter 2 (Watt)", "Converter 3 (Watt)", $blue1, $blue2, $blue3, $fontArial, 13);
 
 drawLabel($im, 0, $height-38, 'Totaal = '.round($total,2).' kWh [Piek vermogen = '.getMax($data).' Watt]',  $fontArial, 18, $black);
-drawLabel($im, 0, $height-10, 'PlaatSoft 2008-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
+drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatEnergy', $fontArial, 12, $gray);
 
 imagepng($im);
 imagedestroy($im);

@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2018 PlaatSoft
 */
 
 // -------------------------------------------------------
@@ -40,7 +40,7 @@ function drawUrlImage($im, $x, $y, $url, $width=128, $height=128) {
 	$src = imagecreatefromstring($data);	
 			
 	$dst = imagecreatetruecolor($width, $height);
-   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
 	
 	// Copy and merge
 	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
@@ -53,7 +53,7 @@ function drawBackgound($im, $background) {
 	
 	$src = imagecreatefromstring($background);	
 	$dst = imagecreatetruecolor($width, $height);
-   imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
+    imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
 	
 	// Copy and merge
 	imagecopymerge($im, $dst, 0, 0, 0, 0, $width, $height, 100);
