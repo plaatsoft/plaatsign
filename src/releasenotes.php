@@ -24,6 +24,13 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
+<h2>20-11-2018 Version 1.1</h2>
+<ul>
+<li>Added KerkinGouda scripts</li>
+<li>Update copyright banners</li>
+<li>More is coming soon</li>
+</ul>
+
 <h2>09-11-2018 Version 1.0</h2>
 <ul>
 <li>First launching customer "Oostpoort"</li>

@@ -94,7 +94,7 @@ function drawImage($im, $x, $y, $image, $width, $height ) {
 	imagecopymerge($im, $dst, $x, $y, 0, 0, $width, $height, 100);
 }
 
-function drawTextBox($im, $x, $y, $text, $font, $font_size, $color) {
+function drawTextBox($im, $x, $y, $text, $font, $font_size, $color, $max=59) {
 
 	global $width;
 	global $height;
@@ -109,7 +109,7 @@ function drawTextBox($im, $x, $y, $text, $font, $font_size, $color) {
 	$text = str_replace(  '<br>', ' ', $text);
 	$text = str_replace(  '<p>', ' ', $text);
 	
-	$buffer = wordwrap($text, 59, "<br/>", false);		
+	$buffer = wordwrap($text, round($max * (18/$font_size)), "<br/>", false);		
 	$buffer = explode("<br/>", $buffer);
 	
 	$center = false;	
@@ -127,7 +127,7 @@ function drawTextBox($im, $x, $y, $text, $font, $font_size, $color) {
 		
 		imagefttext($im, $font_size, 0, $x, $y, $color, $font, $line);
 		
-		$y+=$font_size+6;
+		$y+=$font_size+7;
 	}
 	return $y;
 }
