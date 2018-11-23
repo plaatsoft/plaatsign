@@ -41,14 +41,14 @@ function plaatsign_main_menu() {
 	/* -----------------*/
 	
 	if ($mid==MENU_CONTENT) $menu .= '<li class="active">'; else $menu .= '<li>';
-	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_MOVIE, t('LINK_CONTENT'));
+	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_SCRIPT, t('LINK_CONTENT'));
 	
 	$menu .= '<ul>';
 
 	$menu .= '<li>';
 	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_MOVIE, t('LINK_MOVIES'));
 	$menu .= '</li>';
-	
+
 	$menu .= '<li>';
 	$menu .= plaatsign_link('mid='.MENU_CONTENT.'&sid='.PAGE_CONTENTLIST.'&tid='.TYPE_SCRIPT, t('LINK_SCRIPTS'));
 	$menu .= '</li>';

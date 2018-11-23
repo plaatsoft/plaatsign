@@ -358,7 +358,7 @@ function plaatsign_filesize($bytes, $decimals = 2) {
   return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
 }
 
-function plaatsign_ui_content2($tid, $cid, $filename) {
+function plaatsign_ui_content2($tid, $cid, $filename, $parameters="") {
 
 	global $mid;
 	
@@ -376,7 +376,7 @@ function plaatsign_ui_content2($tid, $cid, $filename) {
 	case TYPE_SCRIPT:
 			$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.png';			
 			if (!is_file($filename)) {
-				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
+				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php?'.$parameters;			
 			}
 			$page	= '<image class="imgl" src="'.$filename.'" width="548" height="308" />';
 			break;
@@ -388,7 +388,7 @@ function plaatsign_ui_content2($tid, $cid, $filename) {
 }
 
 
-function plaatsign_ui_content1($tid, $cid, $filename) {
+function plaatsign_ui_content1($tid, $cid, $filename, $parameters="") {
 
 	global $mid;
 	
@@ -404,7 +404,7 @@ function plaatsign_ui_content1($tid, $cid, $filename) {
 		case TYPE_SCRIPT:
 			$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.png';			
 			if (!is_file($filename)) {
-				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php';			
+				$filename = plaatsign_content_path(TYPE_SCRIPT).$cid.'.php?'.$parameters;			
 			}
 			$page	= plaatsign_link('mid='.$mid.'&tid='.$tid.'&sid='.PAGE_CONTENT.'&id='.$cid,'<img src="'.$filename.'" width="192" height="108" />');
 			break;

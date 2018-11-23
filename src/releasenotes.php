@@ -24,9 +24,14 @@
 
 $lang['RELEASENOTES_CONTENT']  = '
 
-<h2>20-11-2018 Version 1.1</h2>
+<h2>22-11-2018 Version 1.1</h2>
 <ul>
-<li>Added KerkinGouda scripts</li>
+<li>Added parameter field to script content form.</li>
+<li>The parameter will used during execution of script</li>
+<li>Uploading script more the ones is now alowed again</li>
+<li>Added KerkinGouda demo script</li>
+<li>Added Family demo script</li>
+<li>Added PlaatSoft demo script</li>
 <li>Update copyright banners</li>
 <li>More is coming soon</li>
 </ul>
@@ -34,11 +39,11 @@ $lang['RELEASENOTES_CONTENT']  = '
 <h2>09-11-2018 Version 1.0</h2>
 <ul>
 <li>First launching customer "Oostpoort"</li>
-<li>Added energy day consumption script</li>
-<li>Added energy month consumption script</li>
-<li>Added energy year consumption script</li>
-<li>Added gouda weatherstation script</li>
-<li>Added broodkruimels script</li>
+<li>Added energy day consumption demo script</li>
+<li>Added energy month consumption demo script</li>
+<li>Added energy year consumption demo script</li>
+<li>Added gouda weatherstation demo script</li>
+<li>Added broodkruimels demo script</li>
 <li>Improve file use on disk</li>
 <li>Added feature to enable / disable content</li>
 <li>Added plaatenergy database settings to settings page</li>

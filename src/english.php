@@ -13,7 +13,7 @@
 **  Or send an email to the following address.
 **  Email   : info@plaatsoft.nl
 **
-**  All copyrights reserved (c) 2008-2016 PlaatSoft
+**  All copyrights reserved (c) 1996-2018 PlaatSoft
 */
 
 /*
@@ -107,6 +107,7 @@ $lang['GENERAL_OWNER'] = 'Owner';
 $lang['GENERAL_TIMEZONE'] = 'Timezone';
 $lang['GENERAL_TYPE'] = 'Type';
 $lang['GENERAL_REFRESH'] = 'Refresh';
+$lang['GENERAL_PARAMETERS'] = 'Parameters';
 
 $lang['GENERAL_TRUE'] = 'True';
 $lang['GENERAL_FALSE'] = 'False';
@@ -180,11 +181,11 @@ $lang['CONTENT_ALREADY_EXIST'] = 'Content (filename) already exist, upload abort
 $lang['CONTENT_TO_LARGE'] = 'File is to large. Maximum file is %s';
 
 $lang['CONTENT_TYPE_NOT_SUPPORTED_0'] = 'Sorry, only JPG, JPEG, PNG or GIF file format is allowed, upload aborted!';
-$lang['CONTENT_REMARK_0'] = '* Only JPG, PNG & GIF file format is supported and maximum filesize is %s';
+$lang['CONTENT_REMARK_0'] = '* Only JPG, PNG & GIF file format is supported and max filesize is %s';
 $lang['CONTENT_TYPE_NOT_SUPPORTED_1'] = 'Sorry, only MP4 file format is allowed, upload aborted!';
-$lang['CONTENT_REMARK_1'] = '* Only MP4 file format is supported and maximum filesize is %s';
+$lang['CONTENT_REMARK_1'] = '* Only MP4 file format is supported and max filesize is %s';
 $lang['CONTENT_TYPE_NOT_SUPPORTED_2'] = 'Sorry, only PHP file format is allowed, upload aborted!';
-$lang['CONTENT_REMARK_2'] = '* Only PHP file format is supported and maximum filesize is %s';
+$lang['CONTENT_REMARK_2'] = '* Only PHP file format is supported and max filesize is %s';
 
 /*
 ** ------------------

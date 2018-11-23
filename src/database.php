@@ -246,6 +246,12 @@ function plaatsign_db_check_version() {
 		$version="1.0";
       plaatsign_db_execute_sql_file($version);
    }
+   
+   // Path database if needed	
+   if ($version=="1.0") {
+		$version="1.1";
+      plaatsign_db_execute_sql_file($version);
+   }
 }
 
 /*
@@ -426,7 +432,7 @@ function plaatsign_db_content_filename($filename) {
 
 function plaatsign_db_content($cid) {
 	
-	$query  = 'select cid, filename, filesize, enabled, refresh, created, uid, tid from content where cid='.$cid;	
+	$query  = 'select cid, filename, filesize, enabled, refresh, created, uid, tid, parameters from content where cid='.$cid;	
 		
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
@@ -434,13 +440,13 @@ function plaatsign_db_content($cid) {
 	return $data;	
 }
 
-function plaatsign_db_content_insert($filename, $filesize, $enabled, $refresh, $uid, $tid) {
+function plaatsign_db_content_insert($filename, $filesize, $enabled, $refresh, $uid, $tid, $parameters) {
 
-	$query  = 'insert into content (filename, filesize, enabled, refresh, created, uid, tid) ';
-	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.','.$refresh.',"'.date("Y-m-d H:i:s").'",'.$uid.','.$tid.')';
+	$query  = 'insert into content (filename, filesize, enabled, refresh, created, uid, tid, parameters) ';
+	$query .= 'values ("'.$filename.'",'.$filesize.','.$enabled.','.$refresh.',"'.date("Y-m-d H:i:s").'",'.$uid.','.$tid.',"'.$parameters.'")';
 	plaatsign_db_query($query);
 		
-	$query  = 'select cid from content where filename="'.$filename.'" and filesize='.$filesize;	
+	$query  = 'select cid from content where filename="'.$filename.'" and filesize='.$filesize.' order by cid desc';	
 	$result = plaatsign_db_query($query);
 	$data = plaatsign_db_fetch_object($result);
 	
@@ -460,7 +466,8 @@ function plaatsign_db_content_update($data) {
 	$query .= 'refresh='.$data->refresh.', ';
 	$query .= 'created="'.$data->created.'", ';
 	$query .= 'uid="'.$data->uid.'", ';
-	$query .= 'tid="'.$data->tid.'" ';
+	$query .= 'tid="'.$data->tid.'", ';
+	$query .= 'parameters="'.$data->parameters.'" ';
 	$query .= 'where cid='.$data->cid; 
 	
 	plaatsign_db_query($query);
@@ -468,8 +475,7 @@ function plaatsign_db_content_update($data) {
 
 function plaatsign_db_content_delete($cid) {
 	
-	$query = 'delete from content where cid='.$cid;
-	
+	$query = 'delete from content where cid='.$cid;	
 	plaatsign_db_query($query); 
 }
 

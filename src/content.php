@@ -25,6 +25,7 @@
 $filename = plaatsign_post("filename", "");
 $enabled = plaatsign_post_radio("enabled", 0);
 $refresh = plaatsign_post("refresh", 1);
+$parameters = plaatsign_post("parameters", "");
 
 /*
 ** ------------------
@@ -42,6 +43,7 @@ function plaatsign_content_save_do() {
 	global $filename;
 	global $enabled;
 	global $refresh;
+	global $parameters;
 	
 	$data = plaatsign_db_content($id);
 	
@@ -55,10 +57,6 @@ function plaatsign_content_save_do() {
 	if (($id==0) && (strlen($filesize)==0)) {
 	
 		plaatsign_ui_box('warning', t('CONTENT_FILE_NOT_FOUND'));
-	
-	} else if (($id==0) && (plaatsign_db_content_filename($filename)>0)) {
-		
-		plaatsign_ui_box('warning', t('CONTENT_ALREADY_EXIST'));
 	
 	} else if (
 				 (($id==0) && ($tid==TYPE_IMAGE) && ($filetype!="jpg" && $filetype!="png" && $filetype!="jpeg" && $filetype!="gif")) 
@@ -80,7 +78,8 @@ function plaatsign_content_save_do() {
 					
 			/* Update content data */								
 			$data->refresh = $refresh;		
-			$data->enabled = $enabled;		
+			$data->enabled = $enabled;	
+			$data->parameters = $parameters;		
 				
 			plaatsign_db_content_update($data);	
 			plaatsign_ui_box('info', t('CONTENT_UPDATED'));
@@ -89,13 +88,13 @@ function plaatsign_content_save_do() {
 		} else  {
 			
 			/* Insert new content */
-			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $refresh, $user->uid, $tid);			
-		
-			plaatsign_ui_box('info', t('CONTENT_ADDED'));
-			plaatsign_info($user->name.' ['.$user->uid.'] created content ['.$id.']');
-			
+			$id = plaatsign_db_content_insert($filename, $filesize, $enabled, $refresh, $user->uid, $tid, $parameters);			
+					
 			$cache_filename = $id.'.'.pathinfo($filename, PATHINFO_EXTENSION);			
-			move_uploaded_file($_FILES["filename"]["tmp_name"], plaatsign_content_path($tid).$cache_filename);			
+			move_uploaded_file($_FILES["filename"]["tmp_name"], plaatsign_content_path($tid).$cache_filename);	
+
+			plaatsign_ui_box('info', t('CONTENT_ADDED'));
+			plaatsign_info($user->name.' ['.$user->uid.'] created content ['.$id.']');		
 		}
 	}
 }
@@ -168,6 +167,7 @@ function plaatsign_content_form() {
 			$refresh = $data->refresh;
 			$created = $data->created;
 			$tid = $data->tid;
+			$parameters = $data->parameters;
 			
 			$tmp = plaatsign_db_user($data->uid);
 			if (isset($tmp->uid)) {	
@@ -191,7 +191,7 @@ function plaatsign_content_form() {
 	
 	if ($id>0) {
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
-	   $page .= plaatsign_ui_content2($tid, $data->cid, $cache_filename);
+	   $page .= plaatsign_ui_content2($tid, $data->cid, $cache_filename, $parameters);
 	} else {
 		$page	.= '<img class="imgl" src="images/unknown.jpg" width="540" height="420" />';
 	}
@@ -236,7 +236,14 @@ function plaatsign_content_form() {
 		$page .= plaatsign_ui_refresh("refresh", $refresh, $user->role==ROLE_USER);
 		$page .= '</p>';
 	}
-
+	
+	if ($tid==TYPE_SCRIPT) {
+		$page .= '<p>';
+		$page .= '<label>'.t('GENERAL_PARAMETERS').': </label>';
+		$page .= plaatsign_ui_input("parameters", 30, 30, $parameters, $user->role==ROLE_USER);
+		$page .= '</p>';
+	}
+	
 	$page .= '<p>';
 	$page .= '<label>'.t('GENERAL_FILENAME').': *</label>';
 	if ($id==0) {
@@ -288,7 +295,7 @@ function plaatsign_contentlist_form() {
 	$page .= $title;
 	$page .= '</h1>';
 	
-	$query  = 'select cid, filename, filesize, enabled, created, refresh, uid from content where tid='.$tid.' ';
+	$query  = 'select cid, filename, filesize, enabled, created, refresh, uid, parameters from content where tid='.$tid.' ';
 		
 	switch ($sort) {
 
@@ -337,6 +344,12 @@ function plaatsign_contentlist_form() {
 		$page .= '</th>';
 	}
 	
+	if ($tid==TYPE_SCRIPT) {
+		$page .= '<th>';
+		$page	.= t('GENERAL_PARAMETERS');	
+		$page .= '</th>';
+	}
+	
 	$page .= '<th>';
 	$page	.= plaatsign_link('mid='.$mid.'&sid='.$sid.'&tid='.$tid.'&sort=4', t('GENERAL_CREATED'));
 	$page .= '</th>';
@@ -367,7 +380,7 @@ function plaatsign_contentlist_form() {
 				
 		$page .= '<td>';
 		$cache_filename = $data->cid.'.'.pathinfo($data->filename, PATHINFO_EXTENSION);	
-		$page .= plaatsign_ui_content1($tid, $data->cid, $cache_filename);
+		$page .= plaatsign_ui_content1($tid, $data->cid, $cache_filename, $data->parameters);
     	$page .= '</td>';
 		
 		$page .= '<td>';
@@ -387,7 +400,13 @@ function plaatsign_contentlist_form() {
 			$page	.= $data->refresh;
 			$page .= '</td>';
 		}
-				
+		
+		if ($tid==TYPE_SCRIPT) {
+			$page .= '<td>';
+			$page	.= $data->parameters;
+			$page .= '</td>';
+		}
+		
 		$page .= '<td>';
 		$page	.= convert_datetime_php($data->created);
 		$page .= '</td>';

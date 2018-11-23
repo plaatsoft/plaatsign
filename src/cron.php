@@ -35,7 +35,7 @@ plaatsign_db_connect($config["dbhost"], $config["dbuser"], $config["dbpass"], $c
 /*
 ** Process scripts 
 */
-$query = 'select cid, filename, refresh from content where tid='.TYPE_SCRIPT.' order by cid';
+$query = 'select cid, filename, refresh, parameters from content where tid='.TYPE_SCRIPT.' order by cid';
 $result = plaatsign_db_query($query);
 
 while ($data=plaatsign_db_fetch_object($result)) {			
@@ -57,7 +57,7 @@ while ($data=plaatsign_db_fetch_object($result)) {
 				
 		if ($time_diff>=($data->refresh*60)) {
 			
-			$command = 'cd '.$base_scripts.' && php '.$filename_src.' > '.$base_scripts.$filename_tmp;			
+			$command = 'cd '.$base_scripts.' && php '.$filename_src.' '.$data->parameters.' > '.$base_scripts.$filename_tmp;			
 				
 			if (DEBUG==1) {
 				echo $command."\n\r";
