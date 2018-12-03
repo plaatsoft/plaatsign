@@ -642,7 +642,7 @@ $url = "http://www.kerkingouda.nl/feed";
 $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
 $content = getRssItem($xml, $element);	
 
-$y = drawLabel($im, 0, 50, "www.KerkInGouda.nl", $fontArial, 30, $black);
+$y = drawLabel($im, 0, 50, "www.kerkingouda.nl", $fontArial, 30, $black);
 
 $max = 0;
 
@@ -676,24 +676,28 @@ if (strlen($content['description'])>10) {
 	$imageX = 180;
 }
 	
+$y+=45;
 
-$y+=40;
 drawLabel($im, $x, $y, $content['title'], $fontArial, 28, $red);		
 
 drawImage($im, 220, 10, $logo, 50, 50);
 drawImage($im, 680, 10, $logo, 50, 50);
 	
-$y+=45;	
-
 if (strlen($content['image_url'])>0) {
-	drawUrlImage($im, $imageX, $imageY, $content['image_url'], round($content['image_width']*$max), round($content['image_height']*$max));	
+	drawUrlImage($im, $imageX, $imageY, $content['image_url'], round($content['image_width']*$max), round($content['image_height']*$max));			
 } else {
 	drawImage($im, $imageX, $imageY, $logo, 164, 164);
 }
 
-$y = drawTextBox($im, 240, $y, $content['description'], $fontArial, 23, $black, 50 );	
+if (strlen($content['description'])>10) {
+	$y+=40;
+	$y = drawTextBox($im, 240, $y, $content['description'], $fontArial, 23, $black, 50 );	
+} else {
+	$y+=round($content['image_height']*$max);
+	$y-=30;
+}
 
-drawLabel($im, 0, $height-40, "@author: ".$content['creator']." | @created: ".$content['date']." | @category: ".$content['category'], $fontArial, 8, $black );	
+drawLabel($im, 0, $y, "@author: ".$content['creator']." | @created: ".$content['date']." | @category: ".$content['category'], $fontArial, 8, $black );	
 drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
