@@ -604,6 +604,9 @@ function getRssItem($xml, $element) {
     $item = $xml->xpath('/rss/channel/item/title');    
     $content['title'] =  strip_tags((string) $item[$element]);
     $content['title'] = substr(mb_convert_encoding(html_entity_decode($content['title']), "pass", "auto"),0, 65); 
+	
+	$item = $xml->xpath('/rss/channel/item/link');
+	$content['link'] =  strip_tags((string) $item[$element]);
         
     $item = $xml->xpath('/rss/channel/item/description');
     $content['description'] =  strip_tags((string) $item[$element]);
@@ -697,7 +700,7 @@ if (strlen($content['description'])>10) {
 	$y-=30;
 }
 
-drawLabel($im, 0, $y, "@author: ".$content['creator']." | @created: ".$content['date']." | @category: ".$content['category'], $fontArial, 8, $black );	
+drawLabel($im, 0, $y, "".$content['creator']." | ".$content['date'].' | '.$content['link'], $fontArial, 11, $black );	
 drawLabel($im, 0, $height-10, 'PlaatSoft 1996-2018 - All Copyright Reserved - PlaatSign', $fontArial, 12, $gray);
 
 imagepng($im);
