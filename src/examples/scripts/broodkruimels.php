@@ -22,8 +22,17 @@ header('Content-Type: image/png');
 
 $im = imagecreatetruecolor($width, $height);
 
-$url = "https://www.dagelijksebroodkruimels.nl/feed";
-$xml = simplexml_load_file($url);
+
+$url2 = "https://dagelijksebroodkruimels.nl/feed/";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url2);
+curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1" );
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+$content = curl_exec( $ch );
+$content = preg_replace('/<!--(.|\s)*?-->/', '', $content);
+curl_close ( $ch );
+$xml = simplexml_load_string($content);
+
 
 for($i = 0; $i<1; $i++) {
     $url = $xml->channel->item[$i]->children('media', True)->content->attributes();
